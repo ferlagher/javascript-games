@@ -1,0 +1,16 @@
+svg {
+  height: 36px;
+  width: 36px;
+  fill: black;
+}
+
+.output {
+  display: flex;
+  flex-direction: column;
+}
+.output__container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}/*# sourceMappingURL=style.css.map */

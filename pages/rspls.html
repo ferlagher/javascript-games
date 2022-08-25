@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        Header facherito
+    </header>
+
+    <main>
+        <div class="output">
+            <div class="output__container">
+                <span class="output__score">Tú: <span id="pScore">0</span></span>
+                <span id="result" class="output__result"></span>
+                <span class="output__score">IA: <span id="iScore">0</span></span>
+            </div>
+            <div class="output__container">
+                <span class="output__choice">Tú: <span id="pChoice"></span></span>
+                <span class="output__choice">IA: <span id="iChoice"></span></span>
+            </div>
+        </div>
+        <div class="game">
+            <!-- Los botones van a ir con unos svg que todavía no hice, el texto es provisional -->
+            <button id="rock" class="game__button">rock</button>
+            <button id="scissors" class="game__button">scissors</button>
+            <button id="paper" class="game__button">paper</button>
+            <button id="lizard" class="game__button">lizard</button>
+            <button id="spock" class="game__button">spock</button>
+        </div>
+    </main>
+
+    <footer>
+        <span>Proyecto de Fernanda Laguna Hermida</span>
+        <a href="https://github.com/ferlagher/jsLaguna" target="_blank" rel="noopener noreferrer">
+            <svg>
+                <use xlink:href="../images/icons.svg#gh"></use>
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/ferlagher" target="_blank" rel="noopener noreferrer">
+            <svg>
+                <use xlink:href="../images/icons.svg#in"></use>
+            </svg>
+        </a>
+    </footer>
+    <script src="../js/rspls.js"></script>
+</body>
+</html>
