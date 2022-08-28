@@ -32,8 +32,8 @@ svg {
 }
 
 .output svg {
-  height: clamp(80px, 10vw, 150px);
-  width: clamp(80px, 10vw, 150px);
+  height: clamp(100px, 10vw, 150px);
+  width: clamp(100px, 10vw, 150px);
 }
 .output__score svg {
   height: clamp(25px, 5vw, 100px);
@@ -118,7 +118,7 @@ footer a {
   align-items: center;
 }
 .rspls .output__container:nth-of-type(2) {
-  height: clamp(80px, 10vw, 150px);
+  height: clamp(100px, 10vw, 150px);
 }
 .rspls .output__score {
   display: flex;
@@ -150,8 +150,8 @@ footer a {
 }
 .rspls .game__button {
   background-color: transparent;
-  height: clamp(80px, 10vw, 150px);
-  width: clamp(80px, 10vw, 150px);
+  height: clamp(100px, 10vw, 150px);
+  width: clamp(100px, 10vw, 150px);
   border: 2px solid #E7F0F4;
   border-radius: 50%;
   padding: clamp(8px, 1.5vw, 16px);
