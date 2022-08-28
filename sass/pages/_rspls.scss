@@ -17,13 +17,38 @@
             &:nth-of-type(2) {
                 height: map-get($siz, 'lg');
             }
-        }     
+        }
+
+        &__score {
+            display: flex;
+            align-items: center;
+            gap: map-get($spc, 'sm');
+        }
+
+        &__result {
+            height: 1.5em;
+        }
+
+        &__vs {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: map-get($spc, 'sm');
+            
+            em {
+                height: 2.5em;
+                text-align: center;
+            }
+        }
     }
 
     .game {
         padding-top: map-get($spc, 'sm');
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
         gap: map-get($spc, 'sm');
 
@@ -35,12 +60,13 @@
             border-radius: 50%;
             padding: map-get($spc, 'sm');
             mix-blend-mode: screen;
+            transition: 0.2s ease-in-out;
 
-            &:hover {
+            &:hover, &:active {
                 background-color: map-get($clr, 'white');
             }
 
-            &:hover svg {
+            &:hover svg, &:active svg {
                 fill: black;
             }
         }

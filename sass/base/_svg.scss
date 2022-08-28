@@ -1,15 +1,19 @@
 svg {
-    height: map-get($siz, 'sm');
-    width: map-get($siz, 'sm');
+    height: 100%;
+    width: 100%;
     fill: map-get($clr, 'white');
 }
 
-.output svg {
-    height: map-get($siz, 'lg');
-    width: map-get($siz, 'lg');
-}
+.output {
+    svg {
+        height: map-get($siz, 'lg');
+        width: map-get($siz, 'lg');
+    }
 
-button svg {
-        height: 100%;
-        width: 100%;
+    &__score {
+        svg {
+            height: map-get($siz, 'md');
+            width: map-get($siz, 'md');
+        }
+    }
 }

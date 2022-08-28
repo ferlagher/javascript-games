@@ -1,9 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@400;700&display=swap');
 
+header, footer {
+    @include font('body', 'regular', 'sm', 'white');
+}
+
 .output {
     @include font('body', 'regular', 'md', 'white');
 
     &__result {
         @include font('head', 'bold', 'md', 'white');
+    }
+
+    em {
+        @include font('body', 'regular', 'sm', 'white');
     }
 }

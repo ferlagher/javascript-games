@@ -1,4 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@400;700&display=swap");
+header, footer {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  color: #E7F0F4;
+}
+
 .output {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
@@ -11,21 +18,26 @@
   font-size: clamp(1.5rem, 3vw, 2.625rem);
   color: #E7F0F4;
 }
+.output em {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  color: #E7F0F4;
+}
 
 svg {
-  height: clamp(16px, 3vw, 32px);
-  width: clamp(16px, 3vw, 32px);
+  height: 100%;
+  width: 100%;
   fill: #E7F0F4;
 }
 
 .output svg {
-  height: clamp(50px, 10vw, 150px);
-  width: clamp(50px, 10vw, 150px);
+  height: clamp(80px, 10vw, 150px);
+  width: clamp(80px, 10vw, 150px);
 }
-
-button svg {
-  height: 100%;
-  width: 100%;
+.output__score svg {
+  height: clamp(25px, 5vw, 100px);
+  width: clamp(25px, 5vw, 100px);
 }
 
 * {
@@ -42,16 +54,51 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.3);
+  border-bottom: 2px solid rgba(51, 51, 51, 0.3);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 0 16px rgba(51, 51, 51, 0.3);
+  padding: clamp(8px, 1.5vw, 16px) clamp(16px, 3vw, 32px);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
 main {
-  max-width: clamp(min(100%, 375px), 80%, 60rem);
+  max-width: clamp(min(100%, 425px), 80%, 60rem);
   background-color: rgba(51, 51, 51, 0.3);
   border: 2px solid rgba(51, 51, 51, 0.3);
   border-radius: 16px;
+  box-shadow: 0 0 16px rgba(51, 51, 51, 0.3);
   padding: clamp(16px, 3vw, 32px);
-  margin: auto;
+  margin: clamp(8px, 1.5vw, 16px);
+}
+
+footer {
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.3);
+  border-top: 2px solid rgba(51, 51, 51, 0.3);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 0 16px rgba(51, 51, 51, 0.3);
+  padding: clamp(8px, 1.5vw, 16px) clamp(16px, 3vw, 32px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer div {
+  display: flex;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+footer a {
+  display: inline-block;
+  height: clamp(16px, 3vw, 32px);
+  width: clamp(16px, 3vw, 32px);
 }
 
 .rspls {
@@ -71,27 +118,49 @@ main {
   align-items: center;
 }
 .rspls .output__container:nth-of-type(2) {
-  height: clamp(50px, 10vw, 150px);
+  height: clamp(80px, 10vw, 150px);
+}
+.rspls .output__score {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+.rspls .output__result {
+  height: 1.5em;
+}
+.rspls .output__vs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+.rspls .output__vs em {
+  height: 2.5em;
+  text-align: center;
 }
 .rspls .game {
   padding-top: clamp(8px, 1.5vw, 16px);
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: clamp(8px, 1.5vw, 16px);
 }
 .rspls .game__button {
   background-color: transparent;
-  height: clamp(50px, 10vw, 150px);
-  width: clamp(50px, 10vw, 150px);
+  height: clamp(80px, 10vw, 150px);
+  width: clamp(80px, 10vw, 150px);
   border: 2px solid #E7F0F4;
   border-radius: 50%;
   padding: clamp(8px, 1.5vw, 16px);
   mix-blend-mode: screen;
+  transition: 0.2s ease-in-out;
 }
-.rspls .game__button:hover {
+.rspls .game__button:hover, .rspls .game__button:active {
   background-color: #E7F0F4;
 }
-.rspls .game__button:hover svg {
+.rspls .game__button:hover svg, .rspls .game__button:active svg {
   fill: black;
 }/*# sourceMappingURL=style.css.map */

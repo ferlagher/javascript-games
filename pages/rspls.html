@@ -17,15 +17,28 @@
     <main>
         <div class="output">
             <div class="output__container">
-                <span class="output__score">Tú: <span id="pScore">0</span></span>
+                <div class="output__score">
+                    <svg>
+                        <use xlink:href="../images/icons.svg#player"></use>
+                    </svg>
+                    <span id="pScore">0</span>
+                </div>
                 <span id="result" class="output__result"></span>
-                <span class="output__score">IA: <span id="iScore">0</span></span>
+                <div class="output__score">
+                    <span id="iScore">0</span>
+                    <svg>
+                        <use xlink:href="../images/icons.svg#ia"></use>
+                    </svg>
+                </div>
             </div>
             <div class="output__container">
                     <svg>
                         <use id="pChoice" xlink:href=""></use>
                     </svg>
-                    <span> VS </span>
+                    <div class="output__vs">
+                        <span> VS </span>
+                        <em id="vs"></em>
+                    </div>
                     <svg>
                         <use id="iChoice" xlink:href=""></use>
                     </svg>
@@ -62,16 +75,18 @@
 
     <footer>
         <span>Proyecto de Fernanda Laguna Hermida</span>
-        <a href="https://github.com/ferlagher/jsLaguna" target="_blank" rel="noopener noreferrer">
-            <svg>
-                <use xlink:href="../images/icons.svg#gh"></use>
-            </svg>
-        </a>
-        <a href="https://www.linkedin.com/in/ferlagher" target="_blank" rel="noopener noreferrer">
-            <svg>
-                <use xlink:href="../images/icons.svg#in"></use>
-            </svg>
-        </a>
+        <div>
+            <a href="https://github.com/ferlagher/jsLaguna" target="_blank">
+                <svg>
+                    <use xlink:href="../images/icons.svg#gh"></use>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ferlagher" target="_blank">
+                <svg>
+                    <use xlink:href="../images/icons.svg#in"></use>
+                </svg>
+            </a>
+        </div>
     </footer>
     <script src="../js/rspls.js"></script>
 </body>
