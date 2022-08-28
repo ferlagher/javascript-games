@@ -1,0 +1,16 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+    max-width: clamp(min(100%, 375px), 80%, 60rem);
+    background-color: map-get($clr, 'black-3');
+    border: $border;
+    border-radius: 16px;
+    //backdrop-filter: blur(5px);
+    padding: map-get($spc, 'md');
+    margin: auto;
+}

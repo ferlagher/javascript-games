@@ -1,16 +1,97 @@
-svg {
-  height: 36px;
-  width: 36px;
-  fill: black;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@400;700&display=swap");
+.output {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2.625rem);
+  color: #E7F0F4;
+}
+.output__result {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.625rem);
+  color: #E7F0F4;
 }
 
-.output {
+svg {
+  height: clamp(16px, 3vw, 32px);
+  width: clamp(16px, 3vw, 32px);
+  fill: #E7F0F4;
+}
+
+.output svg {
+  height: clamp(50px, 10vw, 150px);
+  width: clamp(50px, 10vw, 150px);
+}
+
+button svg {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
-.output__container {
+
+main {
+  max-width: clamp(min(100%, 375px), 80%, 60rem);
+  background-color: rgba(51, 51, 51, 0.3);
+  border: 2px solid rgba(51, 51, 51, 0.3);
+  border-radius: 16px;
+  padding: clamp(16px, 3vw, 32px);
+  margin: auto;
+}
+
+.rspls {
+  background: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa);
+}
+.rspls .output {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.5vw, 16px);
+  padding-bottom: clamp(8px, 1.5vw, 16px);
+  border-bottom: 2px solid rgba(51, 51, 51, 0.3);
+}
+.rspls .output__container {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.rspls .output__container:nth-of-type(2) {
+  height: clamp(50px, 10vw, 150px);
+}
+.rspls .game {
+  padding-top: clamp(8px, 1.5vw, 16px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+.rspls .game__button {
+  background-color: transparent;
+  height: clamp(50px, 10vw, 150px);
+  width: clamp(50px, 10vw, 150px);
+  border: 2px solid #E7F0F4;
+  border-radius: 50%;
+  padding: clamp(8px, 1.5vw, 16px);
+  mix-blend-mode: screen;
+}
+.rspls .game__button:hover {
+  background-color: #E7F0F4;
+}
+.rspls .game__button:hover svg {
+  fill: black;
 }/*# sourceMappingURL=style.css.map */

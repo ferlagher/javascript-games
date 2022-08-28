@@ -1,5 +1,15 @@
 svg {
-    height: 36px;
-    width: 36px;
-    fill: black;
+    height: map-get($siz, 'sm');
+    width: map-get($siz, 'sm');
+    fill: map-get($clr, 'white');
+}
+
+.output svg {
+    height: map-get($siz, 'lg');
+    width: map-get($siz, 'lg');
+}
+
+button svg {
+        height: 100%;
+        width: 100%;
 }

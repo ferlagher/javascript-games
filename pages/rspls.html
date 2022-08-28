@@ -9,7 +9,7 @@
 
     <title>Document</title>
 </head>
-<body>
+<body class="rspls">
     <header>
         Header facherito
     </header>
@@ -22,12 +22,16 @@
                 <span class="output__score">IA: <span id="iScore">0</span></span>
             </div>
             <div class="output__container">
-                <span class="output__choice">Tú: <span id="pChoice"></span></span>
-                <span class="output__choice">IA: <span id="iChoice"></span></span>
+                    <svg>
+                        <use id="pChoice" xlink:href=""></use>
+                    </svg>
+                    <span> VS </span>
+                    <svg>
+                        <use id="iChoice" xlink:href=""></use>
+                    </svg>
             </div>
         </div>
         <div class="game">
-            <!-- Los botones van a ir con unos svg que todavía no hice, el texto es provisional -->
             <button id="rock" class="game__button">
             <svg>
                 <use xlink:href="../images/hands.svg#rock"></use>

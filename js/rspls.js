@@ -47,8 +47,8 @@ const output = {
     iaScore: function() {document.querySelector('#iScore').innerHTML = iaScore},
     result: function(res) {document.querySelector('#result').innerHTML = res},
     choices: function() {
-        document.querySelector('#pChoice').innerHTML = playerChoice
-        document.querySelector('#iChoice').innerHTML = iaChoice
+        document.querySelector('#pChoice').setAttribute('xlink:href', `../images/hands.svg#${playerChoice}`)
+        document.querySelector('#iChoice').setAttribute('xlink:href', `../images/hands.svg#${iaChoice}`)
     },
 }
 
