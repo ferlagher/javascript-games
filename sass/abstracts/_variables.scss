@@ -3,6 +3,11 @@ $clr: (
     black-3: rgba(51, 51, 51, 0.3)
 );
 
+$bkg: (
+    rspls: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa),
+    tictactoe: linear-gradient(0deg, #93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a577, #1d976c),
+);
+
 $ft-fy: (
     head:('Poppins', sans-serif),
     body: ('Montserrat', sans-serif),

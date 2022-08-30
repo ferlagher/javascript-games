@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <symbol id="x" viewBox="0 0 100 100">
+        <title>X</title>
+        <line x1="0" y1="100" x2="100" y2="0"/>
+        <line x1="0" y1="0" x2="100" y2="100"/>
+    </symbol>
+
+    <symbol id="o" viewBox="0 0 100 100">
+        <title>O</title>
+        <circle id="o" cx="50" cy="50" r="44"/>
+    </symbol>
+</svg>

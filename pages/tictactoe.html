@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Juega online a Ta-Te-Ti">
+    <meta name="keywords" content="tateti, ta, te, ti">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <title>Ta-Te-Ti</title>
+</head>
+<body class="tictactoe">
+    <header>
+        Header facherito
+    </header>
+
+    <main>
+        <div class="output">
+            <div class="output__container">
+                <div class="output__score">
+                    <svg>
+                        <use xlink:href="../images/icons.svg#player"></use>
+                    </svg>
+                    <span id="pScore">0</span>
+                </div>
+                <span id="result" class="output__result"></span>
+                <div class="output__score">
+                    <span id="iScore">0</span>
+                    <svg>
+                        <use xlink:href="../images/icons.svg#ia"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="output__container">
+            </div>
+        </div>
+        <div class="game">
+            <div id="1" class="game__cell"><svg></svg></div>
+            <div id="2" class="game__cell"><svg></svg></div>
+            <div id="3" class="game__cell"><svg></svg></div>
+            <div id="4" class="game__cell"><svg></svg></div>
+            <div id="5" class="game__cell"><svg></svg></div>
+            <div id="6" class="game__cell"><svg></svg></div>
+            <div id="7" class="game__cell"><svg></svg></div>
+            <div id="8" class="game__cell"><svg></svg></div>
+            <div id="9" class="game__cell"><svg></svg></div>
+        </div>
+    </main>
+
+    <footer>
+        <span>Proyecto de Fernanda Laguna Hermida</span>
+        <div>
+            <a href="https://github.com/ferlagher/jsLaguna" target="_blank">
+                <svg>
+                    <use xlink:href="../images/icons.svg#gh"></use>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ferlagher" target="_blank">
+                <svg>
+                    <use xlink:href="../images/icons.svg#in"></use>
+                </svg>
+            </a>
+        </div>
+    </footer>
+    <script src="../js/tictactoe.js"></script>
+</body>
+</html>

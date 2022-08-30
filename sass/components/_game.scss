@@ -1,0 +1,29 @@
+.output {
+    display: flex;
+    flex-direction: column;
+    gap: map-get($spc, 'sm');
+    padding-bottom: map-get($spc, 'sm');
+    border-bottom: 2px solid map-get($clr, 'black-3');
+
+    &__container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__score {
+        display: flex;
+        align-items: center;
+        gap: map-get($spc, 'sm');
+    }
+}
+
+.game {
+    padding-top: map-get($spc, 'sm');
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: map-get($spc, 'sm');
+}
