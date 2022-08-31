@@ -6,10 +6,6 @@
                 height: map-get($siz, 'lg');
             }
 
-        &__result {
-            height: 1.5em;
-        }
-
         &__vs {
             height: 100%;
             display: flex;
@@ -21,28 +17,17 @@
             em {
                 height: 2.5em;
                 text-align: center;
+                white-space: nowrap;
             }
         }
     }
 
     .game {
         &__button {
-            background-color: transparent;
             height: map-get($siz, 'lg');
             width: map-get($siz, 'lg');
-            border: 2px solid map-get($clr, 'white');
             border-radius: 50%;
             padding: map-get($spc, 'sm');
-            mix-blend-mode: screen;
-            transition: 0.2s ease-in-out;
-
-            &:hover, &:active {
-                background-color: map-get($clr, 'white');
-            }
-
-            &:hover svg, &:active svg {
-                fill: black;
-            }
         }
     }
 }

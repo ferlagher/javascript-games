@@ -3,7 +3,8 @@
     flex-direction: column;
     gap: map-get($spc, 'sm');
     padding-bottom: map-get($spc, 'sm');
-    border-bottom: 2px solid map-get($clr, 'black-3');
+    border-bottom: $border;
+    margin-bottom: map-get($spc, 'sm');
 
     &__container {
         width: 100%;
@@ -17,13 +18,33 @@
         align-items: center;
         gap: map-get($spc, 'sm');
     }
+    
+    &__result {
+        height: 1.5em;
+    }
 }
 
 .game {
-    padding-top: map-get($spc, 'sm');
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: map-get($spc, 'sm');
+}
+
+.options {
+    width: 100%;
+    padding-top: map-get($spc, 'sm');
+    border-top: $border;
+    margin-top: map-get($spc, 'sm');
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: map-get($spc, 'sm');
+
+    &__container {
+        display: flex;
+        align-items: center;
+        gap: calc(map-get($spc, 'sm') / 2);
+    }
 }

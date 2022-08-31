@@ -34,6 +34,15 @@
                 </div>
             </div>
             <div class="output__container">
+                <svg class="svg--md">
+                    <use id="pXO" xlink:href="../images/xo.svg#x"></use>
+                </svg>
+                <div class="output__vs">
+                    <span> VS </span>
+                </div>
+                <svg class="svg--md">
+                    <use id="iXO" xlink:href="../images/xo.svg#o"></use>
+                </svg>
             </div>
         </div>
         <div class="game">
@@ -47,18 +56,47 @@
             <div id="8" class="game__cell"><svg></svg></div>
             <div id="9" class="game__cell"><svg></svg></div>
         </div>
+        <div class="options">
+            <div class="options__container">
+                <svg class="icon">
+                    <use xlink:href="../images/xo.svg#x"></use>
+                </svg>
+                <label class="switch" for="xo">
+                <input id="xo" class="switch__check" type="checkbox">
+                <span class="switch__slider"></span>
+                </label>
+                <svg class="icon">
+                    <use xlink:href="../images/xo.svg#o"></use>
+                </svg>
+            </div>
+            <div class="options__container">
+                <button class="reset">Reiniciar</button>
+            </div>
+            <div class="options__container">
+                <svg class="icon">
+                    <use xlink:href="../images/icons.svg#player"></use>
+                </svg>
+                <label class="switch" for="vs">
+                <input id="vs" class="switch__check" type="checkbox">
+                <span class="switch__slider"></span>
+                </label>
+                <svg class="icon">
+                    <use xlink:href="../images/icons.svg#ia"></use>
+                </svg>
+            </div>
+        </div>
     </main>
 
     <footer>
         <span>Proyecto de Fernanda Laguna Hermida</span>
         <div>
             <a href="https://github.com/ferlagher/jsLaguna" target="_blank">
-                <svg>
+                <svg class="icon">
                     <use xlink:href="../images/icons.svg#gh"></use>
                 </svg>
             </a>
             <a href="https://www.linkedin.com/in/ferlagher" target="_blank">
-                <svg>
+                <svg class="icon">
                     <use xlink:href="../images/icons.svg#in"></use>
                 </svg>
             </a>

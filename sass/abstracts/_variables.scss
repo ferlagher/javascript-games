@@ -27,6 +27,7 @@ $siz: (
     lg: clamp(100px, 10vw, 150px), 
     md: clamp(25px, 5vw, 100px),
     sm: clamp(16px, 3vw, 32px),
+    xs: clamp(16px, 2vw, 28px),
 );
 
 $spc: (

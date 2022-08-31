@@ -1,0 +1,44 @@
+button {
+    background-color: transparent;
+    border: 2px solid map-get($clr, 'white');
+    border-radius: 10rem;
+    padding: 0.5em 1em;
+    mix-blend-mode: screen;
+    transition: 0.2s ease-in-out;
+
+    &:hover, &:active {
+        background-color: map-get($clr, 'white');
+        color: #000;
+    }
+
+    &:hover svg, &:active svg {
+        fill: #000;
+    }
+}
+
+.switch {
+    position: relative;
+    display: flex;
+    width: calc(map-get($siz, 'sm') * 2);
+    height: map-get($siz, 'sm');
+    border: 2px solid map-get($clr, 'white');
+    border-radius: 10rem;
+    padding: 2px;
+
+    &__check {
+        position: absolute;
+        opacity: 0;
+
+        &:checked + .switch__slider {
+            margin-left: map-get($siz, 'sm');
+        }
+    }
+
+    &__slider {
+        width: calc(map-get($siz, 'sm') - 8px);
+        height: calc(map-get($siz, 'sm') - 8px);
+        background-color: map-get($clr, 'white');
+        border-radius: 50%;
+        transition: margin 0.2s ease-in-out;
+    }
+}

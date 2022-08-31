@@ -1,13 +1,9 @@
 .tictactoe {
     background: map-get($bkg, 'tictactoe');
 
-    .output {
-        &__result {
-            height: 1.5em;
-        }
-    }
-
     .game {
+        width: fit-content;
+        margin: auto;
         display: grid;
         grid-template-rows: repeat(3, 1fr);
         grid-template-columns: repeat(3, 1fr);
@@ -45,15 +41,13 @@
         svg {
             height: 100%;
             width: 100%;
-            stroke: map-get($clr, 'white');
-            stroke-width: 10px;
-            fill: none;
             transition: 0.3s ease-in-out;
             transform: scale(0);
         }
         
-        .transition {
+        .mark {
             transform: scale(1);
+            opacity: 1;
         }
     }
 

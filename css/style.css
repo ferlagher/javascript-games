@@ -6,6 +6,13 @@ header, footer {
   color: #E7F0F4;
 }
 
+button {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  color: #E7F0F4;
+}
+
 .output {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
@@ -31,10 +38,21 @@ svg {
   fill: #E7F0F4;
 }
 
-.output svg {
+.svg--lg {
   height: clamp(100px, 10vw, 150px);
   width: clamp(100px, 10vw, 150px);
 }
+
+.svg--md {
+  height: clamp(25px, 5vw, 100px);
+  width: clamp(25px, 5vw, 100px);
+}
+
+.icon {
+  height: clamp(16px, 2vw, 28px);
+  width: clamp(16px, 2vw, 28px);
+}
+
 .output__score svg {
   height: clamp(25px, 5vw, 100px);
   width: clamp(25px, 5vw, 100px);
@@ -97,8 +115,6 @@ footer div {
 }
 footer a {
   display: inline-block;
-  height: clamp(16px, 3vw, 32px);
-  width: clamp(16px, 3vw, 32px);
 }
 
 .output {
@@ -107,6 +123,7 @@ footer a {
   gap: clamp(8px, 1.5vw, 16px);
   padding-bottom: clamp(8px, 1.5vw, 16px);
   border-bottom: 2px solid rgba(51, 51, 51, 0.3);
+  margin-bottom: clamp(8px, 1.5vw, 16px);
 }
 .output__container {
   width: 100%;
@@ -119,9 +136,11 @@ footer a {
   align-items: center;
   gap: clamp(8px, 1.5vw, 16px);
 }
+.output__result {
+  height: 1.5em;
+}
 
 .game {
-  padding-top: clamp(8px, 1.5vw, 16px);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -129,14 +148,67 @@ footer a {
   gap: clamp(8px, 1.5vw, 16px);
 }
 
+.options {
+  width: 100%;
+  padding-top: clamp(8px, 1.5vw, 16px);
+  border-top: 2px solid rgba(51, 51, 51, 0.3);
+  margin-top: clamp(8px, 1.5vw, 16px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 16px);
+}
+.options__container {
+  display: flex;
+  align-items: center;
+  gap: calc(clamp(8px, 1.5vw, 16px) / 2);
+}
+
+button {
+  background-color: transparent;
+  border: 2px solid #E7F0F4;
+  border-radius: 10rem;
+  padding: 0.5em 1em;
+  mix-blend-mode: screen;
+  transition: 0.2s ease-in-out;
+}
+button:hover, button:active {
+  background-color: #E7F0F4;
+  color: #000;
+}
+button:hover svg, button:active svg {
+  fill: #000;
+}
+
+.switch {
+  position: relative;
+  display: flex;
+  width: calc(clamp(16px, 3vw, 32px) * 2);
+  height: clamp(16px, 3vw, 32px);
+  border: 2px solid #E7F0F4;
+  border-radius: 10rem;
+  padding: 2px;
+}
+.switch__check {
+  position: absolute;
+  opacity: 0;
+}
+.switch__check:checked + .switch__slider {
+  margin-left: clamp(16px, 3vw, 32px);
+}
+.switch__slider {
+  width: calc(clamp(16px, 3vw, 32px) - 8px);
+  height: calc(clamp(16px, 3vw, 32px) - 8px);
+  background-color: #E7F0F4;
+  border-radius: 50%;
+  transition: margin 0.2s ease-in-out;
+}
+
 .rspls {
   background: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa);
 }
 .rspls .output:nth-of-type(2) {
   height: clamp(100px, 10vw, 150px);
-}
-.rspls .output__result {
-  height: 1.5em;
 }
 .rspls .output__vs {
   height: 100%;
@@ -149,31 +221,21 @@ footer a {
 .rspls .output__vs em {
   height: 2.5em;
   text-align: center;
+  white-space: nowrap;
 }
 .rspls .game__button {
-  background-color: transparent;
   height: clamp(100px, 10vw, 150px);
   width: clamp(100px, 10vw, 150px);
-  border: 2px solid #E7F0F4;
   border-radius: 50%;
   padding: clamp(8px, 1.5vw, 16px);
-  mix-blend-mode: screen;
-  transition: 0.2s ease-in-out;
-}
-.rspls .game__button:hover, .rspls .game__button:active {
-  background-color: #E7F0F4;
-}
-.rspls .game__button:hover svg, .rspls .game__button:active svg {
-  fill: black;
 }
 
 .tictactoe {
   background: linear-gradient(0deg, #93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a577, #1d976c);
 }
-.tictactoe .output__result {
-  height: 1.5em;
-}
 .tictactoe .game {
+  width: fit-content;
+  margin: auto;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(3, 1fr);
@@ -205,14 +267,12 @@ footer a {
 .tictactoe .game svg {
   height: 100%;
   width: 100%;
-  stroke: #E7F0F4;
-  stroke-width: 10px;
-  fill: none;
   transition: 0.3s ease-in-out;
   transform: scale(0);
 }
-.tictactoe .game .transition {
+.tictactoe .game .mark {
   transform: scale(1);
+  opacity: 1;
 }
 .tictactoe .disabled {
   pointer-events: none;

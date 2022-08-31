@@ -4,6 +4,10 @@ header, footer {
     @include font('body', 'regular', 'sm', 'white');
 }
 
+button {
+    @include font('head', 'regular', 'sm', 'white');
+}
+
 .output {
     @include font('body', 'regular', 'md', 'white');
 

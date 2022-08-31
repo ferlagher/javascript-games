@@ -22,22 +22,27 @@ const positions = {
 }; 
 
 let turn = true;
+let xo = 'x';
 
 input.cells.forEach(cell => {
-    cell.addEventListener('click', e => {
-        const xo = turn ? 'x' : 'o';
-        const svg = e.target.children[0];
-        svg.classList.add('transition');
+    const svg = cell.children[0];
+    cell.addEventListener('mouseenter', () => {
         svg.innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
+    });
+    cell.addEventListener('click', () => {
+        svg.classList.add('mark');
         cell.classList.add('disabled');
 
-        positions[xo].push(e.target.id);
+        positions[xo].push(cell.id);
         console.log(positions[xo]);
 
         if(checkWin(positions[xo])) {
-            console.log('Game over');
+            console.log(`${xo} wins`);
+        } else if (checkDraw()) {
+            console.log('Draw')
         } else {
             turn = !turn;
+            xo = turn ? 'x' : 'o';
         }
     })
 });
@@ -48,4 +53,9 @@ const checkWin = pos => {
         checkedArrays.push(arr.every(cell => pos.includes(cell)))
     });
     return checkedArrays.includes(true);
+}
+
+const checkDraw = () => {
+    const disabledCells = document.querySelectorAll('.disabled');
+    return disabledCells.length === 9;
 }
