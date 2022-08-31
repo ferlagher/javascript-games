@@ -25,15 +25,27 @@ let turn = true;
 
 input.cells.forEach(cell => {
     cell.addEventListener('click', e => {
-        const svg = e.target.children[0];
         const xo = turn ? 'x' : 'o';
-
+        const svg = e.target.children[0];
+        svg.classList.add('transition');
         svg.innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
-        svg.classList.add(xo);
+        cell.classList.add('disabled');
 
         positions[xo].push(e.target.id);
         console.log(positions[xo]);
 
-        turn = !turn;
+        if(checkWin(positions[xo])) {
+            console.log('Game over');
+        } else {
+            turn = !turn;
+        }
     })
 });
+
+const checkWin = pos => {
+    let checkedArrays = [];
+    win.forEach(arr => {
+        checkedArrays.push(arr.every(cell => pos.includes(cell)))
+    });
+    return checkedArrays.includes(true);
+}

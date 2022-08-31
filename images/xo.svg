@@ -7,6 +7,6 @@
 
     <symbol id="o" viewBox="0 0 100 100">
         <title>O</title>
-        <circle id="o" cx="50" cy="50" r="44"/>
+        <circle cx="50" cy="50" r="44"/>
     </symbol>
 </svg>

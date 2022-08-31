@@ -184,6 +184,7 @@ footer a {
   width: clamp(100px, 10vw, 150px);
   border: 3px solid #E7F0F4;
   padding: clamp(8px, 1.5vw, 16px);
+  cursor: pointer;
 }
 .tictactoe .game__cell:nth-of-type(-n + 3) {
   border-top: 3px solid transparent;
@@ -197,6 +198,10 @@ footer a {
 .tictactoe .game__cell:nth-of-type(3n - 2) {
   border-left: 3px solid transparent;
 }
+.tictactoe .game__cell:hover svg {
+  transform: scale(0.5);
+  opacity: 0.5;
+}
 .tictactoe .game svg {
   height: 100%;
   width: 100%;
@@ -206,6 +211,9 @@ footer a {
   transition: 0.3s ease-in-out;
   transform: scale(0);
 }
-.tictactoe .game .x, .tictactoe .game .o {
+.tictactoe .game .transition {
   transform: scale(1);
+}
+.tictactoe .disabled {
+  pointer-events: none;
 }/*# sourceMappingURL=style.css.map */
