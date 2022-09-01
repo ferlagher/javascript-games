@@ -42,6 +42,9 @@ let turn = true;
 let xo = 'x';
 let delay;
 
+let pScore = 0;
+let iScore = 0;
+
 const checkWin = pos => {
     let checkedArrays = [];
     win.forEach(arr => {
@@ -68,6 +71,15 @@ const markCell = (div) => {
 
     if(checkWin(positions[xo])) {
         output.result(`${xo} gana`);
+        if ((turn && iaFirst) || (!turn)) {
+            iScore++;
+            console.log(iScore);
+            output.iScore();
+        } else {
+            pScore++;
+            console.log(pScore);
+            output.pScore();
+        }
         gameOver();
     } else if (checkDraw()) {
         output.result('Empate');
@@ -196,4 +208,4 @@ input.xo.addEventListener('change', () => {
         output.iXO('o');
     }
     reset();
-})
+});
