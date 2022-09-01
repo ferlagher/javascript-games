@@ -204,6 +204,11 @@ button:hover svg, button:active svg {
   transition: margin 0.2s ease-in-out;
 }
 
+.disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .rspls {
   background: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa);
 }
@@ -244,7 +249,7 @@ button:hover svg, button:active svg {
 .tictactoe .game__cell {
   height: clamp(100px, 10vw, 100px);
   width: clamp(100px, 10vw, 100px);
-  border: 3px solid #E7F0F4;
+  border: 2px solid #E7F0F4;
   padding: clamp(8px, 1.5vw, 16px);
   cursor: pointer;
 }
@@ -264,6 +269,9 @@ button:hover svg, button:active svg {
   transform: scale(0.5);
   opacity: 0.5;
 }
+.tictactoe .game__cell--disabled {
+  pointer-events: none;
+}
 .tictactoe .game svg {
   height: 100%;
   width: 100%;
@@ -274,6 +282,6 @@ button:hover svg, button:active svg {
   transform: scale(1);
   opacity: 1;
 }
-.tictactoe .disabled {
+.tictactoe .game--wait {
   pointer-events: none;
 }/*# sourceMappingURL=style.css.map */

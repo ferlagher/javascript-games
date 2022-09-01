@@ -12,7 +12,7 @@
         &__cell {
             height: map-get($siz, 'lg');
             width: map-get($siz, 'lg');
-            border: 3px solid map-get($clr, 'white');
+            border: 2px solid map-get($clr, 'white');
             padding: map-get($spc, 'sm');
             cursor: pointer;
 
@@ -36,6 +36,10 @@
                 transform: scale(0.5);
                 opacity: 0.5;
             }
+
+            &--disabled {
+                pointer-events: none;
+            }
         }
 
         svg {
@@ -44,14 +48,14 @@
             transition: 0.3s ease-in-out;
             transform: scale(0);
         }
-        
+
         .mark {
             transform: scale(1);
             opacity: 1;
         }
-    }
 
-    .disabled {
-        pointer-events: none;
+        &--wait {
+            pointer-events: none;
+        }
     }
 }
