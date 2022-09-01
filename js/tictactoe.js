@@ -36,8 +36,9 @@ const positions = {
     o: [],
 }; 
 
-let vsIA = !input.vs.checked;
-let turn = !input.xo.checked;
+let pvp = input.vs.checked;
+let iaFirst = input.xo.checked;
+let turn = true;
 let xo = 'x';
 let delay;
 
@@ -148,12 +149,12 @@ const reset = () => {
     positions.x = [];
     positions.o = [];
 
-    turn = !input.xo.checked;
+    turn = true;
     xo = 'x';
 
     clearTimeout(delay)
 
-    if (vsIA && !turn) {
+    if (!pvp && iaFirst) {
         input.wait();
         delay = setTimeout(iaMove, 500);
     }
@@ -165,7 +166,7 @@ input.cells.forEach(cell => {
     });
     cell.addEventListener('click', () => {
         markCell(cell);
-        if (vsIA) {
+        if (!pvp) {
             input.wait();
             delay = setTimeout(iaMove, 500);
         }
@@ -174,19 +175,20 @@ input.cells.forEach(cell => {
 
 input.reset.addEventListener('click', reset);
 input.vs.addEventListener('change', () => {
-    vsIA = !input.vs.checked;
-    if (vsIA) {
-        input.xo.parentElement.classList.remove('disabled')
-        output.iAvatar('ia')
-    } else {
+    pvp = input.vs.checked;
+    if (pvp) {
         input.xo.checked = false;
         input.xo.parentElement.classList.add('disabled')
         output.iAvatar('player')
+    } else {       
+        input.xo.parentElement.classList.remove('disabled')
+        output.iAvatar('ia')
     }
     reset();
 });
 input.xo.addEventListener('change', () => {
-    if (input.xo.checked){
+    iaFirst = input.xo.checked;
+    if (iaFirst){
         output.pXO('o');
         output.iXO('x');
     } else {

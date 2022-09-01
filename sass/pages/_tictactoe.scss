@@ -10,8 +10,8 @@
         gap: 0;
 
         &__cell {
-            height: map-get($siz, 'lg');
-            width: map-get($siz, 'lg');
+            height:  map-get($siz, 'lg');
+            width:  map-get($siz, 'lg');
             border: 2px solid map-get($clr, 'white');
             padding: map-get($spc, 'sm');
             cursor: pointer;
@@ -43,8 +43,6 @@
         }
 
         svg {
-            height: 100%;
-            width: 100%;
             transition: 0.3s ease-in-out;
             transform: scale(0);
         }

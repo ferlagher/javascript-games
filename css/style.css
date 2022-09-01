@@ -39,13 +39,13 @@ svg {
 }
 
 .svg--lg {
-  height: clamp(100px, 10vw, 100px);
-  width: clamp(100px, 10vw, 100px);
+  height: clamp(80px, 29vw, 100px);
+  width: clamp(80px, 29vw, 100px);
 }
 
 .svg--md {
-  height: clamp(25px, 5vw, 50px);
-  width: clamp(25px, 5vw, 50px);
+  height: clamp(25px, 5vw, 40px);
+  width: clamp(25px, 5vw, 40px);
 }
 
 .icon {
@@ -54,8 +54,8 @@ svg {
 }
 
 .output__score svg {
-  height: clamp(25px, 5vw, 50px);
-  width: clamp(25px, 5vw, 50px);
+  height: clamp(25px, 5vw, 40px);
+  width: clamp(25px, 5vw, 40px);
 }
 
 * {
@@ -183,8 +183,8 @@ button:hover svg, button:active svg {
 .switch {
   position: relative;
   display: flex;
-  width: calc(clamp(16px, 3vw, 32px) * 2);
-  height: clamp(16px, 3vw, 32px);
+  width: calc(clamp(16px, 2vw, 28px) * 2);
+  height: clamp(16px, 2vw, 28px);
   border: 2px solid #E7F0F4;
   border-radius: 10rem;
   padding: 2px;
@@ -194,11 +194,11 @@ button:hover svg, button:active svg {
   opacity: 0;
 }
 .switch__check:checked + .switch__slider {
-  margin-left: clamp(16px, 3vw, 32px);
+  margin-left: clamp(16px, 2vw, 28px);
 }
 .switch__slider {
-  width: calc(clamp(16px, 3vw, 32px) - 8px);
-  height: calc(clamp(16px, 3vw, 32px) - 8px);
+  width: calc(clamp(16px, 2vw, 28px) - 8px);
+  height: calc(clamp(16px, 2vw, 28px) - 8px);
   background-color: #E7F0F4;
   border-radius: 50%;
   transition: margin 0.2s ease-in-out;
@@ -213,7 +213,7 @@ button:hover svg, button:active svg {
   background: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa);
 }
 .rspls .output:nth-of-type(2) {
-  height: clamp(100px, 10vw, 100px);
+  height: clamp(80px, 29vw, 100px);
 }
 .rspls .output__vs {
   height: 100%;
@@ -229,8 +229,8 @@ button:hover svg, button:active svg {
   white-space: nowrap;
 }
 .rspls .game__button {
-  height: clamp(100px, 10vw, 100px);
-  width: clamp(100px, 10vw, 100px);
+  height: clamp(80px, 29vw, 100px);
+  width: clamp(80px, 29vw, 100px);
   border-radius: 50%;
   padding: clamp(8px, 1.5vw, 16px);
 }
@@ -247,8 +247,8 @@ button:hover svg, button:active svg {
   gap: 0;
 }
 .tictactoe .game__cell {
-  height: clamp(100px, 10vw, 100px);
-  width: clamp(100px, 10vw, 100px);
+  height: clamp(80px, 29vw, 100px);
+  width: clamp(80px, 29vw, 100px);
   border: 2px solid #E7F0F4;
   padding: clamp(8px, 1.5vw, 16px);
   cursor: pointer;
@@ -273,8 +273,6 @@ button:hover svg, button:active svg {
   pointer-events: none;
 }
 .tictactoe .game svg {
-  height: 100%;
-  width: 100%;
   transition: 0.3s ease-in-out;
   transform: scale(0);
 }

@@ -19,8 +19,8 @@ button {
 .switch {
     position: relative;
     display: flex;
-    width: calc(map-get($siz, 'sm') * 2);
-    height: map-get($siz, 'sm');
+    width: calc(map-get($siz, 'xs') * 2);
+    height: map-get($siz, 'xs');
     border: 2px solid map-get($clr, 'white');
     border-radius: 10rem;
     padding: 2px;
@@ -30,13 +30,13 @@ button {
         opacity: 0;
 
         &:checked + .switch__slider {
-            margin-left: map-get($siz, 'sm');
+            margin-left: map-get($siz, 'xs');
         }
     }
 
     &__slider {
-        width: calc(map-get($siz, 'sm') - 8px);
-        height: calc(map-get($siz, 'sm') - 8px);
+        width: calc(map-get($siz, 'xs') - 8px);
+        height: calc(map-get($siz, 'xs') - 8px);
         background-color: map-get($clr, 'white');
         border-radius: 50%;
         transition: margin 0.2s ease-in-out;
