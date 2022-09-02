@@ -27,7 +27,7 @@
 .game {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     gap: map-get($spc, 'sm');
 }
@@ -38,13 +38,15 @@
     border-top: $border;
     margin-top: map-get($spc, 'sm');
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     gap: map-get($spc, 'sm');
 
     &__container {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
-        gap: calc(map-get($spc, 'sm') / 2);
+        gap: map-get($spc, 'sm');
     }
 }

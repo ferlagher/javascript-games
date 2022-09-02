@@ -17,13 +17,19 @@ button {
 }
 
 .switch {
-    position: relative;
     display: flex;
-    width: calc(map-get($siz, 'xs') * 2);
-    height: map-get($siz, 'xs');
-    border: 2px solid map-get($clr, 'white');
-    border-radius: 10rem;
-    padding: 2px;
+    align-items: center;
+    gap: calc(map-get($spc, 'sm') / 2);
+
+    &__track {
+        position: relative;
+        display: flex;
+        width: calc(map-get($siz, 'xs') * 2);
+        height: map-get($siz, 'xs');
+        border: 2px solid map-get($clr, 'white');
+        border-radius: 10rem;
+        padding: 2px;
+    }
 
     &__check {
         position: absolute;

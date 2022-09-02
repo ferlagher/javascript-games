@@ -17,7 +17,6 @@
             em {
                 height: 2.5em;
                 text-align: center;
-                white-space: nowrap;
             }
         }
     }
@@ -28,6 +27,15 @@
             width: map-get($siz, 'lg');
             border-radius: 50%;
             padding: map-get($spc, 'sm');
+
+            &:focus {
+                background-color: map-get($clr, 'white');
+                color: #000;
+            }
+        
+            &:focus svg {
+                fill: #000;
+            }
         }
     }
 }

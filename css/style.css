@@ -39,8 +39,8 @@ svg {
 }
 
 .svg--lg {
-  height: clamp(80px, 29vw, 100px);
-  width: clamp(80px, 29vw, 100px);
+  height: clamp(75px, 27vw, 100px);
+  width: clamp(75px, 27vw, 100px);
 }
 
 .svg--md {
@@ -70,14 +70,15 @@ ul {
 
 body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  justify-items: center;
+  align-content: space-between;
 }
 
 header {
   width: 100%;
+  height: fit-content;
   background-color: rgba(51, 51, 51, 0.3);
   border-bottom: 2px solid rgba(51, 51, 51, 0.3);
   border-radius: 0 0 16px 16px;
@@ -100,6 +101,7 @@ main {
 
 footer {
   width: 100%;
+  height: fit-content;
   background-color: rgba(51, 51, 51, 0.3);
   border-top: 2px solid rgba(51, 51, 51, 0.3);
   border-radius: 16px 16px 0 0;
@@ -143,7 +145,7 @@ footer a {
 .game {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   gap: clamp(8px, 1.5vw, 16px);
 }
@@ -154,14 +156,16 @@ footer a {
   border-top: 2px solid rgba(51, 51, 51, 0.3);
   margin-top: clamp(8px, 1.5vw, 16px);
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   gap: clamp(8px, 1.5vw, 16px);
 }
 .options__container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: calc(clamp(8px, 1.5vw, 16px) / 2);
+  gap: clamp(8px, 1.5vw, 16px);
 }
 
 button {
@@ -181,6 +185,11 @@ button:hover svg, button:active svg {
 }
 
 .switch {
+  display: flex;
+  align-items: center;
+  gap: calc(clamp(8px, 1.5vw, 16px) / 2);
+}
+.switch__track {
   position: relative;
   display: flex;
   width: calc(clamp(16px, 2vw, 28px) * 2);
@@ -213,7 +222,7 @@ button:hover svg, button:active svg {
   background: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa);
 }
 .rspls .output:nth-of-type(2) {
-  height: clamp(80px, 29vw, 100px);
+  height: clamp(75px, 27vw, 100px);
 }
 .rspls .output__vs {
   height: 100%;
@@ -226,13 +235,19 @@ button:hover svg, button:active svg {
 .rspls .output__vs em {
   height: 2.5em;
   text-align: center;
-  white-space: nowrap;
 }
 .rspls .game__button {
-  height: clamp(80px, 29vw, 100px);
-  width: clamp(80px, 29vw, 100px);
+  height: clamp(75px, 27vw, 100px);
+  width: clamp(75px, 27vw, 100px);
   border-radius: 50%;
   padding: clamp(8px, 1.5vw, 16px);
+}
+.rspls .game__button:focus {
+  background-color: #E7F0F4;
+  color: #000;
+}
+.rspls .game__button:focus svg {
+  fill: #000;
 }
 
 .tictactoe {
@@ -247,8 +262,8 @@ button:hover svg, button:active svg {
   gap: 0;
 }
 .tictactoe .game__cell {
-  height: clamp(80px, 29vw, 100px);
-  width: clamp(80px, 29vw, 100px);
+  height: clamp(75px, 27vw, 100px);
+  width: clamp(75px, 27vw, 100px);
   border: 2px solid #E7F0F4;
   padding: clamp(8px, 1.5vw, 16px);
   cursor: pointer;
@@ -282,4 +297,11 @@ button:hover svg, button:active svg {
 }
 .tictactoe .game--wait {
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .tictactoe .game__cell:hover svg {
+    transform: scale(1);
+    opacity: 1;
+  }
 }/*# sourceMappingURL=style.css.map */

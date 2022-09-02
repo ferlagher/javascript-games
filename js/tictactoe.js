@@ -189,13 +189,18 @@ input.reset.addEventListener('click', reset);
 input.vs.addEventListener('change', () => {
     pvp = input.vs.checked;
     if (pvp) {
-        input.xo.checked = false;
         input.xo.parentElement.classList.add('disabled')
         output.iAvatar('player')
+        input.xo.checked = false;
+        iaFirst = input.xo.checked;
     } else {       
         input.xo.parentElement.classList.remove('disabled')
         output.iAvatar('ia')
     }
+    pScore = 0;
+    iScore = 0;
+    output.pScore();
+    output.iScore();
     reset();
 });
 input.xo.addEventListener('change', () => {
