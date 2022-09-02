@@ -93,6 +93,9 @@ const markCell = (div) => {
 const iaMove = () => {
     const corners = ['1', '3', '7', '9'];
     const sides = ['2', '4', '6', '8'];
+    const diagonals = [['1', '9'], ['3', '7']];
+    const oponent = xo === 'x' ? 'o' : 'x';
+    const currentTurn = 1 + positions[xo].length + positions[oponent].length;
 
     const checkForLines = pos => {
         return win.some(arr => {
@@ -139,10 +142,22 @@ const iaMove = () => {
         return false;
     }
 
+    const checkOponent = arr => {
+        return positions[oponent].every(pos => arr.includes(pos))
+    }
+
     if (checkForLines(positions[xo])) {
-    } else if (checkForLines(positions[xo === 'x' ? 'o' : 'x'])) {
+        //Gana
+    } else if (checkForLines(positions[oponent])) {
+        //Bloquea
+    } else if (currentTurn === 2 && checkOponent(corners)) {
+        checkEmptyCenter();
+    } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
+        checkEmptyCells(sides)
     } else if (checkEmptyCells(corners)) {
+        //Marca una esquina
     } else if (checkEmptyCenter()) {
+        //Marca el centro
     } else {
         checkEmptyCells(sides);
     }
