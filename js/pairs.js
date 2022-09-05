@@ -2,6 +2,8 @@ const game = {
     board: document.querySelector('.game'),
     shuffle: document.querySelector('#shuffle'),
     cards: null,
+
+    wait: function () {this.board.classList.toggle('game--wait')},
 };
 
 const animals = ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird'];
@@ -38,6 +40,7 @@ const placeCards = (arr) => {
         game.cards.forEach(card => {
             card.addEventListener('click', e =>{
                 e.stopImmediatePropagation();
+                game.wait();
                 card.classList.add('game__card--flip');
                 if (flippedCard) {
                     const animal1 = flippedCard.classList.item(1);
@@ -47,12 +50,15 @@ const placeCards = (arr) => {
                             flippedCard.classList.remove('game__card--flip');
                             card.classList.remove('game__card--flip');
                             flippedCard = '';
+                            game.wait();
                         }, 800);
                     } else {
                         flippedCard = '';
+                        game.wait();
                     }
                 } else {
                     flippedCard = card;
+                    game.wait();
                 }
             });
         });

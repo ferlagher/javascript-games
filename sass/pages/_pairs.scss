@@ -19,6 +19,7 @@
             transform-style: preserve-3d;
             transition: transform 0.3s;
             transform: rotateY(180deg);
+            cursor: pointer;
 
             &:hover .game__back {
                 stroke: transparent;
@@ -27,6 +28,7 @@
 
             &--flip {
                 transform: rotateY(0deg);
+                pointer-events: none;
             }
         }
 

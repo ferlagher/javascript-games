@@ -150,6 +150,9 @@ footer a {
   align-items: center;
   gap: clamp(8px, 1.5vw, 16px);
 }
+.game--wait {
+  pointer-events: none;
+}
 
 .options {
   width: 100%;
@@ -296,9 +299,6 @@ button:hover svg, button:active svg {
   transform: scale(1);
   opacity: 1;
 }
-.tictactoe .game--wait {
-  pointer-events: none;
-}
 
 @media (max-width: 768px) {
   .tictactoe .game__cell:hover svg {
@@ -327,6 +327,7 @@ button:hover svg, button:active svg {
   transform-style: preserve-3d;
   transition: transform 0.3s;
   transform: rotateY(180deg);
+  cursor: pointer;
 }
 .pairs .game__card:hover .game__back {
   stroke: transparent;
@@ -334,6 +335,7 @@ button:hover svg, button:active svg {
 }
 .pairs .game__card--flip {
   transform: rotateY(0deg);
+  pointer-events: none;
 }
 .pairs .game__front, .pairs .game__back {
   backface-visibility: hidden;
