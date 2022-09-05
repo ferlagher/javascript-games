@@ -47,3 +47,13 @@
         }
     }
 }
+
+@media (max-width: 768px){
+    .pairs {
+        .game__card:hover .game__back {
+            fill: none;
+            stroke: map-get($clr, 'white');
+            stroke-width: 14px;
+        }
+    }
+}

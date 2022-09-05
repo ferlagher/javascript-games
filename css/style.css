@@ -348,4 +348,12 @@ button:hover svg, button:active svg {
   padding: clamp(8px, 1.5vw, 16px);
   transform: rotateY(180deg);
   transition: 0.2s;
+}
+
+@media (max-width: 768px) {
+  .pairs .game__card:hover .game__back {
+    fill: none;
+    stroke: #E7F0F4;
+    stroke-width: 14px;
+  }
 }/*# sourceMappingURL=style.css.map */
