@@ -63,15 +63,14 @@ let iaChoice;
 let playerScore = 0;
 let iaScore = 0;
 
-//Funcionalidad de los botones, es la misma para todos, sólo cambia el id
-for (i = 0; i < input.length; i++) {
-    const id = input[i].id
-    input[i].addEventListener('click', () => {
-        playerChoice = id
+//Funcionalidad de los botones
+input.forEach(button => {
+    button.addEventListener('click', () => {
+        playerChoice = button.id
         iaChoice = Object.keys(plays)[Math.floor(Math.random() * 5)]
         checkWinner()
     })
-};
+});
 
 //Revisa quén gana
 const checkWinner = () => {

@@ -91,6 +91,7 @@ header {
 
 main {
   max-width: clamp(min(100%, 425px), 80%, 60rem);
+  max-height: 100%;
   background-color: rgba(51, 51, 51, 0.3);
   border: 2px solid rgba(51, 51, 51, 0.3);
   border-radius: 16px;
@@ -304,4 +305,47 @@ button:hover svg, button:active svg {
     transform: scale(1);
     opacity: 1;
   }
+}
+.pairs {
+  background: linear-gradient(0deg, #f280ab, #f783a5, #fa869f, #fd8a99, #ff8f94, #ff948f, #ff998b, #ff9e87);
+}
+.pairs .game {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: clamp(8px, 1.5vw, 16px);
+}
+.pairs .game__card {
+  width: 100%;
+  height: 100%;
+  max-width: clamp(75px, 27vw, 100px);
+  max-height: clamp(75px, 27vw, 100px);
+  border: 2px solid #E7F0F4;
+  border-radius: 8px;
+  padding: clamp(8px, 1.5vw, 16px);
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s;
+  transform: rotateY(180deg);
+}
+.pairs .game__card:hover .game__back {
+  stroke: transparent;
+  fill: #E7F0F4;
+}
+.pairs .game__card--flip {
+  transform: rotateY(0deg);
+}
+.pairs .game__front, .pairs .game__back {
+  backface-visibility: hidden;
+}
+.pairs .game__back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: none;
+  stroke: #E7F0F4;
+  stroke-width: 14px;
+  padding: clamp(8px, 1.5vw, 16px);
+  transform: rotateY(180deg);
+  transition: 0.2s;
 }/*# sourceMappingURL=style.css.map */

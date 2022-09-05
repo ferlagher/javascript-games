@@ -1,0 +1,49 @@
+.pairs {
+    background: map-get($bkg, 'pairs');
+
+    .game {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: map-get($spc, 'sm');
+
+        &__card {
+            width: 100%;
+            height: 100%;
+            max-width: map-get($siz, 'lg');
+            max-height: map-get($siz, 'lg');
+            border: map-get($brd, 'wht');
+            border-radius: 8px;
+            padding: map-get($spc, 'sm');
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+            transform: rotateY(180deg);
+
+            &:hover .game__back {
+                stroke: transparent;
+                fill: map-get($clr, 'white');
+            }
+
+            &--flip {
+                transform: rotateY(0deg);
+            }
+        }
+
+        &__front, &__back {
+            backface-visibility: hidden;
+        }
+
+        &__back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            fill: none;
+            stroke: map-get($clr, 'white');
+            stroke-width: 14px;
+            padding: map-get($spc, 'sm');
+            transform: rotateY(180deg);
+            transition: 0.2s;
+        }
+    }
+}

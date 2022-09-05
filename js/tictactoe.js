@@ -1,3 +1,4 @@
+//Celdas, botones y switchs
 const input = {
     cells: document.querySelectorAll('.game__cell'),
     reset: document.querySelector('#reset'),
@@ -8,6 +9,7 @@ const input = {
     play: function() {document.querySelector('.game').classList.remove('game--wait')},
 }
 
+//Contadores e iconos
 const output = {
     result: function(res) {document.querySelector('#result').innerHTML = res},
     pScore: function() {document.querySelector('#pScore').innerHTML = pScore},
@@ -17,6 +19,7 @@ const output = {
     iAvatar: function(avatar) {document.querySelector('#iAvatar').setAttribute('xlink:href', `../images/icons.svg#${avatar}`)},
 }
 
+//Combinaciones para ganar
 const win = [
     //Filas
     ['1', '2', '3'],
@@ -45,6 +48,7 @@ let delay;
 let pScore = 0;
 let iScore = 0;
 
+//Revisa si terminó la partida
 const checkWin = pos => {
     let checkedArrays = [];
     win.forEach(arr => {
@@ -62,6 +66,7 @@ const gameOver = () => {
     input.cells.forEach(cell => cell.classList.add('game__cell--disabled'));
 }
 
+//Marca la casilla elegida y si no terminó la partida, cambia el turno
 const markCell = (div) => {
     div.classList.add('game__cell--disabled');
     div.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
@@ -73,11 +78,9 @@ const markCell = (div) => {
         output.result(`${xo} gana`);
         if ((turn && iaFirst) || (!turn)) {
             iScore++;
-            console.log(iScore);
             output.iScore();
         } else {
             pScore++;
-            console.log(pScore);
             output.pScore();
         }
         gameOver();
@@ -90,6 +93,7 @@ const markCell = (div) => {
     }
 }
 
+//Estrategia de la IA
 const iaMove = () => {
     const corners = ['1', '3', '7', '9'];
     const sides = ['2', '4', '6', '8'];
@@ -152,19 +156,23 @@ const iaMove = () => {
         //Bloquea
     } else if (currentTurn === 2 && checkOponent(corners)) {
         checkEmptyCenter();
+        //Si el jugador fue primero y marcó una esquina, marca el centro
     } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
         checkEmptyCells(sides)
+        //Si el jugador marcó la esquina opuesta en su segundo turno, marca un lado
     } else if (checkEmptyCells(corners)) {
         //Marca una esquina
     } else if (checkEmptyCenter()) {
         //Marca el centro
     } else {
         checkEmptyCells(sides);
+        //Marca un lado
     }
 
     input.play();
 }
 
+//Reinicia al juego manteniendo las puntuaciones y las opciones
 const reset = () => {
     input.cells.forEach(cell => {
         cell.classList.remove('game__cell--disabled');
@@ -187,6 +195,7 @@ const reset = () => {
     }
 }
 
+//Funcionalidad de las celdas, botones y switchs
 input.cells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         cell.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
@@ -208,9 +217,12 @@ input.vs.addEventListener('change', () => {
         output.iAvatar('player')
         input.xo.checked = false;
         iaFirst = input.xo.checked;
+        output.pXO('x');
+        output.iXO('o');
     } else {       
         input.xo.parentElement.classList.remove('disabled')
         output.iAvatar('ia')
+        
     }
     pScore = 0;
     iScore = 0;

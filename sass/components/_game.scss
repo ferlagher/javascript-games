@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: map-get($spc, 'sm');
     padding-bottom: map-get($spc, 'sm');
-    border-bottom: $border;
+    border-bottom: map-get($brd, 'blk');
     margin-bottom: map-get($spc, 'sm');
 
     &__container {
@@ -35,7 +35,7 @@
 .options {
     width: 100%;
     padding-top: map-get($spc, 'sm');
-    border-top: $border;
+    border-top: map-get($brd, 'blk');
     margin-top: map-get($spc, 'sm');
     display: flex;
     justify-content: space-evenly;

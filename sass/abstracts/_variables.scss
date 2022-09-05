@@ -6,6 +6,7 @@ $clr: (
 $bkg: (
     rspls: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa),
     tictactoe: linear-gradient(0deg, #93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a577, #1d976c),
+    pairs: linear-gradient(0deg, #f280ab, #f783a5, #fa869f, #fd8a99, #ff8f94, #ff948f, #ff998b, #ff9e87),
 );
 
 $ft-fy: (
@@ -35,6 +36,9 @@ $spc: (
     sm: clamp(8px, 1.5vw, 16px),
 );
 
-$border: 2px solid map-get($clr, 'black-3');
+$brd: (
+    blk: 2px solid map-get($clr, 'black-3'),
+    wht: 2px solid map-get($clr, 'white')
+);
 
 $shadow: 0 0 16px map-get($clr, 'black-3');

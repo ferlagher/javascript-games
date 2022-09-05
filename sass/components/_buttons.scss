@@ -1,6 +1,6 @@
 button {
     background-color: transparent;
-    border: 2px solid map-get($clr, 'white');
+    border: map-get($brd, 'wht');
     border-radius: 10rem;
     padding: 0.5em 1em;
     mix-blend-mode: screen;
@@ -26,7 +26,7 @@ button {
         display: flex;
         width: calc(map-get($siz, 'xs') * 2);
         height: map-get($siz, 'xs');
-        border: 2px solid map-get($clr, 'white');
+        border: map-get($brd, 'wht');
         border-radius: 10rem;
         padding: 2px;
     }
