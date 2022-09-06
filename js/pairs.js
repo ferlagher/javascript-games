@@ -67,12 +67,15 @@ const placeCards = (arr) => {
 
 //Botón para barajar y reiniciar el juego
 game.shuffle.addEventListener('click', () => {
+    game.wait();
+    flippedCard = '';
     game.cards.forEach(card => {
         card.classList.remove('game__card--flip')
     })
     setTimeout(() => {
         game.board.innerHTML = ''
         placeCards(shuffledAnimals());
+        game.wait();
     }, 300);
 });
 

@@ -5,8 +5,7 @@ const input = {
     xo: document.querySelector('#xo'),
     vs: document.querySelector('#vs'),
 
-    wait: function() {document.querySelector('.game').classList.add('game--wait')},
-    play: function() {document.querySelector('.game').classList.remove('game--wait')},
+    wait: function() {document.querySelector('.game').classList.toggle('game--wait')},
 }
 
 //Contadores e iconos
@@ -169,7 +168,7 @@ const iaMove = () => {
         //Marca un lado
     }
 
-    input.play();
+    input.wait();
 }
 
 //Reinicia al juego manteniendo las puntuaciones y las opciones
