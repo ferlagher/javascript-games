@@ -69,16 +69,16 @@ const placeCards = (arr) => {
 game.shuffle.addEventListener('click', () => {
     game.wait();
     flippedCard = '';
-    game.cards.forEach(card => {
-        card.classList.remove('game__card--flip')
+    game.cards.forEach((card, i) => {
+        setTimeout(() => {
+            card.classList.remove('game__card--flip')
+        }, i * 20);
     })
     setTimeout(() => {
         game.board.innerHTML = ''
         placeCards(shuffledAnimals());
         game.wait();
-    }, 300);
+    }, 620);
 });
 
 placeCards(shuffledAnimals());
-
-
