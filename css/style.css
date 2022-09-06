@@ -222,6 +222,17 @@ button:hover svg, button:active svg {
   pointer-events: none;
 }
 
+.main--index {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+
 .rspls {
   background: linear-gradient(0deg, #9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa);
 }
