@@ -11,82 +11,84 @@
 
     <title>Ta-Te-Ti</title>
 </head>
-<body class="tictactoe">
+<body class="tictactoe bkg--tictactoe">
     <header>
         Header facherito
     </header>
 
     <main>
-        <div class="output">
-            <div class="output__container">
-                <div class="output__score">
-                    <svg>
-                        <use xlink:href="../images/icons.svg#player"></use>
-                    </svg>
-                    <span id="pScore">0</span>
+        <section>
+            <div class="output">
+                <div class="output__container">
+                    <div class="output__score">
+                        <svg>
+                            <use xlink:href="../images/icons.svg#player"></use>
+                        </svg>
+                        <span id="pScore">0</span>
+                    </div>
+                    <span id="result" class="output__result"></span>
+                    <div class="output__score">
+                        <span id="iScore">0</span>
+                        <svg>
+                            <use id="iAvatar" xlink:href="../images/icons.svg#ia"></use>
+                        </svg>
+                    </div>
                 </div>
-                <span id="result" class="output__result"></span>
-                <div class="output__score">
-                    <span id="iScore">0</span>
-                    <svg>
-                        <use id="iAvatar" xlink:href="../images/icons.svg#ia"></use>
-                    </svg>
-                </div>
-            </div>
-            <div class="output__container">
-                <svg class="icon">
-                    <use id="pXO" xlink:href="../images/xo.svg#x"></use>
-                </svg>
-                <div class="output__vs">
-                    <span> VS </span>
-                </div>
-                <svg class="icon">
-                    <use id="iXO" xlink:href="../images/xo.svg#o"></use>
-                </svg>
-            </div>
-        </div>
-        <div class="game">
-            <div id="1" class="game__cell"><svg></svg></div>
-            <div id="2" class="game__cell"><svg></svg></div>
-            <div id="3" class="game__cell"><svg></svg></div>
-            <div id="4" class="game__cell"><svg></svg></div>
-            <div id="5" class="game__cell"><svg></svg></div>
-            <div id="6" class="game__cell"><svg></svg></div>
-            <div id="7" class="game__cell"><svg></svg></div>
-            <div id="8" class="game__cell"><svg></svg></div>
-            <div id="9" class="game__cell"><svg></svg></div>
-        </div>
-        <div class="options">
-            <div class="options__container">
-                <button id="reset">Reiniciar</button>
-            </div>
-            <div class="options__container">
-                <div class="switch">
+                <div class="output__container">
                     <svg class="icon">
-                        <use xlink:href="../images/icons.svg#ia"></use>
+                        <use id="pXO" xlink:href="../images/xo.svg#x"></use>
                     </svg>
-                    <label class="switch__track" for="vs">
-                        <input id="vs" class="switch__check" type="checkbox">
+                    <div class="output__vs">
+                        <span> VS </span>
+                    </div>
+                    <svg class="icon">
+                        <use id="iXO" xlink:href="../images/xo.svg#o"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="game">
+                <div id="1" class="game__cell"><svg></svg></div>
+                <div id="2" class="game__cell"><svg></svg></div>
+                <div id="3" class="game__cell"><svg></svg></div>
+                <div id="4" class="game__cell"><svg></svg></div>
+                <div id="5" class="game__cell"><svg></svg></div>
+                <div id="6" class="game__cell"><svg></svg></div>
+                <div id="7" class="game__cell"><svg></svg></div>
+                <div id="8" class="game__cell"><svg></svg></div>
+                <div id="9" class="game__cell"><svg></svg></div>
+            </div>
+            <div class="options">
+                <div class="options__container">
+                    <button id="reset">Reiniciar</button>
+                </div>
+                <div class="options__container">
+                    <div class="switch">
+                        <svg class="icon">
+                            <use xlink:href="../images/icons.svg#ia"></use>
+                        </svg>
+                        <label class="switch__track" for="vs">
+                            <input id="vs" class="switch__check" type="checkbox">
+                            <span class="switch__slider"></span>
+                        </label>
+                        <svg class="icon">
+                            <use xlink:href="../images/icons.svg#player"></use>
+                        </svg>
+                    </div>
+                    <div class="switch">
+                        <svg class="icon">
+                            <use xlink:href="../images/xo.svg#x"></use>
+                        </svg>
+                        <label class="switch__track" for="xo">
+                        <input id="xo" class="switch__check" type="checkbox">
                         <span class="switch__slider"></span>
-                    </label>
-                    <svg class="icon">
-                        <use xlink:href="../images/icons.svg#player"></use>
-                    </svg>
+                        </label>
+                        <svg class="icon">
+                            <use xlink:href="../images/xo.svg#o"></use>
+                        </svg>
+                    </div>
                 </div>
-                <div class="switch">
-                    <svg class="icon">
-                        <use xlink:href="../images/xo.svg#x"></use>
-                    </svg>
-                    <label class="switch__track" for="xo">
-                    <input id="xo" class="switch__check" type="checkbox">
-                    <span class="switch__slider"></span>
-                    </label>
-                    <svg class="icon">
-                        <use xlink:href="../images/xo.svg#o"></use>
-                    </svg>
-                </div>
-            </div>
-        </div>
+            </div>    
+        </section>
     </main>
 
     <footer>

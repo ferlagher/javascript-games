@@ -8,6 +8,15 @@ button {
     @include font('head', 'regular', 'sm', 'white');
 }
 
+h2 {
+    @include font('head', 'bold', 'md', 'white');
+    text-shadow: $shadow;
+}
+
+a:link, a:visited {
+    text-decoration: none
+}
+
 .output {
     @include font('body', 'regular', 'md', 'white');
 

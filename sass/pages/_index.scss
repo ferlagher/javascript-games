@@ -1,10 +1,65 @@
-.main--index {
-    height: 100%;
+.index {
+    grid-template-rows: 1fr auto;
+    position: relative;
+
+    .card {
+        flex-basis: 100%;
+        height: calc(map-get($siz, 'lg') * 3);
+        background-size: cover;
+        background-position: center;
+        padding: 0;
+        overflow: hidden;
+        border: none;
+        outline: map-get($brd, 'wht');
+
+        &__link {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: map-get($clr, 'black-3');
+            mix-blend-mode: screen;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s ease-in-out;
+
+            &:hover{
+                background-color: map-get($clr, 'white');
+
+                .card__title {
+                    color: #000;
+                }
+            }
+        }
+    }
+}
+
+.decorations {
+    height: 0vh;
     width: 100%;
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    margin: 0;
-    padding: 0;
+    opacity: 0;
+    position: fixed;
+    z-index: -1;
+    transition: 0.3s ease-in-out;
+    
+        &__svg {
+            position: absolute;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+    &--top {
+        top: 0;
+    }
+
+    &--bottom {
+        bottom: 0;
+        transform: translateY(calc(map-get($siz, 'lg') * -1));
+    }
+
+    &--show {
+        height: 25vh;
+        opacity: 1;
+    }
 }

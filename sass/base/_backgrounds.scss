@@ -1,0 +1,5 @@
+@each $page, $gradient in $bkg {
+    .bkg--#{$page} {
+        background: $gradient;
+    }
+};

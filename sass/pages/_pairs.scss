@@ -1,6 +1,4 @@
 .pairs {
-    background: map-get($bkg, 'pairs');
-
     .game {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
