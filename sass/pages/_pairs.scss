@@ -28,6 +28,10 @@
                 transform: rotateY(0deg);
                 pointer-events: none;
             }
+
+            &--animated .game__front {
+                animation: scaleUp 1s ease-in-out infinite;
+            }
         }
 
         &__front, &__back {

@@ -109,14 +109,14 @@ const iaMove = () => {
             return matchingCells.length === 2;
         });
         if (oneForLine) {
-            return oneForLine.find(cell => checkDisabled(cell) === false);
+            return oneForLine.find(cell => !checkDisabled(cell));
         }
         else {
             return false
         }
     };
 
-    const checkEmptyCells = (arr) => {
+    const checkEmptyCells = arr => {
         const emptyCells = arr.filter(cell => !checkDisabled(cell));
         return emptyCells;
     }
@@ -125,7 +125,7 @@ const iaMove = () => {
         return positions[oponent].every(pos => arr.includes(pos))
     }
 
-    const markRandomCell = (arr) => {
+    const markRandomCell = arr => {
         const n = Math.floor(Math.random() * arr.length);
         markCell(arr[n]);
     }

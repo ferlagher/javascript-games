@@ -1,7 +1,7 @@
 const game = {
     board: document.querySelector('.game'),
     shuffle: document.querySelector('#shuffle'),
-    cards: null,
+    cards: [],
 
     wait: function () {this.board.classList.toggle('game--wait')},
 };
@@ -21,6 +21,7 @@ const shuffledAnimals = () => {
     return pairs
 };
 
+
 //Crea las cartas
 const placeCards = (arr) => {
     arr.forEach(animal => {
@@ -32,37 +33,53 @@ const placeCards = (arr) => {
             </svg>
             <svg class="game__back">
                 <use xlink:href="../images/animals.svg#paw"></use>
-            </svg>
+                </svg>
         `;
         game.board.appendChild(card);
-        game.cards = document.querySelectorAll('.game__card')
+    });
+    
+    game.cards = document.querySelectorAll('.game__card')
+};
 
-        game.cards.forEach(card => {
-            card.addEventListener('click', e =>{
-                e.stopImmediatePropagation();
-                game.wait();
-                card.classList.add('game__card--flip');
-                if (flippedCard) {
-                    const animal1 = flippedCard.classList.item(1);
-                    const animal2 = card.classList.item(1);
-                    if (animal1 !== animal2) {
-                        setTimeout(() => {
-                            flippedCard.classList.remove('game__card--flip');
-                            card.classList.remove('game__card--flip');
-                            flippedCard = '';
-                            game.wait();
-                        }, 800);
-                    } else {
+const clickCards = () => {
+    game.cards.forEach(card => {
+        card.addEventListener('click', e =>{
+            e.stopImmediatePropagation();
+            game.wait();
+            card.classList.add('game__card--flip');
+            if (flippedCard) {
+                const animal1 = flippedCard.classList.item(1);
+                const animal2 = card.classList.item(1);
+                if (animal1 !== animal2) {
+                    setTimeout(() => {
+                        flippedCard.classList.remove('game__card--flip');
+                        card.classList.remove('game__card--flip');
                         flippedCard = '';
                         game.wait();
-                    }
+                    }, 800);
                 } else {
-                    flippedCard = card;
+                    flippedCard = '';
                     game.wait();
                 }
-            });
+            } else {
+                flippedCard = card;
+                game.wait();
+            }
+            
+            if (checkWin()) {
+                game.cards.forEach((card, i) => {
+                    setTimeout(() => {
+                        card.classList.add('game__card--animated')
+                    }, i * 30);
+                })
+            }
         });
     });
+}
+
+const checkWin = () => {
+    const cards = Array.from(game.cards);
+    return cards.every(card => card.classList.contains('game__card--flip'));
 };
 
 //Botón para barajar y reiniciar el juego
@@ -71,14 +88,16 @@ game.shuffle.addEventListener('click', () => {
     flippedCard = '';
     game.cards.forEach((card, i) => {
         setTimeout(() => {
-            card.classList.remove('game__card--flip')
+            card.classList.remove('game__card--flip', 'game__card--animated');
         }, i * 20);
     })
     setTimeout(() => {
         game.board.innerHTML = ''
         placeCards(shuffledAnimals());
+        clickCards();
         game.wait();
     }, 620);
 });
 
 placeCards(shuffledAnimals());
+clickCards();
