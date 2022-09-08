@@ -87,14 +87,20 @@ if (location.pathname.split("/").slice(-1)[0] === 'index.html') {
     }
 } else {
     const navbar = document.querySelector('.header__list');
-
-    games.forEach(game => {
+    
+    const createLink = (path, text) => {
         const li = document.createElement('li');
         const a = document.createElement('a');
 
-        a.href = game.path;
-        a.innerText = game.name;
+        a.href = path;
+        a.innerText = text;
         li.appendChild(a);
         navbar.appendChild(li);
+    }
+
+    createLink('../index.html', 'Inicio')
+
+    games.forEach(game => {
+        createLink(game.path, game.name)
     })
 };
