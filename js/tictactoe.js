@@ -50,6 +50,7 @@ let iScore = 0;
 //Revisa si terminó la partida
 const checkWin = pos => {
     const line = win.find(arr => arr.every(cell => pos.includes(cell)));
+    if (line) {line.forEach(cell => document.getElementById(cell).classList.add('game__cell--animated'))};
     return line;
 }
 
@@ -171,7 +172,7 @@ const iaMove = () => {
 //Reinicia al juego manteniendo las puntuaciones y las opciones
 const reset = () => {
     input.cells.forEach(cell => {
-        cell.classList.remove('game__cell--disabled');
+        cell.classList.remove('game__cell--disabled', 'game__cell--animated');
         cell.children[0].classList.remove('mark');
     });
     

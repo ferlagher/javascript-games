@@ -38,6 +38,10 @@
             &--disabled {
                 pointer-events: none;
             }
+
+            &--animated .mark {
+                    animation: line 1s ease-in-out infinite;
+            }
         }
 
         svg {
@@ -58,5 +62,14 @@
             transform: scale(1);
             opacity: 1;
         }
+    }
+}
+
+@keyframes line {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
     }
 }
