@@ -49,11 +49,8 @@ let iScore = 0;
 
 //Revisa si terminó la partida
 const checkWin = pos => {
-    let checkedArrays = [];
-    win.forEach(arr => {
-        checkedArrays.push(arr.every(cell => pos.includes(cell)));
-    });
-    return checkedArrays.includes(true);
+    const line = win.find(arr => arr.every(cell => pos.includes(cell)));
+    return line;
 }
 
 const checkDraw = () => {
