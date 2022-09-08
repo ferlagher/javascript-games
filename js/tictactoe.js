@@ -64,12 +64,15 @@ const gameOver = () => {
 }
 
 //Marca la casilla elegida y si no terminó la partida, cambia el turno
-const markCell = (div) => {
-    div.classList.add('game__cell--disabled');
-    div.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
-    div.children[0].classList.add('mark');
+const markCell = (cell) => {
+    if (typeof(cell) === 'string') {
+        cell = document.getElementById(cell)
+    }
+    cell.classList.add('game__cell--disabled');
+    cell.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
+    cell.children[0].classList.add('mark');
 
-    positions[xo].push(div.id);
+    positions[xo].push(cell.id);
 
     if(checkWin(positions[xo])) {
         output.result(`${xo} gana`);
@@ -98,72 +101,51 @@ const iaMove = () => {
     const oponent = xo === 'x' ? 'o' : 'x';
     const currentTurn = 1 + positions[xo].length + positions[oponent].length;
 
+    const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
+
     const checkForLines = pos => {
-        return win.some(arr => {
-            const matchingCells = [];
-            arr.forEach(cell => {
-                if (pos.includes(cell)) {
-                    matchingCells.push(cell);
-                }
-            });
-            if (matchingCells.length === 2) {
-                return arr.some(cell => {
-                    const isEmpty = !document.getElementById(cell).classList.contains('game__cell--disabled')
-                    if (!pos.includes(cell) && isEmpty) {
-                        markCell(document.getElementById(cell));
-                        return true;
-                    };
-                });
-            }
+        oneForLine = win.find(arr => {
+            const matchingCells = arr.filter(cell => pos.includes(cell));
+            return matchingCells.length === 2;
         });
+        if (oneForLine) {
+            return oneForLine.find(cell => checkDisabled(cell) === false);
+        }
+        else {
+            return false
+        }
     };
 
     const checkEmptyCells = (arr) => {
-        const emptyCells = [];
-        arr.forEach(cell => {
-            const isEmpty = !document.getElementById(cell).classList.contains('game__cell--disabled');
-            if (isEmpty) {
-                emptyCells.push(cell);
-            }
-        });
-        if (emptyCells.length) {
-            const n = Math.floor(Math.random() * emptyCells.length);
-            markCell(document.getElementById(emptyCells[n]));
-            return true;
-        }
-        return false;
-    }
-
-    const checkEmptyCenter = () => {
-        const center = document.getElementById('5');
-        if (!center.classList.contains('game__cell--disabled')) {
-            markCell(center);
-            return true;
-        }
-        return false;
+        const emptyCells = arr.filter(cell => !checkDisabled(cell));
+        return emptyCells;
     }
 
     const checkOponent = arr => {
         return positions[oponent].every(pos => arr.includes(pos))
     }
 
+    const markRandomCell = (arr) => {
+        const n = Math.floor(Math.random() * arr.length);
+        markCell(arr[n]);
+    }
+
     if (checkForLines(positions[xo])) {
-        //Gana
+        markCell(checkForLines(positions[xo]));
     } else if (checkForLines(positions[oponent])) {
-        //Bloquea
+        markCell(checkForLines(positions[oponent]));
     } else if (currentTurn === 2 && checkOponent(corners)) {
-        checkEmptyCenter();
+        markCell('5');
         //Si el jugador fue primero y marcó una esquina, marca el centro
     } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
-        checkEmptyCells(sides)
+        markRandomCell(checkEmptyCells(sides));
         //Si el jugador marcó la esquina opuesta en su segundo turno, marca un lado
-    } else if (checkEmptyCells(corners)) {
-        //Marca una esquina
-    } else if (checkEmptyCenter()) {
-        //Marca el centro
-    } else {
-        checkEmptyCells(sides);
-        //Marca un lado
+    } else if (checkEmptyCells(corners).length) {
+        markRandomCell(checkEmptyCells(corners));
+    } else if (!checkDisabled('5')) {
+        markCell('5');
+    } else if(checkEmptyCells(sides).length) {
+        markRandomCell(checkEmptyCells(sides));
     }
 
     input.wait();
