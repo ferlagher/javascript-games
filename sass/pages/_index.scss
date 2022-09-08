@@ -2,9 +2,14 @@
     grid-template-rows: 1fr auto;
     position: relative;
 
+    main {
+        flex-wrap: wrap;
+    }
+
     .card {
-        flex-basis: 100%;
-        height: calc(map-get($siz, 'lg') * 3);
+        flex: 1;
+        min-width: calc(map-get($siz, 'lg') * 2);
+        height: calc(map-get($siz, 'lg') * 2);
         background-size: cover;
         background-position: center;
         padding: 0;
@@ -62,5 +67,12 @@
     &--show {
         height: 25vh;
         opacity: 1;
+    }
+}
+
+@media (max-width: 768px){
+    .decorations--show {
+        height: 0;
+        opacity: 0;
     }
 }

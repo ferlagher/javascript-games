@@ -6,7 +6,7 @@ body {
     align-content: space-between;
 }
 
-header {
+.header {
     width: 100%;
     height: fit-content;
     background-color: map-get($clr, 'black-3');
@@ -14,9 +14,12 @@ header {
     border-radius: 0 0 16px 16px;
     box-shadow: $shadow;
     padding: map-get($spc, 'sm') map-get($spc, 'md');
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    
+    &__list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 main {
@@ -58,5 +61,11 @@ footer {
 
     a {
         display: inline-block;
+    }
+}
+
+@media (max-width: 768px){
+    header {
+
     }
 }

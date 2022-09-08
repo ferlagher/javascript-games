@@ -14,7 +14,8 @@ h2 {
 }
 
 a:link, a:visited {
-    text-decoration: none
+    color: map-get($clr, 'white');
+    text-decoration: none;
 }
 
 .output {
