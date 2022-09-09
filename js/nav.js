@@ -2,9 +2,9 @@ class Game {
     constructor(name, fileName, svg, symbols) {
         this.name = name;
         this.id = fileName;
-        this.path = `./pages/${fileName}.html`;
+        this.path = `../pages/${fileName}.html`;
         this.bkg = `bkg--${fileName}`;
-        this.svg = `./images/${svg}.svg`;
+        this.svg = `../images/${svg}.svg`;
         this.symbols = symbols;
     }
 
