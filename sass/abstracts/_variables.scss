@@ -8,6 +8,7 @@ $bkg: (
     rspls: linear-gradient(#9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa),
     tictactoe: linear-gradient(#93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a577, #1d976c),
     pairs: linear-gradient(#ff9e87, #ff998b, #ff948f, #ff8f94, #fd8a99, #fa869f, #f783a5, #f280ab),
+    battleship: linear-gradient(#91eae4, #74dee7, #5ad2eb, #47c4ee, #44b5ef, #52a4eb, #6892e3, #7f7fd5),
 );
 
 $ft-fy: (
@@ -27,7 +28,7 @@ $ft-sz: (
 
 $siz: (
     lg: clamp(75px, 27vw, 100px), 
-    md: clamp(25px, 5vw, 40px),
+    md: clamp(24px, 5vw, 40px),
     sm: clamp(16px, 3vw, 32px),
     xs: clamp(16px, 2vw, 28px),
 );

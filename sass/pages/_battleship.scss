@@ -1,0 +1,25 @@
+.battleship {
+    section {
+        display: flex;
+    }
+
+    .output {
+        border-bottom: none;
+        border-right: map-get($brd, 'blk');
+    }
+
+    .game {
+        &__board {
+            display: grid;
+            grid-template-columns: repeat(10, map-get($siz, 'md'));
+            grid-template-rows: repeat(10, map-get($siz, 'md'));
+        }
+    }
+
+    .options {
+        .output {
+            border-top: none;
+            border-left: map-get($brd, 'blk');
+        }
+    }
+}
