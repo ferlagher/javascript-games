@@ -33,8 +33,7 @@ const games = [
     //new Game('Batalla naval', 'battleship', 'boats', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
 ];
 
-if (location.pathname === '/' || location.pathname.includes('index.html')) {
-    console.log(location.pathname.split("/").slice(-1))    
+if (location.pathname === '/' || location.pathname.includes('index.html')) { 
     const main = document.querySelector('#main');
     
     games.forEach(game => {
