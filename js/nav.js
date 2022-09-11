@@ -30,7 +30,7 @@ const games = [
     new Game('Piedra, papel, tijera, lagarto, spock', 'rspls', 'hands', ['rock', 'scissors', 'paper', 'lizard', 'spock']),
     new Game('Ta-Te-Ti', 'tictactoe', 'xo', ['x', 'o']),
     new Game('Buscar parejas', 'pairs', 'animals', ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird']),
-    //new Game('Batalla naval', 'battleship', 'boats', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
+    new Game('Batalla naval', 'battleship', 'ships', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
 ];
 
 if (location.pathname === '/' || location.pathname.includes('index.html')) { 
