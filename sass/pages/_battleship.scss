@@ -8,14 +8,15 @@
             padding-right: map-get($spc, 'sm');
             display: flex;
             flex-direction: column;
+        }
+        
+        &__ship {
+            height: map-get($siz, 'md');
 
-            svg {
-                height: map-get($siz, 'sm');
-                max-width: calc(map-get($siz, 'sm') * 5);
-                width: auto;
+            &--selected {
                 fill: none;
                 stroke: aliceblue;
-                stroke-width: 4px;
+                stroke-width: 3px;
             }
         }
 
@@ -35,11 +36,6 @@
             &:hover {
                 background-color: map-get($clr, 'white-3');
             }
-        }
-
-        &__battleship {
-            height: map-get($siz, 'md');
-            width: calc(map-get($siz, 'md') * 4);
         }
     }
 }

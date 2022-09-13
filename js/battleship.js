@@ -34,7 +34,8 @@ class Ship {
 
     svg() {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.classList.add(`game__${this.id}`)
+        svg.classList.add(`game__ship`)
+        svg.style.width = `calc(clamp(24px, 5vw, 40px) * ${this.size})`
         svg.innerHTML = this.use;
         return svg
     }
@@ -87,9 +88,9 @@ game.createCells();
 game.createShips(ships);
 
 //Prueba
-ships[1].horizontalCoords(50).forEach((coord, i) => {
+ships[0].horizontalCoords(50).forEach((coord, i) => {
     shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
-    const svg = ships[1].svg();
+    const svg = ships[0].svg();
     svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 2px)`
     shipCell.appendChild(svg);
 });
