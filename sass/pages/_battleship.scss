@@ -42,8 +42,8 @@
 
 [data-hit] {
     svg {
-    fill: none;
-    stroke: aliceblue;
+    fill: map-get($clr, 'white-3');
+    stroke: map-get($clr, 'white');
     stroke-width: 3px;
     }
 }
