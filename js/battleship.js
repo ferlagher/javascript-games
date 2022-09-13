@@ -91,6 +91,13 @@ game.createShips(ships);
 ships[0].horizontalCoords(50).forEach((coord, i) => {
     shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
     const svg = ships[0].svg();
-    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 2px)`
+    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 1px)`
     shipCell.appendChild(svg);
+});
+ships[2].verticalCoords(15).forEach((coord, i) => {
+    shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
+    const svg = ships[2].svg();
+    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 1px)`
+    shipCell.appendChild(svg);
+    shipCell.style.transform = 'rotate(90deg)'
 });

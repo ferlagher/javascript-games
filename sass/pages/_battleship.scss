@@ -14,8 +14,8 @@
             height: map-get($siz, 'md');
 
             &--selected {
-                fill: none;
-                stroke: aliceblue;
+                fill: map-get($clr, 'white-3');
+                stroke: map-get($clr, 'white');
                 stroke-width: 3px;
             }
         }
@@ -42,8 +42,6 @@
 
 [data-hit] {
     svg {
-    fill: map-get($clr, 'white-3');
-    stroke: map-get($clr, 'white');
-    stroke-width: 3px;
+        @extend .game__ship--selected;
     }
 }
