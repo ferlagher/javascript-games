@@ -13,7 +13,7 @@ class Game {
             const n = Math.floor(Math.random() * this.symbols.length);
             const symbol = this.symbols[n];
 
-            let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.classList.add('decorations__svg', `svg--${size}`)
             svg.innerHTML = `<use xlink:href="${this.svg}#${symbol}"></use>`;
 

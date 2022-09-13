@@ -1,8 +1,10 @@
 const game = {
     boards: document.querySelectorAll('.game__board'),
-    cells: undefined,
+    shipsContainer: document.querySelector('.game__ships'),
+    fleetCells: undefined,
+    radarCells: undefined,
 
-    createCells () {
+    createCells() {
         this.boards.forEach(board => {
             for (let i = 0; i < 100; i++) {
                 const div = document.createElement('div');
@@ -10,7 +12,14 @@ const game = {
                 div.dataset.cell = i;
                 board.appendChild(div);
             }
-            this.cells = Array.from(document.querySelectorAll('[data-cell]'))
+            this.fleetCells = Array.from(document.querySelector('#fleet').children);
+            this.radarCells = Array.from(document.querySelector('#radar').children);
+        })
+    },
+
+    createShips(arr) {
+        arr.forEach(ship => {
+            this.shipsContainer.appendChild(ship.svg())
         })
     }
 }
@@ -19,10 +28,16 @@ class Ship {
     constructor(name, id, size) {
         this.name = name;
         this.id = id;
-        this.svg = `../images/ships.svg#${id}`;
+        this.use = `<use xlink:href="../images/ships.svg#${id}"></use>`;
         this.size = size;
     }
 
+    svg() {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add(`game__${this.id}`)
+        svg.innerHTML = this.use;
+        return svg
+    }
     
     horizontalCoords(n) {
         const coords = [];
@@ -37,7 +52,8 @@ class Ship {
             } else {
                 coords.push(coord);
             }
-        }    
+        }
+        coords.sort((a, b) => a - b);
         return coords
     } 
 
@@ -54,6 +70,7 @@ class Ship {
                 coords.push(coord - this.size * 10);
             }
         }
+        coords.sort((a, b) => a - b);
         return coords
     } 
 }
@@ -67,29 +84,12 @@ const ships = [
 ]
 
 game.createCells();
+game.createShips(ships);
 
-//Prueba de coordenadas, luego lo borro
-ships[0].verticalCoords(99).forEach(coord => {
-    shipCell = game.cells.find(cell => cell.dataset.cell == coord);
-    shipCell.classList.add('fill')
-});
-
-ships[1].horizontalCoords(50).forEach(coord => {
-    shipCell = game.cells.find(cell => cell.dataset.cell == coord);
-    shipCell.classList.add('fill')
-});
-
-ships[2].horizontalCoords(29).forEach(coord => {
-    shipCell = game.cells.find(cell => cell.dataset.cell == coord);
-    shipCell.classList.add('fill')
-});
-
-ships[3].verticalCoords(0).forEach(coord => {
-    shipCell = game.cells.find(cell => cell.dataset.cell == coord);
-    shipCell.classList.add('fill')
-});
-
-ships[4].verticalCoords(75).forEach(coord => {
-    shipCell = game.cells.find(cell => cell.dataset.cell == coord);
-    shipCell.classList.add('fill')
+//Prueba
+ships[1].horizontalCoords(50).forEach((coord, i) => {
+    shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
+    const svg = ships[1].svg();
+    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - ${i * 2}px)`
+    shipCell.appendChild(svg);
 });
