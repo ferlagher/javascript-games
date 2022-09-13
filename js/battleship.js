@@ -90,6 +90,6 @@ game.createShips(ships);
 ships[1].horizontalCoords(50).forEach((coord, i) => {
     shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
     const svg = ships[1].svg();
-    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - ${i * 2}px)`
+    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 2px)`
     shipCell.appendChild(svg);
 });
