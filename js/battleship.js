@@ -19,7 +19,9 @@ const game = {
 
     createShips(arr) {
         arr.forEach(ship => {
-            this.shipsContainer.appendChild(ship.svg())
+            const svg = ship.svg();
+            svg.style.width = `calc(clamp(16px, 3vw, 32px) * ${ship.size})`;
+            this.shipsContainer.appendChild(svg)
         })
     }
 }
@@ -84,7 +86,7 @@ const ships = [
 ]
 
 game.createCells();
-//game.createShips(ships);
+game.createShips(ships);
 
 //Prueba
 ships[0].horizontalCoords(50).forEach((coord, i) => {

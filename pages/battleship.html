@@ -22,11 +22,26 @@
 
     <main>
         <section>
+            <div class="output">
+                <div class="output__score">
+                    <svg>
+                        <use xlink:href="../images/icons.svg#player"></use>
+                    </svg>
+                    <span id="pScore">0</span>
+                </div>
+                <span id="result" class="output__result"></span>
+                <div class="output__score">
+                    <span id="iScore">0</span>
+                    <svg>
+                        <use id="iAvatar" xlink:href="../images/icons.svg#ia"></use>
+                    </svg>
+                </div>
+            </div>
             <div class="game">
                 <div class="game__container">
                     <div id="fleet" class="game__board game__board--small"></div>
-<!--                     <div class="game__ships"></div>
-                    <div class="game__buttons">
+                    <div class="game__ships"></div>
+<!--                     <div class="game__buttons">
                         <button id="rotate">Rotar</button>
                         <button id="undo">Deshacer</button>
                     </div> -->

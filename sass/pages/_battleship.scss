@@ -1,6 +1,14 @@
 .battleship {
+    .output {
+        flex-direction: row;
+        justify-content: space-between;
+    }
     .game {
+        align-items: stretch;
+        gap: map-get($spc, 'md');
+
         &__container {
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -9,10 +17,14 @@
 
         &__ships {
             flex: 1;
-            padding-right: map-get($spc, 'sm');
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
+            svg {
+                cursor: pointer;
+                height: map-get($siz, 'sm');
+            }
         }
         
         &__buttons {
@@ -20,17 +32,15 @@
         }
         
         &__ship {
-            cursor: pointer;
-
             &--selected {
                 fill: map-get($clr, 'white-3');
                 stroke: map-get($clr, 'white');
                 stroke-width: 3px;
+                pointer-events: none;
             }
         }
 
         &__board {
-            position: relative;
             display: grid;
             grid-template-columns: repeat(10, map-get($siz, 'md'));
             grid-template-rows: repeat(10, map-get($siz, 'md'));
@@ -66,5 +76,18 @@
 [data-hit] {
     svg {
         @extend .game__ship--selected;
+    }
+}
+
+@media (orientation: portrait) {
+    .battleship {
+        .game {
+            flex-direction: column;
+
+            &__container {
+                flex: none;
+                flex-direction: row;
+            }
+        }
     }
 }
