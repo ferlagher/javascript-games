@@ -22,10 +22,18 @@
 
     <main>
         <section>
-            <div class="game__ships"></div>
             <div class="game">
-                <div id="fleet" class="game__board"></div>
-                <div id="radar" class="game__board"></div>
+                <div class="game__container">
+                    <div id="fleet" class="game__board game__board--small"></div>
+<!--                     <div class="game__ships"></div>
+                    <div class="game__buttons">
+                        <button id="rotate">Rotar</button>
+                        <button id="undo">Deshacer</button>
+                    </div> -->
+                </div>
+                <div class="game__container">
+                    <div id="radar" class="game__board"></div>
+                </div>
             </div>
         </section>
     </main>

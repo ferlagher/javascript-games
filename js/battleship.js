@@ -34,10 +34,9 @@ class Ship {
 
     svg() {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.classList.add(`game__ship`)
-        svg.style.width = `calc(clamp(24px, 5vw, 40px) * ${this.size})`
+        svg.classList.add(`game__ship`);
         svg.innerHTML = this.use;
-        return svg
+        return svg;
     }
     
     horizontalCoords(n) {
@@ -55,7 +54,7 @@ class Ship {
             }
         }
         coords.sort((a, b) => a - b);
-        return coords
+        return coords;
     } 
 
     verticalCoords(n) {
@@ -72,7 +71,7 @@ class Ship {
             }
         }
         coords.sort((a, b) => a - b);
-        return coords
+        return coords;
     } 
 }
 
@@ -85,19 +84,21 @@ const ships = [
 ]
 
 game.createCells();
-game.createShips(ships);
+//game.createShips(ships);
 
 //Prueba
 ships[0].horizontalCoords(50).forEach((coord, i) => {
     shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
     const svg = ships[0].svg();
-    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 1px)`
+    svg.style.width = `calc(100% * ${ships[0].size})`;
+    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
     shipCell.appendChild(svg);
 });
 ships[2].verticalCoords(15).forEach((coord, i) => {
     shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
     const svg = ships[2].svg();
-    svg.style.marginLeft = `calc(${-i} * clamp(24px, 5vw, 40px) - 1px)`
+    svg.style.width = `calc(100% * ${ships[2].size})`;
+    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
     shipCell.appendChild(svg);
     shipCell.style.transform = 'rotate(90deg)'
 });
