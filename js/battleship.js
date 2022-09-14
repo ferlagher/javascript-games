@@ -99,11 +99,7 @@ const changeLayout = () => {
     layout.style.opacity = '0';
     setTimeout(() => {
         fleet.classList.toggle('game__board--small')
-        if (fleet.parentElement === layout) {
-            container.prepend(fleet);
-        } else {
-            layout.append(fleet);
-        }
+        fleet.parentElement === layout ? container.prepend(fleet) : layout.append(fleet);
         radar.toggleAttribute('data-hidden');
         document.querySelectorAll('button').forEach(button => button.toggleAttribute('data-hidden'));
         layout.style.opacity = '1';
