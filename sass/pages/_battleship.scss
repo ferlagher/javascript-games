@@ -22,22 +22,12 @@
             justify-content: space-between;
 
             svg {
-                cursor: pointer;
                 height: map-get($siz, 'sm');
             }
         }
         
         &__buttons {
             padding-right: map-get($spc, 'sm');
-        }
-        
-        &__ship {
-            &--selected {
-                fill: map-get($clr, 'white-3');
-                stroke: map-get($clr, 'white');
-                stroke-width: 3px;
-                pointer-events: none;
-            }
         }
 
         &__board {
@@ -75,7 +65,9 @@
 
 [data-hit] {
     svg {
-        @extend .game__ship--selected;
+        fill: map-get($clr, 'white-3');
+        stroke: map-get($clr, 'white');
+        stroke-width: 3px;
     }
 }
 
