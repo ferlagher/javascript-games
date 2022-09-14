@@ -3,6 +3,7 @@ const game = {
     shipsContainer: document.querySelector('.game__ships'),
     rotate: document.querySelector('#rotate'),
     start: document.querySelector('#start'),
+    reset: document.querySelector('#reset'),
     fleetCells: undefined,
     radarCells: undefined,
 
@@ -90,13 +91,24 @@ const ships = [
 game.createCells();
 game.createShips(ships);
 
-game.start.addEventListener('click', () => {
-    document.querySelector('.game').style.opacity = '0';
+const changeLayout = () => {
+    const layout = document.querySelector('.game');
+    const container = document.querySelector('.game__container');
+    const fleet = game.boards[0];
+    const radar = game.boards[1];
+    layout.style.opacity = '0';
     setTimeout(() => {
-        game.boards[0].classList.add('game__board--small')
-        document.querySelector('.game__container').prepend(game.boards[0]);
-        game.boards[1].removeAttribute('data-hidden');
-        document.querySelector('.game__buttons').dataset.hidden = '';
-        document.querySelector('.game').style.opacity = '1';
+        fleet.classList.toggle('game__board--small')
+        if (fleet.parentElement === layout) {
+            container.prepend(fleet);
+        } else {
+            layout.append(fleet);
+        }
+        radar.toggleAttribute('data-hidden');
+        document.querySelectorAll('button').forEach(button => button.toggleAttribute('data-hidden'));
+        layout.style.opacity = '1';
     }, 250);
-})
+};
+
+game.start.addEventListener('click', changeLayout);
+game.reset.addEventListener('click', changeLayout);
