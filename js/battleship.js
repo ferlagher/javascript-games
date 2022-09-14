@@ -1,6 +1,8 @@
 const game = {
-    boards: document.querySelectorAll('.game__board'),
+    boards: Array.from(document.querySelectorAll('.game__board')),
     shipsContainer: document.querySelector('.game__ships'),
+    rotate: document.querySelector('#rotate'),
+    start: document.querySelector('#start'),
     fleetCells: undefined,
     radarCells: undefined,
 
@@ -10,10 +12,10 @@ const game = {
                 const div = document.createElement('div');
                 div.classList.add('game__cell');
                 div.dataset.cell = i;
-                board.appendChild(div);
+                board.append(div);
             }
-            this.fleetCells = Array.from(document.querySelector('#fleet').children);
-            this.radarCells = Array.from(document.querySelector('#radar').children);
+            this.fleetCells = Array.from(this.boards[0].children);
+            this.radarCells = Array.from(this.boards[1].children);
         })
     },
 
@@ -21,7 +23,7 @@ const game = {
         arr.forEach(ship => {
             const svg = ship.svg();
             svg.style.width = `calc(clamp(16px, 3vw, 32px) * ${ship.size})`;
-            this.shipsContainer.appendChild(svg)
+            this.shipsContainer.append(svg)
         })
     }
 }
@@ -88,19 +90,13 @@ const ships = [
 game.createCells();
 game.createShips(ships);
 
-//Prueba
-ships[0].horizontalCoords(50).forEach((coord, i) => {
-    shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
-    const svg = ships[0].svg();
-    svg.style.width = `calc(100% * ${ships[0].size})`;
-    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-    shipCell.appendChild(svg);
-});
-ships[2].verticalCoords(15).forEach((coord, i) => {
-    shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
-    const svg = ships[2].svg();
-    svg.style.width = `calc(100% * ${ships[2].size})`;
-    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-    shipCell.appendChild(svg);
-    shipCell.style.transform = 'rotate(90deg)'
-});
+game.start.addEventListener('click', () => {
+    document.querySelector('.game').style.opacity = '0';
+    setTimeout(() => {
+        game.boards[0].classList.add('game__board--small')
+        document.querySelector('.game__container').prepend(game.boards[0]);
+        game.boards[1].removeAttribute('data-hidden');
+        document.querySelector('.game__buttons').dataset.hidden = '';
+        document.querySelector('.game').style.opacity = '1';
+    }, 250);
+})

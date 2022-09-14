@@ -6,6 +6,7 @@
     .game {
         align-items: stretch;
         gap: map-get($spc, 'md');
+        transition: opacity 0.25s ease-in-out;
 
         &__container {
             flex: 1;
@@ -27,7 +28,9 @@
         }
         
         &__buttons {
-            padding-right: map-get($spc, 'sm');
+            display: flex;
+            flex-direction: column;
+            gap: map-get($spc, 'sm')
         }
 
         &__board {
@@ -52,15 +55,10 @@
             }
         }
     }
+}
 
-    .options {
-        &__buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: map-get($spc, 'sm')
-        }
-    }
+[data-hidden] {
+    display: none !important;
 }
 
 [data-hit] {
