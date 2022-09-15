@@ -21,10 +21,16 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
 
-            svg {
-                height: map-get($siz, 'sm');
-                cursor: grab;
+        &__ship {
+            height: map-get($siz, 'sm');
+            cursor: grab;
+            z-index: 2;
+
+            use {
+                z-index: 1;
+                pointer-events: none;
             }
         }
         

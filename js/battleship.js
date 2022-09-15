@@ -22,7 +22,7 @@ const game = {
         arr.forEach(ship => {
             const svg = ship.svg();
             svg.id = ship.id;
-            svg.setAttribute('draggable', 'true');
+            svg.classList.add(`game__ship`);
             svg.style.width = `calc(clamp(16px, 3vw, 32px) * ${ship.size})`;
             this.shipsContainer.append(svg)
         })
@@ -40,7 +40,6 @@ class Ship {
 
     svg() {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.classList.add(`game__ship`);
         svg.innerHTML = this.use;
         return svg;
     }
@@ -108,3 +107,35 @@ game.createCells();
 game.createShips(ships);
 game.start.addEventListener('click', changeLayout);
 game.reset.addEventListener('click', changeLayout);
+
+let x;
+let y;
+
+const mouseDown = e => {
+    e.preventDefault();
+    const handler = ev => mouseMove(ev, e.target);
+
+    x = e.clientX;
+    y = e.clientY;
+
+    const mouseMove = (e, ship) => {
+        let dx = e.clientX - x;
+        let dy = e.clientY - y;
+    
+        ship.style.transform = `translate(${dx}px, ${dy}px)`
+    }
+    
+    const mouseUp = e => {
+        e.target.style.transform = `translate(0, 0)`
+        e.target.style.cursor = 'grab'
+        window.removeEventListener('mousemove', handler);
+    }
+    
+    e.target.style.cursor = 'grabbing'
+    window.addEventListener('mousemove', handler);
+    e.target.addEventListener('mouseup', mouseUp)
+}
+
+game.ships.forEach(ship => {
+    ship.addEventListener('mousedown', mouseDown)
+})
