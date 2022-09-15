@@ -4,8 +4,6 @@ const game = {
     rotate: document.querySelector('#rotate'),
     start: document.querySelector('#start'),
     reset: document.querySelector('#reset'),
-    fleetCells: undefined,
-    radarCells: undefined,
 
     createCells() {
         this.boards.forEach(board => {
@@ -23,9 +21,12 @@ const game = {
     createShips(arr) {
         arr.forEach(ship => {
             const svg = ship.svg();
+            svg.id = ship.id;
+            svg.setAttribute('draggable', 'true');
             svg.style.width = `calc(clamp(16px, 3vw, 32px) * ${ship.size})`;
             this.shipsContainer.append(svg)
         })
+        this.ships = Array.from(this.shipsContainer.children)
     }
 }
 
@@ -88,9 +89,6 @@ const ships = [
     new Ship('Destructor', 'destroyer', 2),
 ]
 
-game.createCells();
-game.createShips(ships);
-
 const changeLayout = () => {
     const layout = document.querySelector('.game');
     const container = document.querySelector('.game__container');
@@ -106,5 +104,7 @@ const changeLayout = () => {
     }, 250);
 };
 
+game.createCells();
+game.createShips(ships);
 game.start.addEventListener('click', changeLayout);
 game.reset.addEventListener('click', changeLayout);
