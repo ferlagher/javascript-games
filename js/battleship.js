@@ -22,8 +22,8 @@ const game = {
         arr.forEach(ship => {
             const svg = ship.svg();
             svg.id = ship.id;
-            svg.classList.add(`game__ship`);
             svg.style.width = `calc(clamp(16px, 3vw, 32px) * ${ship.size})`;
+            svg.classList.add(`game__ship`);
             this.shipsContainer.append(svg)
         })
         this.ships = Array.from(this.shipsContainer.children)
@@ -108,34 +108,67 @@ game.createShips(ships);
 game.start.addEventListener('click', changeLayout);
 game.reset.addEventListener('click', changeLayout);
 
-let x;
-let y;
+//------------------------ Prueba ------------------------
+let selectedShip;
+let rotated = false;
 
-const mouseDown = e => {
-    e.preventDefault();
-    const handler = ev => mouseMove(ev, e.target);
-
-    x = e.clientX;
-    y = e.clientY;
-
-    const mouseMove = (e, ship) => {
-        let dx = e.clientX - x;
-        let dy = e.clientY - y;
-    
-        ship.style.transform = `translate(${dx}px, ${dy}px)`
-    }
-    
-    const mouseUp = e => {
-        e.target.style.transform = `translate(0, 0)`
-        e.target.style.cursor = 'grab'
-        window.removeEventListener('mousemove', handler);
-    }
-    
-    e.target.style.cursor = 'grabbing'
-    window.addEventListener('mousemove', handler);
-    e.target.addEventListener('mouseup', mouseUp)
-}
+game.rotate.addEventListener('click', () => rotated = !rotated);
 
 game.ships.forEach(ship => {
-    ship.addEventListener('mousedown', mouseDown)
-})
+    ship.addEventListener('click', () => {
+        selectedShip = ship.id;
+        ship.classList.add('game__ship--selected')
+    });
+});
+
+const mosueLeave = () => {
+    const shipCells = game.fleetCells.filter(cell => cell.dataset.ship === selectedShip);
+    shipCells.forEach(cell => {
+        cell.innerHTML = ''
+        cell.removeAttribute('data-ship');
+        cell.removeAttribute('data-hit');
+        cell.removeAttribute('style');
+    });
+};
+
+const click = () => {
+    game.fleetCells.forEach(cell => {
+        cell.removeEventListener('mouseleave', mosueLeave);
+        cell.removeAttribute('data-hit');
+        selectedShip = ''
+        rotated = false;
+    })
+}
+
+game.fleetCells.forEach(cell => {
+    cell.addEventListener('mouseenter', () => {
+        if (selectedShip) {
+        n = parseInt(cell.dataset.cell);
+            const currentShip = ships.find(ship => ship.id === selectedShip);
+            if (rotated) {
+                currentShip.verticalCoords(n).forEach((coord, i) => {
+                    const shipCell = game.fleetCells.find(c => c.dataset.cell == coord);
+                    const svg = currentShip.svg();
+                    svg.style.width = `calc(100% * ${currentShip.size})`;
+                    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
+                    shipCell.appendChild(svg);
+                    shipCell.style.transform = 'rotate(90deg)'
+                    shipCell.dataset.ship = currentShip.id;
+                    shipCell.dataset.hit = '';
+                });
+            } else {
+                currentShip.horizontalCoords(n).forEach((coord, i) => {
+                    const shipCell = game.fleetCells.find(c => c.dataset.cell == coord);
+                    const svg = currentShip.svg();
+                    svg.style.width = `calc(100% * ${currentShip.size})`;
+                    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
+                    shipCell.appendChild(svg);
+                    shipCell.dataset.ship = currentShip.id;
+                    shipCell.dataset.hit = '';
+                });
+            }
+            cell.addEventListener('mouseleave', mosueLeave);
+            cell.addEventListener('click', click);
+        }
+    });
+});

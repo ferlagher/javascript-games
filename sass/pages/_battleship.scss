@@ -25,11 +25,15 @@
 
         &__ship {
             height: map-get($siz, 'sm');
-            cursor: grab;
-            z-index: 2;
-
+            
             use {
-                z-index: 1;
+                cursor: pointer;
+            }
+
+            &--selected {
+                fill: map-get($clr, 'white-3');
+                stroke: map-get($clr, 'white');
+                stroke-width: 3px;
                 pointer-events: none;
             }
         }
@@ -41,6 +45,8 @@
         }
 
         &__board {
+            width: fit-content;
+            height: fit-content;
             display: grid;
             grid-template-columns: repeat(10, map-get($siz, 'md'));
             grid-template-rows: repeat(10, map-get($siz, 'md'));
@@ -55,7 +61,7 @@
         &__cell {
             border: 1px solid map-get($clr, 'white');
             overflow: hidden;
-            transition: 0.15s ease-in-out;
+            transition: background-color 0.15s ease-in-out;
             
             &:hover {
                 background-color: map-get($clr, 'white-3');
@@ -70,9 +76,7 @@
 
 [data-hit] {
     svg {
-        fill: map-get($clr, 'white-3');
-        stroke: map-get($clr, 'white');
-        stroke-width: 3px;
+        @extend .game__ship--selected
     }
 }
 
