@@ -27,7 +27,7 @@ const game = {
             this.shipsContainer.append(svg)
         })
         this.ships = Array.from(this.shipsContainer.children)
-    }
+    },
 }
 
 class Ship {
@@ -36,13 +36,13 @@ class Ship {
         this.id = id;
         this.use = `<use xlink:href="../images/ships.svg#${id}"></use>`;
         this.size = size;
-    }
+    };
 
     svg() {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.innerHTML = this.use;
         return svg;
-    }
+    };
     
     horizontalCoords(n) {
         const coords = [];
@@ -60,7 +60,7 @@ class Ship {
         }
         coords.sort((a, b) => a - b);
         return coords;
-    } 
+    };
 
     verticalCoords(n) {
         const coords = [];
@@ -77,8 +77,22 @@ class Ship {
         }
         coords.sort((a, b) => a - b);
         return coords;
-    } 
-}
+    };
+
+    placeShip(n) {
+        const coords = isVertical ? this.verticalCoords(n) : this.horizontalCoords(n);
+        coords.forEach((coord, i) => {
+            const shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
+            const svg = this.svg();
+            svg.style.width = `calc(100% * ${this.size})`;
+            svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
+            shipCell.appendChild(svg);
+            shipCell.dataset.ship = this.id;
+            shipCell.dataset.hit = '';
+            if (isVertical) {shipCell.style.transform = 'rotate(90deg)'}
+        });
+    };
+};
 
 const ships = [
     new Ship('Portaviones', 'carrier', 5),
@@ -86,7 +100,7 @@ const ships = [
     new Ship('Submarino', 'submarine', 3),
     new Ship('Crucero', 'cruiser', 2),
     new Ship('Destructor', 'destroyer', 2),
-]
+];
 
 const changeLayout = () => {
     const layout = document.querySelector('.game');
@@ -110,9 +124,9 @@ game.reset.addEventListener('click', changeLayout);
 
 //------------------------ Prueba ------------------------//
 let selectedShip;
-let rotated = false;
+let isVertical = false;
 
-game.rotate.addEventListener('click', () => rotated = !rotated);
+game.rotate.addEventListener('click', () => isVertical = !isVertical);
 
 game.ships.forEach(ship => {
     ship.addEventListener('click', () => {
@@ -136,32 +150,18 @@ const click = () => {
         cell.removeEventListener('mouseleave', mosueLeave);
         cell.removeAttribute('data-hit');
         selectedShip = ''
-        rotated = false;
-    })
-}
-
-const placeShip = (ship, coord) => {
-    coords = rotated ? ship.verticalCoords(coord) : ship.horizontalCoords(coord);
-    coords.forEach((coord, i) => {
-        const shipCell = game.fleetCells.find(c => c.dataset.cell == coord);
-        const svg = ship.svg();
-        svg.style.width = `calc(100% * ${ship.size})`;
-        svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-        shipCell.appendChild(svg);
-        shipCell.dataset.ship = ship.id;
-        shipCell.dataset.hit = '';
-        if (rotated) {shipCell.style.transform = 'rotate(90deg)'}
+        isVertical = false;
     });
-}
+};
 
 game.fleetCells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         if (selectedShip) {
         coord = parseInt(cell.dataset.cell);
             const currentShip = ships.find(ship => ship.id === selectedShip);
-            placeShip(currentShip, coord);
+            currentShip.placeShip(coord);
             cell.addEventListener('mouseleave', mosueLeave);
             cell.addEventListener('click', click);
-        }
+        };
     });
 });
