@@ -108,7 +108,7 @@ game.createShips(ships);
 game.start.addEventListener('click', changeLayout);
 game.reset.addEventListener('click', changeLayout);
 
-//------------------------ Prueba ------------------------
+//------------------------ Prueba ------------------------//
 let selectedShip;
 let rotated = false;
 
@@ -140,33 +140,26 @@ const click = () => {
     })
 }
 
+const placeShip = (ship, coord) => {
+    coords = rotated ? ship.verticalCoords(coord) : ship.horizontalCoords(coord);
+    coords.forEach((coord, i) => {
+        const shipCell = game.fleetCells.find(c => c.dataset.cell == coord);
+        const svg = ship.svg();
+        svg.style.width = `calc(100% * ${ship.size})`;
+        svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
+        shipCell.appendChild(svg);
+        shipCell.dataset.ship = ship.id;
+        shipCell.dataset.hit = '';
+        if (rotated) {shipCell.style.transform = 'rotate(90deg)'}
+    });
+}
+
 game.fleetCells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         if (selectedShip) {
-        n = parseInt(cell.dataset.cell);
+        coord = parseInt(cell.dataset.cell);
             const currentShip = ships.find(ship => ship.id === selectedShip);
-            if (rotated) {
-                currentShip.verticalCoords(n).forEach((coord, i) => {
-                    const shipCell = game.fleetCells.find(c => c.dataset.cell == coord);
-                    const svg = currentShip.svg();
-                    svg.style.width = `calc(100% * ${currentShip.size})`;
-                    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-                    shipCell.appendChild(svg);
-                    shipCell.style.transform = 'rotate(90deg)'
-                    shipCell.dataset.ship = currentShip.id;
-                    shipCell.dataset.hit = '';
-                });
-            } else {
-                currentShip.horizontalCoords(n).forEach((coord, i) => {
-                    const shipCell = game.fleetCells.find(c => c.dataset.cell == coord);
-                    const svg = currentShip.svg();
-                    svg.style.width = `calc(100% * ${currentShip.size})`;
-                    svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-                    shipCell.appendChild(svg);
-                    shipCell.dataset.ship = currentShip.id;
-                    shipCell.dataset.hit = '';
-                });
-            }
+            placeShip(currentShip, coord);
             cell.addEventListener('mouseleave', mosueLeave);
             cell.addEventListener('click', click);
         }
