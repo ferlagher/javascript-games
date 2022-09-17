@@ -81,15 +81,22 @@ class Ship {
 
     placeShip(n) {
         const coords = isVertical ? this.verticalCoords(n) : this.horizontalCoords(n);
+        const validPlace = coords.every(coord => !game.fleetCells[coord].hasAttribute('data-ship') || game.fleetCells[coord].dataset.ship === this.id);
         coords.forEach((coord, i) => {
-            const shipCell = game.fleetCells.find(cell => cell.dataset.cell == coord);
+            const shipCell = game.fleetCells[coord];
+            const div = document.createElement('div');
             const svg = this.svg();
+
+            div.classList.add('game__svg');
+            div.dataset.temporal = '';
+            if (isVertical) {div.style.transform = 'rotate(90deg)'};
+            if (!validPlace) {div.classList.add('game__svg--invalid')};
+            
             svg.style.width = `calc(100% * ${this.size})`;
             svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-            shipCell.appendChild(svg);
-            shipCell.dataset.ship = this.id;
-            shipCell.dataset.hit = '';
-            if (isVertical) {shipCell.style.transform = 'rotate(90deg)'}
+            
+            div.append(svg);
+            shipCell.append(div)
         });
     };
 };
@@ -130,36 +137,51 @@ game.rotate.addEventListener('click', () => isVertical = !isVertical);
 
 game.ships.forEach(ship => {
     ship.addEventListener('click', () => {
-        selectedShip = ship.id;
+        if (selectedShip) {
+            const previousShip = game.ships.find(ship => ship.id === selectedShip.id);
+            previousShip.classList.remove('game__ship--selected');
+            isVertical = false;
+        }
+        selectedShip = ships.find(obj => obj.id === ship.id) ;
         ship.classList.add('game__ship--selected')
     });
 });
 
 const mosueLeave = () => {
-    const shipCells = game.fleetCells.filter(cell => cell.dataset.ship === selectedShip);
-    shipCells.forEach(cell => {
-        cell.innerHTML = ''
-        cell.removeAttribute('data-ship');
-        cell.removeAttribute('data-hit');
-        cell.removeAttribute('style');
+    document.querySelectorAll('[data-temporal]').forEach(cell => {
+        cell.remove();
     });
 };
 
 const click = () => {
-    game.fleetCells.forEach(cell => {
-        cell.removeEventListener('mouseleave', mosueLeave);
-        cell.removeAttribute('data-hit');
-        selectedShip = ''
+    const cells = Array.from(document.querySelectorAll('[data-temporal]'));
+    const invalidPlace = cells.some(cell => cell.classList.contains('game__svg--invalid'));
+    if (invalidPlace) {
+        cells.forEach(cell => {
+            cell.classList.add('game__svg--shake');
+            setTimeout(() => {
+                cell.classList.remove('game__svg--shake');
+            }, 500);
+        })
+    } else {
+        cells.forEach(cell => {
+            cell.parentElement.dataset.ship = selectedShip.id;
+            cell.removeAttribute('data-temporal');
+        })
+        game.fleetCells.forEach(cell => {
+            cell.removeEventListener('mouseleave', mosueLeave);
+            cell.removeEventListener('click', click);
+        });
+        selectedShip = null;
         isVertical = false;
-    });
+    }
 };
 
 game.fleetCells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         if (selectedShip) {
         coord = parseInt(cell.dataset.cell);
-            const currentShip = ships.find(ship => ship.id === selectedShip);
-            currentShip.placeShip(coord);
+            selectedShip.placeShip(coord);
             cell.addEventListener('mouseleave', mosueLeave);
             cell.addEventListener('click', click);
         };
