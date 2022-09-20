@@ -1,7 +1,7 @@
 body {
     min-height: 100vh;
     display: grid;
-    grid-template-rows: repeat(3, auto);
+    grid-template-rows: repeat(2, auto);
     justify-items: center;
     align-content: space-between;
 }
@@ -14,11 +14,22 @@ body {
     border-radius: 0 0 16px 16px;
     box-shadow: $shadow;
     padding: map-get($spc, 'sm') map-get($spc, 'md');
+    @include flex(null, space-between, stretch, null, map-get($spc, 'sm'));
+    
+    &__bar {
+        @include flex(null, space-between, center, null, null);
+
+        button {
+            display: none;
+        }
+    }
+
+    &__nav {
+        flex-grow: 0.5;
+    }
     
     &__list {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        @include flex(null, space-between, center, null, map-get($spc, 'sm'))
     }
 }
 
@@ -26,9 +37,7 @@ main {
     align-self: stretch;
     height: 100%;
     width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center
+    @include flex(null, space-evenly, center, null, null);
 }
 
 section {
@@ -50,22 +59,40 @@ footer {
     border-radius: 16px 16px 0 0;
     box-shadow: $shadow;
     padding: map-get($spc, 'sm') map-get($spc, 'md');
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include flex(null, space-between, center, null, null);
 
-    div {
-        display: flex;
-        gap: map-get($spc, 'sm');
+    .social {
+        @include flex(null, null, center, null, map-get($spc, 'sm'))
     }
 
     a {
-        display: inline-block;
+        display: block;
     }
 }
 
-@media (max-width: 768px){
-    header {
+@media (orientation: portrait){
+    .header {
+        @include flex(column-reverse, space-between, stretch, null, 0);
 
+        &__bar button {
+            display: block
+        }
+
+        &__nav {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.2s ease-in-out;
+
+            &--show {
+                max-height: 150px;
+            }
+        }
+
+        &__list {
+            @include flex(column, flex-start, stretch, null, map-get($spc, 'md'));
+            padding: map-get($spc, 'md') 0;
+            border-bottom: map-get($brd, 'blk');
+            margin-bottom: map-get($spc, 'md');
+        }
     }
 }

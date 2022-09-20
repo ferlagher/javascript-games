@@ -17,9 +17,7 @@ button {
 }
 
 .switch {
-    display: flex;
-    align-items: center;
-    gap: calc(map-get($spc, 'sm') / 2);
+    @include flex(null, null, center, null, calc(map-get($spc, 'sm') / 2));
 
     &__track {
         position: relative;

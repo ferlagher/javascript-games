@@ -86,21 +86,19 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
         });
     }
 } else {
-    const navbar = document.querySelector('.header__list');
-    
-    const createLink = (path, text) => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-
-        a.href = path;
-        a.innerText = text;
-        li.appendChild(a);
-        navbar.appendChild(li);
-    }
-
-    createLink('../index.html', 'Inicio')
+    const navlist = document.querySelector('.header__list');
 
     games.forEach(game => {
-        createLink(game.path, game.name)
+        const a = document.createElement('a');
+        const li = document.createElement('li');
+
+        a.href = game.path;
+        a.innerText = game.name;
+        li.appendChild(a);
+        navlist.appendChild(li);
     })
 };
+
+document.querySelector('#expand').addEventListener('click', () => {
+    document.querySelector('.header__nav').classList.toggle('header__nav--show');
+})

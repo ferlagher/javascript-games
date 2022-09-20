@@ -6,11 +6,7 @@
 
         &__vs {
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            gap: map-get($spc, 'sm');
+            @include flex(column, flex-end, center, null, map-get($spc, 'sm'));
             
             em {
                 height: 2.5em;
