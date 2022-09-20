@@ -55,14 +55,17 @@
             &--small {
                 grid-template-columns: repeat(10, calc(map-get($siz, 'md') / 2.5));
                 grid-template-rows: repeat(10, calc(map-get($siz, 'md') / 2.5));
+                pointer-events: none;
             }
         }
 
         &__cell {
+            width: 100%;
+            height: 100%;
             position: relative;
             border: 1px solid map-get($clr, 'white');
             overflow: hidden;
-            position: relative;
+            z-index: 2;
             transition: background-color 0.15s ease-in-out;
             
             &:hover {
@@ -72,9 +75,12 @@
 
         &__svg {
             position: absolute;
-            inset: 0;
+            bottom: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1;
+            pointer-events: none;
             
             &--invalid svg {
                 fill: map-get($clr, 'white-3');
