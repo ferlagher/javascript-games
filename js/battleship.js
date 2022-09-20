@@ -10,7 +10,7 @@ const game = {
             for (let i = 0; i < 100; i++) {
                 const div = document.createElement('div');
                 div.classList.add('game__cell');
-                div.dataset.cell = i;
+                div.dataset.coord = i;
                 board.append(div);
             }
             this.fleetCells = Array.from(this.boards[0].children);
@@ -78,11 +78,11 @@ class Ship {
         return coords;
     };
 
-    placeShip(n) {
+    placeShip(n, board) {
         const coords = isVertical ? this.verticalCoords(n) : this.horizontalCoords(n);
-        const validPlace = coords.every(coord => !game.fleetCells[coord].hasAttribute('data-ship') || game.fleetCells[coord].dataset.ship === this.id);
+        const validPlace = coords.every(coord => !board[coord].hasAttribute('data-ship') || board[coord].dataset.ship === this.id);
         coords.forEach((coord, i) => {
-            const shipCell = game.fleetCells[coord];
+            const shipCell = board[coord];
             const div = document.createElement('div');
             const svg = this.svg();
 
@@ -123,26 +123,11 @@ const changeLayout = () => {
     }, 250);
 };
 
-game.createCells();
-game.createShips(ships);
-game.reset.addEventListener('click', () => {
-    changeLayout();
-    game.fleetCells.forEach(cell => {
-        cell.removeAttribute('data-ship');
-        cell.innerHTML = '';
-    });
-    game.shipsContainer.removeAttribute('style');
-});
-game.start.addEventListener('click', () => {
-    changeLayout();
-    game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
-    game.shipsContainer.style.pointerEvents = 'none';
-});
-
 let selectedShip;
 let isVertical = false;
 
-game.rotate.addEventListener('click', () => isVertical = !isVertical);
+game.createCells();
+game.createShips(ships);
 
 const selectShip = (id) => {
     if (selectedShip) {
@@ -162,9 +147,7 @@ game.shipList.forEach(ship => {
 });
 
 const mosueLeave = () => {
-    document.querySelectorAll('[data-temporal]').forEach(cell => {
-        cell.remove();
-    });
+    document.querySelectorAll('[data-temporal]').forEach(cell => cell.remove());
 };
 
 const replaceShip = e => {
@@ -210,20 +193,113 @@ const setPlace = () => {
         selectedShip = null;
         isVertical = false;
         game.rotate.setAttribute('disabled', '');
-
-        if (game.shipList.every(ship => ship.classList.contains('game__ship--selected'))) {
+        isFleetPlaced = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
+        
+        if (isFleetPlaced) {
             game.start.removeAttribute('disabled')
         }
     }
 };
 
-game.fleetCells.forEach(cell => {
-    cell.addEventListener('mouseenter', () => {
-        if (selectedShip) {
-        coord = parseInt(cell.dataset.cell);
-            selectedShip.placeShip(coord);
-            cell.addEventListener('mouseleave', mosueLeave);
-            cell.addEventListener('click', setPlace);
-        };
+const mouseEnter = e => {
+    if (selectedShip) {
+    coord = parseInt(e.target.dataset.coord);
+    selectedShip.placeShip(coord, game.fleetCells);
+        e.target.addEventListener('mouseleave', mosueLeave);
+        e.target.addEventListener('click', setPlace);
+    };
+}
+
+const shoot = e => {
+    const target = e.target;
+    const isShip = target.hasAttribute('data-ship');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add('game__effect')
+    svg.innerHTML = `<use xlink:href="../images/misc.svg#${isShip ? 'explosion' : 'water'}"></use>`;
+    target.append(svg);
+    target.dataset.hit= '';
+    
+    if (isShip) {
+        const id = target.dataset.ship;
+        const shipCells = game.radarCells.filter(cell => cell.dataset.ship === id);
+        const isSunk = shipCells.every(cell => cell.hasAttribute('data-hit'));
+
+        if (isSunk) {
+            const shipIndicator = game.shipList.find(ship => ship.id === id);
+            shipIndicator.classList.add('game__ship--selected')
+            shipCells.forEach(cell => {
+                cell.children[0].removeAttribute('data-hidden');
+                cell.children[1].remove();
+            });
+            isFleetSunk = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
+
+            if (isFleetSunk) {
+                console.log('Game Over')
+            }
+        }
+    }
+}
+
+game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
+
+const placeIaFleet = () => {
+    ships.forEach(ship => {
+        const emptyCells = game.radarCells.filter(cell => !cell.hasAttribute('data-ship'))
+        const emptyCoords = [];
+        
+        emptyCells.forEach(cell => emptyCoords.push(parseInt(cell.dataset.coord)));
+        isVertical = Math.random() < 0.5;
+        
+        let invalidPlace;
+        do {
+            const n = Math.floor(Math.random() * emptyCoords.length);
+            const coord = emptyCoords[n];
+            ship.placeShip(coord, game.radarCells);
+            const shipCells = Array.from(document.querySelectorAll('[data-temporal]'));
+            invalidPlace = shipCells.some(cell => cell.classList.contains('game__svg--invalid'));
+            if (invalidPlace) {
+                shipCells.forEach(cell => cell.remove());
+            } else {
+                shipCells.forEach(cell => {
+                    cell.removeAttribute('data-temporal');
+                    cell.dataset.hidden = '';
+                    cell.parentElement.dataset.ship = ship.id;
+                })
+            }
+            console.log(invalidPlace, ship.id);
+        } while (invalidPlace);
     });
+    isVertical = false;
+
+    game.radarCells.forEach(cell => cell.addEventListener('click', shoot))
+}
+
+game.rotate.addEventListener('click', () => isVertical = !isVertical);
+
+game.start.addEventListener('click', () => {
+    changeLayout();
+    game.fleetCells.forEach(cell => {
+        cell.removeEventListener('mouseenter', mouseEnter);
+        cell.removeEventListener('click', replaceShip)
+    })
+    game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
+    game.shipsContainer.style.pointerEvents = 'none';
+    placeIaFleet();
+});
+
+game.reset.addEventListener('click', () => {
+    const clearBoard = board => {
+        board.forEach(cell => {
+            cell.removeAttribute('data-ship');
+            cell.removeAttribute('data-hit');
+            cell.innerHTML = '';
+        })
+    }
+
+    changeLayout();
+    clearBoard(game.radarCells);
+    clearBoard(game.fleetCells);
+    game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter))
+    game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
+    game.shipsContainer.removeAttribute('style');
 });

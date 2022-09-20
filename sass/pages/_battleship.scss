@@ -55,7 +55,6 @@
             &--small {
                 grid-template-columns: repeat(10, calc(map-get($siz, 'md') / 2.5));
                 grid-template-rows: repeat(10, calc(map-get($siz, 'md') / 2.5));
-                pointer-events: none;
             }
         }
 
@@ -75,10 +74,7 @@
 
         &__svg {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 1;
             pointer-events: none;
             
@@ -92,6 +88,10 @@
                 animation: shake 0.5s ease-out;
             }
         }
+
+        &__effect {
+            @extend .game__svg
+        }
     }
 }
 
@@ -103,6 +103,7 @@
     svg {
         @extend .game__ship--selected;
     }
+    pointer-events: none;
 }
 
 @media (orientation: portrait) {
