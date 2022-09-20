@@ -108,48 +108,11 @@ const ships = [
     new Ship('Destructor', 'destroyer', 2),
 ];
 
-const changeLayout = () => {
-    const layout = document.querySelector('.game');
-    const container = document.querySelector('.game__container');
-    const fleet = game.boards[0];
-    const radar = game.boards[1];
-    layout.style.opacity = '0';
-    setTimeout(() => {
-        fleet.classList.toggle('game__board--small')
-        fleet.parentElement === layout ? container.prepend(fleet) : layout.append(fleet);
-        radar.toggleAttribute('data-hidden');
-        document.querySelectorAll('button').forEach(button => button.toggleAttribute('data-hidden'));
-        layout.style.opacity = '1';
-    }, 250);
-};
-
 let selectedShip;
 let isVertical = false;
+let turn = true;
 
-game.createCells();
-game.createShips(ships);
-
-const selectShip = (id) => {
-    if (selectedShip) {
-        const previousShip = game.shipList.find(ship => ship.id === selectedShip.id);
-        previousShip.classList.remove('game__ship--selected');
-        isVertical = false;
-    }
-    selectedShip = ships.find(ship => ship.id === id);
-    game.rotate.removeAttribute('disabled');
-}
-
-game.shipList.forEach(ship => {
-    ship.addEventListener('click', () => {
-        selectShip(ship.id);
-        ship.classList.add('game__ship--selected');
-    });
-});
-
-const mosueLeave = () => {
-    document.querySelectorAll('[data-temporal]').forEach(cell => cell.remove());
-};
-
+//Event handlers
 const replaceShip = e => {
     if (!selectedShip) {
         const id = e.target.dataset.ship;
@@ -160,7 +123,7 @@ const replaceShip = e => {
             cell.removeAttribute('data-ship');
             child.dataset.temporal = '';
             if (child.hasAttribute('style')) {isVertical = true}
-
+            
             cell.removeEventListener('click', replaceShip);
             cell.addEventListener('mouseleave', mosueLeave);
             cell.addEventListener('click', setPlace);
@@ -173,6 +136,7 @@ const replaceShip = e => {
 const setPlace = () => {
     const cells = Array.from(document.querySelectorAll('[data-temporal]'));
     const invalidPlace = cells.some(cell => cell.classList.contains('game__svg--invalid'));
+    
     if (invalidPlace) {
         cells.forEach(cell => {
             cell.classList.add('game__svg--shake');
@@ -196,9 +160,13 @@ const setPlace = () => {
         isFleetPlaced = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
         
         if (isFleetPlaced) {
-            game.start.removeAttribute('disabled')
+            game.start.removeAttribute('disabled');
         }
     }
+};
+
+const mosueLeave = () => {
+    document.querySelectorAll('[data-temporal]').forEach(cell => cell.remove());
 };
 
 const mouseEnter = e => {
@@ -226,13 +194,14 @@ const shoot = e => {
 
         if (isSunk) {
             const shipIndicator = game.shipList.find(ship => ship.id === id);
+            
             shipIndicator.classList.add('game__ship--selected')
             shipCells.forEach(cell => {
                 cell.children[0].removeAttribute('data-hidden');
                 cell.children[1].remove();
             });
-            isFleetSunk = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
-
+            
+            const isFleetSunk = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
             if (isFleetSunk) {
                 console.log('Game Over')
             }
@@ -240,17 +209,15 @@ const shoot = e => {
     }
 }
 
-game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
-
 const placeIaFleet = () => {
     ships.forEach(ship => {
         const emptyCells = game.radarCells.filter(cell => !cell.hasAttribute('data-ship'))
         const emptyCoords = [];
+        let invalidPlace;
         
         emptyCells.forEach(cell => emptyCoords.push(parseInt(cell.dataset.coord)));
         isVertical = Math.random() < 0.5;
         
-        let invalidPlace;
         do {
             const n = Math.floor(Math.random() * emptyCoords.length);
             const coord = emptyCoords[n];
@@ -270,21 +237,58 @@ const placeIaFleet = () => {
         } while (invalidPlace);
     });
     isVertical = false;
-
     game.radarCells.forEach(cell => cell.addEventListener('click', shoot))
 }
+
+const changeLayout = () => {
+    const layout = document.querySelector('.game');
+    const container = document.querySelector('.game__container');
+    const fleet = game.boards[0];
+    const radar = game.boards[1];
+    layout.style.opacity = '0';
+    setTimeout(() => {
+        fleet.parentElement === layout ? container.prepend(fleet) : layout.append(fleet);
+        radar.toggleAttribute('data-hidden');
+        document.querySelectorAll('button').forEach(button => button.toggleAttribute('data-hidden'));
+        layout.style.opacity = '1';
+    }, 250);
+};
+
+const selectShip = (id) => {
+    if (selectedShip) {
+        const previousShip = game.shipList.find(ship => ship.id === selectedShip.id);
+        previousShip.classList.remove('game__ship--selected');
+        isVertical = false;
+    }
+    selectedShip = ships.find(ship => ship.id === id);
+    game.rotate.removeAttribute('disabled');
+}
+
+game.createCells();
+
+game.createShips(ships);
+
+game.shipList.forEach(ship => {
+    ship.addEventListener('click', () => {
+        selectShip(ship.id);
+        ship.classList.add('game__ship--selected');
+    });
+});
+
+game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
 
 game.rotate.addEventListener('click', () => isVertical = !isVertical);
 
 game.start.addEventListener('click', () => {
-    changeLayout();
     game.fleetCells.forEach(cell => {
         cell.removeEventListener('mouseenter', mouseEnter);
         cell.removeEventListener('click', replaceShip)
     })
     game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
     game.shipsContainer.style.pointerEvents = 'none';
+
     placeIaFleet();
+    changeLayout();
 });
 
 game.reset.addEventListener('click', () => {
@@ -296,10 +300,12 @@ game.reset.addEventListener('click', () => {
         })
     }
 
-    changeLayout();
     clearBoard(game.radarCells);
     clearBoard(game.fleetCells);
     game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter))
     game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
     game.shipsContainer.removeAttribute('style');
+    game.start.setAttribute('disabled', '')
+
+    changeLayout();
 });

@@ -39,15 +39,18 @@
             </div>
             <div class="game">
                 <div class="game__container">
+                    <div class="game__board"></div>
                     <div class="game__ships"></div>
-                    <div class="game__buttons">
-                        <button id="rotate" disabled>Rotar</button>
-                        <button id="start" disabled>Empezar</button>
-                        <button id="reset" data-hidden>Reinicar</button>
-                    </div>
                 </div>
-                <div class="game__board"></div>
-                <div class="game__board" data-hidden></div>
+                <div class="game__container" data-hidden>
+                    <div class="game__board"></div>
+                    <div class="game__ships"></div>
+                </div>
+            </div>
+            <div class="options">
+                <button id="rotate" disabled>Rotar</button>
+                <button id="start" disabled>Empezar</button>
+                <button id="reset" data-hidden>Reinicar</button>
             </div>
         </section>
     </main>

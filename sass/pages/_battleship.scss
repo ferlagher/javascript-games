@@ -3,6 +3,7 @@
         flex-direction: row;
         justify-content: space-between;
     }
+
     .game {
         align-items: stretch;
         gap: map-get($spc, 'md');
@@ -41,7 +42,7 @@
         &__buttons {
             display: flex;
             flex-direction: column;
-            gap: map-get($spc, 'sm')
+            gap: map-get($spc, 'sm');
         }
 
         &__board {
@@ -52,9 +53,8 @@
             grid-template-rows: repeat(10, map-get($siz, 'md'));
             border: 1px solid map-get($clr, 'white');
 
-            &--small {
-                grid-template-columns: repeat(10, calc(map-get($siz, 'md') / 2.5));
-                grid-template-rows: repeat(10, calc(map-get($siz, 'md') / 2.5));
+            &--disabled {
+                pointer-events: none;
             }
         }
 

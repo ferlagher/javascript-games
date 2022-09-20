@@ -15,7 +15,7 @@ const output = {
     iScore: function() {document.querySelector('#iScore').innerHTML = iScore},
     pXO: function(pIcon) {document.querySelector('#pXO').setAttribute('xlink:href', `../images/xo.svg#${pIcon}`)},
     iXO: function(iIcon) {document.querySelector('#iXO').setAttribute('xlink:href', `../images/xo.svg#${iIcon}`)},
-    iAvatar: function(avatar) {document.querySelector('#iAvatar').setAttribute('xlink:href', `../images/icons.svg#${avatar}`)},
+    iAvatar: function(avatar) {document.querySelector('#iAvatar').setAttribute('xlink:href', `../images/misc.svg#${avatar}`)},
 }
 
 //Combinaciones para ganar
@@ -192,14 +192,14 @@ input.reset.addEventListener('click', reset);
 input.vs.addEventListener('change', () => {
     pvp = input.vs.checked;
     if (pvp) {
-        input.xo.parentElement.classList.add('disabled')
+        input.xo.parentElement.setAttribute('disabled', '')
         output.iAvatar('player')
         input.xo.checked = false;
         iaFirst = input.xo.checked;
         output.pXO('x');
         output.iXO('o');
     } else {       
-        input.xo.parentElement.classList.remove('disabled')
+        input.xo.parentElement.removeAttribute('disabled')
         output.iAvatar('ia')
         
     }
