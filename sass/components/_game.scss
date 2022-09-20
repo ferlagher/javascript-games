@@ -1,22 +1,16 @@
 .output {
-    display: flex;
-    flex-direction: column;
-    gap: map-get($spc, 'sm');
+    @include flex(column, null, null, null, map-get($spc, 'sm'));
     padding-bottom: map-get($spc, 'sm');
     border-bottom: map-get($brd, 'blk');
     margin-bottom: map-get($spc, 'sm');
 
     &__container {
         width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        @include flex(null, space-between, center, null, null);
     }
 
     &__score {
-        display: flex;
-        align-items: center;
-        gap: map-get($spc, 'sm');
+        @include flex(null, null, center, null, map-get($spc, 'sm'));
     }
     
     &__result {
@@ -25,11 +19,7 @@
 }
 
 .game {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: map-get($spc, 'sm');
+    @include flex(null, space-evenly, center, wrap, map-get($spc, 'sm'));
 
     &--wait {
         pointer-events: none;
@@ -40,16 +30,9 @@
     padding-top: map-get($spc, 'sm');
     border-top: map-get($brd, 'blk');
     margin-top: map-get($spc, 'sm');
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: map-get($spc, 'sm');
+    @include flex(null, space-evenly, center, null, map-get($spc, 'sm'));
 
     &__container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: map-get($spc, 'sm');
+        @include flex(null, center, center, wrap, map-get($spc, 'sm'));
     }
 }

@@ -13,7 +13,7 @@ class Game {
             const n = Math.floor(Math.random() * this.symbols.length);
             const symbol = this.symbols[n];
 
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.classList.add('decorations__svg', `svg--${size}`)
             svg.innerHTML = `<use xlink:href="${this.svg}#${symbol}"></use>`;
 
@@ -30,7 +30,7 @@ const games = [
     new Game('Piedra, papel, tijera, lagarto, spock', 'rspls', 'hands', ['rock', 'scissors', 'paper', 'lizard', 'spock']),
     new Game('Ta-Te-Ti', 'tictactoe', 'xo', ['x', 'o']),
     new Game('Buscar parejas', 'pairs', 'animals', ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird']),
-    new Game('Batalla naval', 'battleship', 'ships', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
+    new Game('Batalla naval', 'battleship', 'boats', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
 ];
 
 if (location.pathname === '/' || location.pathname.includes('index.html')) { 
@@ -86,21 +86,19 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
         });
     }
 } else {
-    const navbar = document.querySelector('.header__list');
-    
-    const createLink = (path, text) => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-
-        a.href = path;
-        a.innerText = text;
-        li.appendChild(a);
-        navbar.appendChild(li);
-    }
-
-    createLink('../index.html', 'Inicio')
+    const navlist = document.querySelector('.header__list');
 
     games.forEach(game => {
-        createLink(game.path, game.name)
+        const a = document.createElement('a');
+        const li = document.createElement('li');
+
+        a.href = game.path;
+        a.innerText = game.name;
+        li.appendChild(a);
+        navlist.appendChild(li);
     })
 };
+
+document.querySelector('#expand').addEventListener('click', () => {
+    document.querySelector('.header__nav').classList.toggle('header__nav--show');
+});
