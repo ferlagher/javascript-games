@@ -22,12 +22,14 @@ const game = {
         arr.forEach(ship => {
             const svg = ship.svg();
             svg.id = ship.id;
-            svg.style.width = `calc(clamp(16px, 3vw, 32px) * ${ship.size})`;
+            svg.style.width = `calc(clamp(24px, 5vw, 40px) * ${ship.size})`;
             svg.classList.add(`game__ship`);
             this.shipsContainer.append(svg)
         })
         this.shipList = Array.from(this.shipsContainer.children)
     },
+
+    wait() {this.boards[1].classList.toggle('game__board--disabled')}
 }
 
 class Ship {
@@ -35,6 +37,8 @@ class Ship {
         this.name = name;
         this.id = id;
         this.size = size;
+        this.fleetCells = [];
+        this.radarCells = [];
     };
 
     svg() {
@@ -110,9 +114,12 @@ const ships = [
 
 let selectedShip;
 let isVertical = false;
-let turn = true;
 
-//Event handlers
+const randomElement = arr => {
+    const n = Math.floor(Math.random() * arr.length);
+    return arr[n];
+};
+
 const replaceShip = e => {
     if (!selectedShip) {
         const id = e.target.dataset.ship;
@@ -134,21 +141,23 @@ const replaceShip = e => {
 }
 
 const setPlace = () => {
-    const cells = Array.from(document.querySelectorAll('[data-temporal]'));
-    const invalidPlace = cells.some(cell => cell.classList.contains('game__svg--invalid'));
+    const temporalDivs = Array.from(document.querySelectorAll('[data-temporal]'));
+    const invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
     
     if (invalidPlace) {
-        cells.forEach(cell => {
-            cell.classList.add('game__svg--shake');
+        temporalDivs.forEach(div => {
+            div.classList.add('game__svg--shake');
             setTimeout(() => {
-                cell.classList.remove('game__svg--shake');
+                div.classList.remove('game__svg--shake');
             }, 500);
         })
     } else {
-        cells.forEach(cell => {
-            cell.parentElement.dataset.ship = selectedShip.id;
-            cell.parentElement.addEventListener('click', replaceShip)
-            cell.removeAttribute('data-temporal');
+        temporalDivs.forEach(div => {
+            const cell = div.parentElement;
+            cell.dataset.ship = selectedShip.id;
+            cell.addEventListener('click', replaceShip)
+            div.removeAttribute('data-temporal');
+            selectedShip.fleetCells.push(cell);
         })
         game.fleetCells.forEach(cell => {
             cell.removeEventListener('mouseleave', mosueLeave);
@@ -178,37 +187,6 @@ const mouseEnter = e => {
     };
 }
 
-const shoot = e => {
-    const target = e.target;
-    const isShip = target.hasAttribute('data-ship');
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.classList.add('game__effect')
-    svg.innerHTML = `<use xlink:href="../images/misc.svg#${isShip ? 'explosion' : 'water'}"></use>`;
-    target.append(svg);
-    target.dataset.hit= '';
-    
-    if (isShip) {
-        const id = target.dataset.ship;
-        const shipCells = game.radarCells.filter(cell => cell.dataset.ship === id);
-        const isSunk = shipCells.every(cell => cell.hasAttribute('data-hit'));
-
-        if (isSunk) {
-            const shipIndicator = game.shipList.find(ship => ship.id === id);
-            
-            shipIndicator.classList.add('game__ship--selected')
-            shipCells.forEach(cell => {
-                cell.children[0].removeAttribute('data-hidden');
-                cell.children[1].remove();
-            });
-            
-            const isFleetSunk = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
-            if (isFleetSunk) {
-                console.log('Game Over')
-            }
-        }
-    }
-}
-
 const placeIaFleet = () => {
     ships.forEach(ship => {
         const emptyCells = game.radarCells.filter(cell => !cell.hasAttribute('data-ship'))
@@ -219,37 +197,137 @@ const placeIaFleet = () => {
         isVertical = Math.random() < 0.5;
         
         do {
-            const n = Math.floor(Math.random() * emptyCoords.length);
-            const coord = emptyCoords[n];
+            const coord = randomElement(emptyCoords);
             ship.placeShip(coord, game.radarCells);
-            const shipCells = Array.from(document.querySelectorAll('[data-temporal]'));
-            invalidPlace = shipCells.some(cell => cell.classList.contains('game__svg--invalid'));
+            const temporalDivs = Array.from(document.querySelectorAll('[data-temporal]'));
+            invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
             if (invalidPlace) {
-                shipCells.forEach(cell => cell.remove());
+                temporalDivs.forEach(div => div.remove());
             } else {
-                shipCells.forEach(cell => {
-                    cell.removeAttribute('data-temporal');
-                    cell.dataset.hidden = '';
-                    cell.parentElement.dataset.ship = ship.id;
+                temporalDivs.forEach(div => {
+                    const cell = div.parentElement;
+                    div.removeAttribute('data-temporal');
+                    div.dataset.hidden = '';
+                    cell.dataset.ship = ship.id;
+                    ship.radarCells.push(cell);
                 })
             }
-            console.log(invalidPlace, ship.id);
         } while (invalidPlace);
     });
     isVertical = false;
-    game.radarCells.forEach(cell => cell.addEventListener('click', shoot))
+    game.radarCells.forEach(cell => cell.addEventListener('click', playerTurn));
+}
+
+const shoot = (target, cells) => {
+    const isShip = target.hasAttribute('data-ship');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add('game__effect');
+    svg.innerHTML = `<use xlink:href="../images/misc.svg#${isShip ? 'explosion' : 'water'}"></use>`;
+    target.dataset.hit= '';
+
+    if (!isShip){
+        target.append(svg);
+    } else {
+        if (cells === 'radarCells') {target.append(svg)};
+
+        const targetShip = ships.find(ship => ship.id === target.dataset.ship);
+        const isSunk = targetShip[cells].every(cell => cell.hasAttribute('data-hit'));
+
+        if (isSunk) {
+            targetShip[cells].forEach(cell => cell.dataset.sunk = '');
+            if (cells === 'radarCells') {
+                targetShip[cells].forEach(cell => {
+                    cell.children[0].removeAttribute('data-hidden');
+                    cell.children[1].remove();
+                });
+            }
+            if (ships.every(ship => ship[cells].every(cell => cell.hasAttribute('data-sunk')))) {
+                console.log('Game Over');
+            }
+        };
+    }
+    game.wait();
+}
+
+const iaTurn = () => {
+    const validCells = game.fleetCells.filter(cell => !cell.hasAttribute('data-hit'));
+    const previousHits = game.fleetCells.filter(cell => cell.hasAttribute('data-ship') && cell.hasAttribute('data-hit') && !cell.hasAttribute('data-sunk'));
+    const numberHits = previousHits.length;
+    let target;
+
+    const chooseValidCell = coords => {
+        const validCoords = coords.filter(coord => 0 <= coord < 100);
+        const cells = validCells.filter(cell => validCoords.includes(parseInt(cell.dataset.coord)));
+        return randomElement(cells);
+    }
+    
+    const pushRow = (n, m, arr) => {
+        if (Math.floor(n / 10) === Math.floor(m / 10)) {arr.push(m)};
+    };
+
+    const adjacentCell = n => {
+        const coords = [
+            n + 10,
+            n - 10,
+        ];
+
+        pushRow(n, n + 1, coords);
+        pushRow(n, n - 1, coords);
+
+        return chooseValidCell(coords);
+    }
+
+    const trySunk = () => {
+        const parseCoord = cell => parseInt(cell.dataset.coord);
+
+        const firstCoord = parseCoord(previousHits[0]);
+        const lastCoord = parseCoord(previousHits[numberHits - 1]);
+        const delta = previousHits.reduce((a, b) => parseCoord(b) - a, firstCoord);
+        console.log("🚀 ~ file: battleship.js ~ line 286 ~ trySunk ~ delta", delta)
+        const coords = [];
+
+        if (delta === 1) {
+            pushRow(firstCoord, firstCoord - delta, coords);
+            pushRow(lastCoord, lastCoord + delta, coords);
+        } else {
+            coords.push(firstCoord - delta, lastCoord + delta)
+        }
+
+        let cell = chooseValidCell(coords)
+        while (!cell) {
+            cell ||= adjacentCell((randomElement(previousHits)).dataset.coord);
+        }
+        return cell
+    }
+    
+    if (numberHits > 1) {
+        target = trySunk()
+    } else if (numberHits === 1) {
+        const n = parseInt(previousHits[0].dataset.coord);
+        target = adjacentCell(n);
+    } else {
+        target = randomElement(validCells);
+    }
+    
+    console.log(target.dataset.coord);
+
+    shoot(target, 'fleetCells');
+};
+
+const playerTurn = e => {
+    shoot(e.target, 'radarCells');
+    iaTurn();
 }
 
 const changeLayout = () => {
-    const layout = document.querySelector('.game');
-    const container = document.querySelector('.game__container');
-    const fleet = game.boards[0];
+    const layout = document.querySelector('section');
     const radar = game.boards[1];
+    const buttons = document.querySelectorAll('button')
     layout.style.opacity = '0';
     setTimeout(() => {
-        fleet.parentElement === layout ? container.prepend(fleet) : layout.append(fleet);
         radar.toggleAttribute('data-hidden');
-        document.querySelectorAll('button').forEach(button => button.toggleAttribute('data-hidden'));
+        game.shipsContainer.toggleAttribute('data-hidden');
+        buttons.forEach(button => button.toggleAttribute('data-hidden'))
         layout.style.opacity = '1';
     }, 250);
 };
@@ -303,7 +381,10 @@ game.reset.addEventListener('click', () => {
     clearBoard(game.radarCells);
     clearBoard(game.fleetCells);
     game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter))
-    game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
+    ships.forEach(ship => {
+        ship.fleetCells = [];
+        ship.radarCells = [];
+    })
     game.shipsContainer.removeAttribute('style');
     game.start.setAttribute('disabled', '')
 
