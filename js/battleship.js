@@ -312,55 +312,10 @@ const iaTurn = () => {
     console.log(target.dataset.coord);
 
     shoot(target, 'fleetCells');
-
-/*     const isShip = target.hasAttribute('data-ship')
-    target.dataset.hit= '';
-
-    if (!isShip) {
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.classList.add('game__effect');
-        svg.innerHTML = `<use xlink:href="../images/misc.svg#water"></use>`;
-        target.append(svg);
-    } else {
-        const targetShip = ships.find(ship => ship.id === target.dataset.ship);
-        const isSunk = targetShip.fleetCells.every(cell => cell.hasAttribute('data-hit'));
-
-        if (isSunk) {targetShip.fleetCells.forEach(cell => cell.dataset.sunk = '')};
-    }; */
 };
 
 const playerTurn = e => {
     shoot(e.target, 'radarCells');
-/* 
-    const target = e.target;
-    const isShip = target.hasAttribute('data-ship');
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-
-    svg.classList.add('game__effect');
-    svg.innerHTML = `<use xlink:href="../images/misc.svg#${isShip ? 'explosion' : 'water'}"></use>`;
-    target.append(svg);
-    target.dataset.hit= '';
-    
-    if (isShip) {
-        const id = target.dataset.ship;
-        const shipCells = game.radarCells.filter(cell => cell.dataset.ship === id);
-        const isSunk = shipCells.every(cell => cell.hasAttribute('data-hit'));
-
-        if (isSunk) {
-            const shipIndicator = game.shipList.find(ship => ship.id === id);
-            
-            shipIndicator.classList.add('game__ship--selected')
-            shipCells.forEach(cell => {
-                cell.children[0].removeAttribute('data-hidden');
-                cell.children[1].remove();
-            });
-            
-            const isFleetSunk = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
-            if (isFleetSunk) {
-                console.log('Game Over');
-            };
-        };
-    }; */
     iaTurn();
 }
 
