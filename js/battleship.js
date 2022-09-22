@@ -12,10 +12,11 @@ const game = {
                 div.classList.add('game__cell');
                 div.dataset.coord = i;
                 board.append(div);
-            }
-            this.fleetCells = Array.from(this.boards[0].children);
-            this.radarCells = Array.from(this.boards[1].children);
-        })
+            };
+        });
+
+        this.fleetCells = Array.from(this.boards[0].children);
+        this.radarCells = Array.from(this.boards[1].children);
     },
 
     createShips(arr) {
@@ -24,12 +25,15 @@ const game = {
             svg.id = ship.id;
             svg.style.width = `calc(clamp(24px, 5vw, 40px) * ${ship.size})`;
             svg.classList.add(`game__ship`);
-            this.shipsContainer.append(svg)
-        })
-        this.shipList = Array.from(this.shipsContainer.children)
+            this.shipsContainer.append(svg);
+        });
+
+        this.shipList = Array.from(this.shipsContainer.children);
     },
 
-    wait() {this.boards[1].classList.toggle('game__board--disabled')}
+    wait() {
+        this.boards[1].classList.toggle('game__board--disabled');
+    },
 }
 
 class Ship {
@@ -46,10 +50,11 @@ class Ship {
         svg.innerHTML = `<use xlink:href="../images/ships.svg#${this.id}"></use>`;
         return svg;
     };
-    
+
     horizontalCoords(n) {
         const coords = [];
         const row = m => Math.floor(m / 10);
+        
         for (let i = 0; i < this.size; i++) {
             const j = i % 2 ? Math.ceil(i / 2) : Math.ceil(-i / 2);
             let coord = n + j;
@@ -59,14 +64,16 @@ class Ship {
                 coords.push(coord + this.size);
             } else {
                 coords.push(coord);
-            }
-        }
+            };
+        };
+
         coords.sort((a, b) => a - b);
         return coords;
     };
 
     verticalCoords(n) {
         const coords = [];
+        
         for (let i = 0; i < this.size; i++) {
             const j = i % 2 ? Math.ceil(i / 2) : Math.ceil(-i / 2);
             let coord = n + j * 10;
@@ -76,8 +83,9 @@ class Ship {
                 coords.push(coord);
             } else {
                 coords.push(coord - this.size * 10);
-            }
-        }
+            };
+        };
+
         coords.sort((a, b) => a - b);
         return coords;
     };
@@ -85,6 +93,7 @@ class Ship {
     placeShip(n, board) {
         const coords = isVertical ? this.verticalCoords(n) : this.horizontalCoords(n);
         const validPlace = coords.every(coord => !board[coord].hasAttribute('data-ship') || board[coord].dataset.ship === this.id);
+        
         coords.forEach((coord, i) => {
             const shipCell = board[coord];
             const div = document.createElement('div');
@@ -92,14 +101,19 @@ class Ship {
 
             div.classList.add('game__svg');
             div.dataset.temporal = '';
-            if (isVertical) {div.style.transform = 'rotate(90deg)'};
-            if (!validPlace) {div.classList.add('game__svg--invalid')};
-            
+
+            if (isVertical) {
+                div.style.transform = 'rotate(90deg)';
+            };
+            if (!validPlace) {
+                div.classList.add('game__svg--invalid');
+            };
+
             svg.style.width = `calc(100% * ${this.size})`;
             svg.style.marginLeft = `calc(${-i} * 100% - 1px)`;
-            
+
             div.append(svg);
-            shipCell.append(div)
+            shipCell.append(div);
         });
     };
 };
@@ -114,6 +128,7 @@ const ships = [
 
 let selectedShip;
 let isVertical = false;
+let iaMemory = {};
 
 const randomElement = arr => {
     const n = Math.floor(Math.random() * arr.length);
@@ -122,56 +137,64 @@ const randomElement = arr => {
 
 const replaceShip = e => {
     if (!selectedShip) {
-        const id = e.target.dataset.ship;
-        const cells = game.fleetCells.filter(cell => cell.dataset.ship === id);
-        cells.forEach(cell => {
+        const ship = ships.find(ship => ship.id === e.target.dataset.ship)
+
+        ship.fleetCells.forEach(cell => {
             const child = cell.children[0];
-            
+
             cell.removeAttribute('data-ship');
             child.dataset.temporal = '';
-            if (child.hasAttribute('style')) {isVertical = true}
-            
+
+            if (child.hasAttribute('style')) {
+                isVertical = true;
+            };
+
             cell.removeEventListener('click', replaceShip);
             cell.addEventListener('mouseleave', mosueLeave);
             cell.addEventListener('click', setPlace);
         });
-        selectShip(id);
-        game.start.setAttribute('disabled', '')
-    }
-}
+
+        game.start.setAttribute('disabled', '');
+        ship.fleetCells = [];
+        selectShip(ship.id);
+    };
+};
 
 const setPlace = () => {
     const temporalDivs = Array.from(document.querySelectorAll('[data-temporal]'));
     const invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
-    
+
     if (invalidPlace) {
         temporalDivs.forEach(div => {
             div.classList.add('game__svg--shake');
             setTimeout(() => {
                 div.classList.remove('game__svg--shake');
             }, 500);
-        })
+        });
     } else {
         temporalDivs.forEach(div => {
             const cell = div.parentElement;
+
             cell.dataset.ship = selectedShip.id;
-            cell.addEventListener('click', replaceShip)
+            cell.addEventListener('click', replaceShip);
             div.removeAttribute('data-temporal');
             selectedShip.fleetCells.push(cell);
-        })
+        });
+
         game.fleetCells.forEach(cell => {
             cell.removeEventListener('mouseleave', mosueLeave);
             cell.removeEventListener('click', setPlace);
         });
+
         selectedShip = null;
         isVertical = false;
         game.rotate.setAttribute('disabled', '');
         isFleetPlaced = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
-        
+
         if (isFleetPlaced) {
             game.start.removeAttribute('disabled');
-        }
-    }
+        };
+    };
 };
 
 const mosueLeave = () => {
@@ -180,22 +203,23 @@ const mosueLeave = () => {
 
 const mouseEnter = e => {
     if (selectedShip) {
-    coord = parseInt(e.target.dataset.coord);
-    selectedShip.placeShip(coord, game.fleetCells);
+        const coord = parseInt(e.target.dataset.coord);
+
+        selectedShip.placeShip(coord, game.fleetCells);
         e.target.addEventListener('mouseleave', mosueLeave);
         e.target.addEventListener('click', setPlace);
     };
-}
+};
 
 const placeIaFleet = () => {
     ships.forEach(ship => {
-        const emptyCells = game.radarCells.filter(cell => !cell.hasAttribute('data-ship'))
+        const emptyCells = game.radarCells.filter(cell => !cell.hasAttribute('data-ship'));
         const emptyCoords = [];
         let invalidPlace;
-        
+
         emptyCells.forEach(cell => emptyCoords.push(parseInt(cell.dataset.coord)));
         isVertical = Math.random() < 0.5;
-        
+
         do {
             const coord = randomElement(emptyCoords);
             ship.placeShip(coord, game.radarCells);
@@ -210,44 +234,54 @@ const placeIaFleet = () => {
                     div.dataset.hidden = '';
                     cell.dataset.ship = ship.id;
                     ship.radarCells.push(cell);
-                })
-            }
+                });
+            };
         } while (invalidPlace);
     });
+
     isVertical = false;
     game.radarCells.forEach(cell => cell.addEventListener('click', playerTurn));
-}
+};
 
 const shoot = (target, cells) => {
     const isShip = target.hasAttribute('data-ship');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
     svg.classList.add('game__effect');
     svg.innerHTML = `<use xlink:href="../images/misc.svg#${isShip ? 'explosion' : 'water'}"></use>`;
-    target.dataset.hit= '';
+    target.dataset.hit = '';
 
-    if (!isShip){
+    if (!isShip) {
         target.append(svg);
     } else {
-        if (cells === 'radarCells') {target.append(svg)};
-
         const targetShip = ships.find(ship => ship.id === target.dataset.ship);
         const isSunk = targetShip[cells].every(cell => cell.hasAttribute('data-hit'));
+        
+        if (cells === 'radarCells') {
+            target.append(svg)
+        };
 
         if (isSunk) {
             targetShip[cells].forEach(cell => cell.dataset.sunk = '');
+
             if (cells === 'radarCells') {
                 targetShip[cells].forEach(cell => {
                     cell.children[0].removeAttribute('data-hidden');
                     cell.children[1].remove();
                 });
-            }
+            };
+
+            if (cells === 'fleetCells') {
+                iaMemory = {}
+            };
+
             if (ships.every(ship => ship[cells].every(cell => cell.hasAttribute('data-sunk')))) {
-                console.log('Game Over');
-            }
+                //Game Over
+            };
         };
-    }
+    };
     game.wait();
-}
+};
 
 const iaTurn = () => {
     const validCells = game.fleetCells.filter(cell => !cell.hasAttribute('data-hit'));
@@ -256,60 +290,90 @@ const iaTurn = () => {
     let target;
 
     const chooseValidCell = coords => {
-        const validCoords = coords.filter(coord => 0 <= coord < 100);
-        const cells = validCells.filter(cell => validCoords.includes(parseInt(cell.dataset.coord)));
+        const cells = validCells.filter(cell => coords.includes(parseInt(cell.dataset.coord)));
         return randomElement(cells);
-    }
-    
+    };
+
     const pushRow = (n, m, arr) => {
-        if (Math.floor(n / 10) === Math.floor(m / 10)) {arr.push(m)};
+        const isShip = game.fleetCells[n].hasAttribute('data-ship');
+        const isOnRow = Math.floor(n / 10) === Math.floor(m / 10);
+        
+        if (isShip & isOnRow) {
+            arr.push(m);
+        };
+    };
+
+    const pushCol = (n, m, arr) => {
+        const isShip = game.fleetCells[n].hasAttribute('data-ship');
+        const isOnBoard = 0 <= m < 100;
+        
+        if (isShip & isOnBoard) {
+            arr.push(m);
+        };
     };
 
     const adjacentCell = n => {
-        const coords = [
-            n + 10,
-            n - 10,
-        ];
+        const coords = [];
 
         pushRow(n, n + 1, coords);
         pushRow(n, n - 1, coords);
+        pushCol(n, n + 10, coords);
+        pushCol(n, n - 10, coords);
 
         return chooseValidCell(coords);
-    }
+    };
 
-    const trySunk = () => {
-        const parseCoord = i => parseInt(previousHits[i].dataset.coord);
+    const hitCoord = i => parseInt(previousHits[i].dataset.coord);
 
-        const firstCoord = parseCoord(0);
-        const secondCoord = parseCoord(1);
-        const lastCoord = parseCoord(numberHits - 1);
-        const delta = secondCoord - firstCoord;
+    const trySunk = ({
+        firstCoord = hitCoord(0),
+        lastCoord = hitCoord(numberHits - 1),
+        delta = hitCoord(1) - firstCoord,
+    }) => {
         const coords = [];
 
         if (delta === 1) {
             pushRow(firstCoord, firstCoord - delta, coords);
             pushRow(lastCoord, lastCoord + delta, coords);
-        } else {
-            coords.push(firstCoord - delta, lastCoord + delta)
-        }
+        } else if (delta === 10) {
+            pushCol(firstCoord, firstCoord - delta, coords);
+            pushCol(lastCoord, lastCoord + delta, coords);
+        };
 
-        let cell = chooseValidCell(coords)
+        let cell = chooseValidCell(coords);
+        let cellCoord = cell ? cell.dataset.coord : null;
+
+        if (cell && cell.hasAttribute('data-ship')) {
+            iaMemory.firstCoord = Math.min(cellCoord, firstCoord);
+            iaMemory.lastCoord = Math.max(cellCoord, lastCoord);
+            iaMemory.delta = delta;
+        };
+
         while (!cell) {
-            cell ||= adjacentCell((randomElement(previousHits)).dataset.coord);
-        }
-        return cell
-    }
-    
+            const randomHitCoord = parseInt(randomElement(previousHits).dataset.coord);
+
+            cell = adjacentCell(randomHitCoord);
+
+            if (cell) {
+                cellCoord = cell.dataset.coord;
+
+                iaMemory.firstCoord = Math.min(cellCoord, randomHitCoord);
+                iaMemory.lastCoord = Math.max(cellCoord, randomHitCoord);
+                iaMemory.delta = iaMemory.lastCoord - iaMemory.firstCoord;
+            };
+        };
+
+        return cell;
+    };
+
     if (numberHits > 1) {
-        target = trySunk()
+        target = trySunk(iaMemory);
     } else if (numberHits === 1) {
         const n = parseInt(previousHits[0].dataset.coord);
         target = adjacentCell(n);
     } else {
         target = randomElement(validCells);
-    }
-    
-    console.log(target.dataset.coord);
+    };
 
     shoot(target, 'fleetCells');
 };
@@ -317,19 +381,6 @@ const iaTurn = () => {
 const playerTurn = e => {
     shoot(e.target, 'radarCells');
     iaTurn();
-}
-
-const changeLayout = () => {
-    const layout = document.querySelector('section');
-    const radar = game.boards[1];
-    const buttons = document.querySelectorAll('button')
-    layout.style.opacity = '0';
-    setTimeout(() => {
-        radar.toggleAttribute('data-hidden');
-        game.shipsContainer.toggleAttribute('data-hidden');
-        buttons.forEach(button => button.toggleAttribute('data-hidden'))
-        layout.style.opacity = '1';
-    }, 250);
 };
 
 const selectShip = (id) => {
@@ -337,10 +388,63 @@ const selectShip = (id) => {
         const previousShip = game.shipList.find(ship => ship.id === selectedShip.id);
         previousShip.classList.remove('game__ship--selected');
         isVertical = false;
-    }
+    };
+    
     selectedShip = ships.find(ship => ship.id === id);
     game.rotate.removeAttribute('disabled');
-}
+};
+
+const changeLayout = () => {
+    const layout = document.querySelector('section');
+    const radar = game.boards[1];
+    const buttons = document.querySelectorAll('button')
+    
+    layout.style.opacity = '0';
+
+    setTimeout(() => {
+        radar.toggleAttribute('data-hidden');
+        game.shipsContainer.toggleAttribute('data-hidden');
+        buttons.forEach(button => button.toggleAttribute('data-hidden'));
+        layout.style.opacity = '1';
+    }, 250);
+};
+
+const start = () => {
+    game.fleetCells.forEach(cell => {
+        cell.removeEventListener('mouseenter', mouseEnter);
+        cell.removeEventListener('click', replaceShip)
+    });
+
+    game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
+    game.shipsContainer.style.pointerEvents = 'none';
+    placeIaFleet();
+    changeLayout();
+};
+
+const reset = () => {
+    const clearBoard = board => {
+        board.forEach(cell => {
+            cell.removeAttribute('data-ship');
+            cell.removeAttribute('data-hit');
+            cell.removeAttribute('data-sunk');
+            cell.innerHTML = '';
+        });
+    };
+
+    clearBoard(game.radarCells);
+    clearBoard(game.fleetCells);
+    
+    ships.forEach(ship => {
+        ship.fleetCells = [];
+        ship.radarCells = [];
+    });
+    
+    game.shipsContainer.removeAttribute('style');
+    game.start.setAttribute('disabled', '')
+    game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
+    
+    changeLayout();
+};
 
 game.createCells();
 
@@ -357,36 +461,6 @@ game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter))
 
 game.rotate.addEventListener('click', () => isVertical = !isVertical);
 
-game.start.addEventListener('click', () => {
-    game.fleetCells.forEach(cell => {
-        cell.removeEventListener('mouseenter', mouseEnter);
-        cell.removeEventListener('click', replaceShip)
-    })
-    game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
-    game.shipsContainer.style.pointerEvents = 'none';
+game.start.addEventListener('click', start);
 
-    placeIaFleet();
-    changeLayout();
-});
-
-game.reset.addEventListener('click', () => {
-    const clearBoard = board => {
-        board.forEach(cell => {
-            cell.removeAttribute('data-ship');
-            cell.removeAttribute('data-hit');
-            cell.innerHTML = '';
-        })
-    }
-
-    clearBoard(game.radarCells);
-    clearBoard(game.fleetCells);
-    game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter))
-    ships.forEach(ship => {
-        ship.fleetCells = [];
-        ship.radarCells = [];
-    })
-    game.shipsContainer.removeAttribute('style');
-    game.start.setAttribute('disabled', '')
-
-    changeLayout();
-});
+game.reset.addEventListener('click', reset);
