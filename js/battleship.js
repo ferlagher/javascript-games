@@ -476,7 +476,7 @@ const reset = () => {
     
     game.shipsContainer.removeAttribute('style');
     game.start.setAttribute('disabled', '')
-    game.message('')
+    game.message('');
     game.boards.forEach(board => board.classList.remove('game__board--disabled'));
     game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
     
