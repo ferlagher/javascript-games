@@ -174,6 +174,8 @@ const setPlace = () => {
     const invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
 
     if (invalidPlace) {
+        game.message('Posición inválida');
+
         temporalDivs.forEach(div => {
             div.classList.add('game__svg--shake');
             setTimeout(() => {
@@ -198,6 +200,7 @@ const setPlace = () => {
         selectedShip = null;
         isVertical = false;
         game.rotate.setAttribute('disabled', '');
+        game.message('');
         isFleetPlaced = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
 
         if (isFleetPlaced) {
@@ -236,7 +239,6 @@ const placeIaFleet = () => {
             invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
             if (invalidPlace) {
                 temporalDivs.forEach(div => div.remove());
-                game.message('Posición inválida');
             } else {
                 temporalDivs.forEach(div => {
                     const cell = div.parentElement;
@@ -245,7 +247,6 @@ const placeIaFleet = () => {
                     div.dataset.hidden = '';
                     cell.dataset.ship = ship.id;
                     ship.radarCells.push(cell);
-                    game.message('');
                 });
             };
         } while (invalidPlace);
