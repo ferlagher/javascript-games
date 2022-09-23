@@ -4,6 +4,12 @@ const game = {
     rotate: document.querySelector('#rotate'),
     start: document.querySelector('#start'),
     reset: document.querySelector('#reset'),
+    
+    pScore() {document.querySelector('#pScore').innerHTML = pScore},
+    
+    iScore() {document.querySelector('#iScore').innerHTML = iScore},
+    
+    message(mssg) {document.querySelector('#message').innerHTML = mssg},
 
     createCells() {
         this.boards.forEach(board => {
@@ -129,6 +135,9 @@ const ships = [
 let selectedShip;
 let isVertical = false;
 let iaMemory = {};
+let pScore = 0;
+let iScore = 0;
+let delay;
 
 const randomElement = arr => {
     const n = Math.floor(Math.random() * arr.length);
@@ -246,6 +255,7 @@ const placeIaFleet = () => {
 const shoot = (target, cells) => {
     const isShip = target.hasAttribute('data-ship');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    let message;
 
     svg.classList.add('game__effect');
     svg.innerHTML = `<use xlink:href="../images/misc.svg#${isShip ? 'explosion' : 'water'}"></use>`;
@@ -253,33 +263,53 @@ const shoot = (target, cells) => {
 
     if (!isShip) {
         target.append(svg);
+        message = 'Agua';
     } else {
         const targetShip = ships.find(ship => ship.id === target.dataset.ship);
         const isSunk = targetShip[cells].every(cell => cell.hasAttribute('data-hit'));
-        
-        if (cells === 'radarCells') {
-            target.append(svg)
+        const isPlayerTurn = cells === 'radarCells';
+
+        message = 'Tocado';
+
+        if (isPlayerTurn) {
+            target.append(svg);
         };
 
         if (isSunk) {
             targetShip[cells].forEach(cell => cell.dataset.sunk = '');
+            message = `¡${targetShip.name} hundido!`;
 
-            if (cells === 'radarCells') {
+            if (isPlayerTurn) {
                 targetShip[cells].forEach(cell => {
                     cell.children[0].removeAttribute('data-hidden');
                     cell.children[1].remove();
                 });
-            };
-
-            if (cells === 'fleetCells') {
-                iaMemory = {}
+            } else {
+                iaMemory = {};
             };
 
             if (ships.every(ship => ship[cells].every(cell => cell.hasAttribute('data-sunk')))) {
-                //Game Over
+                if (isPlayerTurn) {
+                    pScore++;
+
+                    game.pScore();
+                    game.message('Tú ganas');
+                } else {
+                    iScore++
+
+                    game.iScore();
+                    game.message('IA gana');
+                };
+
+                clearTimeout(delay);
+                game.boards.forEach(board => board.classList.add('game__board--disabled'));
+
+                return
             };
         };
     };
+    
+    game.message(message);
     game.wait();
 };
 
@@ -379,8 +409,8 @@ const iaTurn = () => {
 };
 
 const playerTurn = e => {
+    delay = setTimeout(iaTurn, 1000);
     shoot(e.target, 'radarCells');
-    iaTurn();
 };
 
 const selectShip = (id) => {
@@ -422,6 +452,8 @@ const start = () => {
 };
 
 const reset = () => {
+    clearTimeout(delay);
+
     const clearBoard = board => {
         board.forEach(cell => {
             cell.removeAttribute('data-ship');
@@ -441,6 +473,7 @@ const reset = () => {
     
     game.shipsContainer.removeAttribute('style');
     game.start.setAttribute('disabled', '')
+    game.boards.forEach(board => board.classList.remove('game__board--disabled'));
     game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
     
     changeLayout();

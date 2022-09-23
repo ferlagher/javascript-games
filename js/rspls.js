@@ -45,7 +45,7 @@ const input = [
 const output = {
     playerScore: function() {document.querySelector('#pScore').innerHTML = playerScore},
     iaScore: function() {document.querySelector('#iScore').innerHTML = iaScore},
-    result: function(res) {document.querySelector('#result').innerHTML = res},
+    message: function(res) {document.querySelector('#message').innerHTML = res},
     choices: function() {
         document.querySelector('#pChoice').setAttribute('xlink:href', `../images/hands.svg#${playerChoice}`);
         document.querySelector('#iChoice').setAttribute('xlink:href', `../images/hands.svg#${iaChoice}`);
@@ -76,16 +76,16 @@ input.forEach(button => {
 const checkWinner = () => {
     if (playerChoice === iaChoice) {
         output.choices();
-        output.result('Empate');
+        output.message('Empate');
     } else if (plays[playerChoice][iaChoice][0]) {
         output.choices();
         playerScore++;
         output.playerScore();
-        output.result('Tú ganas');
+        output.message('Tú ganas');
     } else {
         output.choices();
         iaScore++;
         output.iaScore();
-        output.result('IA gana')
+        output.message('IA gana')
     }
 }

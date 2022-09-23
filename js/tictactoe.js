@@ -10,7 +10,7 @@ const input = {
 
 //Contadores e iconos
 const output = {
-    result: function(res) {document.querySelector('#result').innerHTML = res},
+    message: function(res) {document.querySelector('#message').innerHTML = res},
     pScore: function() {document.querySelector('#pScore').innerHTML = pScore},
     iScore: function() {document.querySelector('#iScore').innerHTML = iScore},
     pXO: function(pIcon) {document.querySelector('#pXO').setAttribute('xlink:href', `../images/xo.svg#${pIcon}`)},
@@ -75,7 +75,7 @@ const markCell = (cell) => {
     positions[xo].push(cell.id);
 
     if(checkWin(positions[xo])) {
-        output.result(`${xo} gana`);
+        output.message(`${xo} gana`);
         if ((turn && iaFirst) || (!turn)) {
             iScore++;
             output.iScore();
@@ -85,7 +85,7 @@ const markCell = (cell) => {
         }
         gameOver();
     } else if (checkDraw()) {
-        output.result('Empate');
+        output.message('Empate');
         gameOver();
     } else {
         turn = !turn;
@@ -158,7 +158,7 @@ const reset = () => {
         cell.children[0].classList.remove('mark');
     });
     
-    output.result('')
+    output.message('')
 
     positions.x = [];
     positions.o = [];
