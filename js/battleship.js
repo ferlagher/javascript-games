@@ -236,13 +236,16 @@ const placeIaFleet = () => {
             invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
             if (invalidPlace) {
                 temporalDivs.forEach(div => div.remove());
+                game.message('Posición inválida');
             } else {
                 temporalDivs.forEach(div => {
                     const cell = div.parentElement;
+
                     div.removeAttribute('data-temporal');
                     div.dataset.hidden = '';
                     cell.dataset.ship = ship.id;
                     ship.radarCells.push(cell);
+                    game.message('');
                 });
             };
         } while (invalidPlace);
@@ -427,7 +430,7 @@ const selectShip = (id) => {
 const changeLayout = () => {
     const layout = document.querySelector('section');
     const radar = game.boards[1];
-    const buttons = document.querySelectorAll('button')
+    const buttons = Array.from(document.querySelector('.options').children);
     
     layout.style.opacity = '0';
 
@@ -442,7 +445,7 @@ const changeLayout = () => {
 const start = () => {
     game.fleetCells.forEach(cell => {
         cell.removeEventListener('mouseenter', mouseEnter);
-        cell.removeEventListener('click', replaceShip)
+        cell.removeEventListener('click', replaceShip);
     });
 
     game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));

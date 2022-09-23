@@ -4,6 +4,7 @@ body {
     grid-template-rows: repeat(2, auto);
     justify-items: center;
     align-content: space-between;
+    gap: map-get($spc, 'sm');
 }
 
 .header {
@@ -73,9 +74,14 @@ footer {
 @media (orientation: portrait) {
     .header {
         @include flex(column-reverse, space-between, stretch, null, 0);
+        padding-top: 0;
 
-        &__bar button {
-            display: block
+        &__bar {
+            padding-top: map-get($spc, 'sm');
+
+            button {
+                display: block
+            }
         }
 
         &__nav {
