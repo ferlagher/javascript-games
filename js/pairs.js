@@ -37,7 +37,7 @@ const game = {
 
     startTimer() {
         interval = setInterval(() => {
-            seconds++
+            seconds++;
 
             let mm = `${Math.floor(seconds / 60)}`;
             let ss = `${seconds % 60}`;
@@ -46,6 +46,10 @@ const game = {
             ss = ss.padStart(2, '0');
 
             this.time.innerHTML = `${mm}:${ss}`
+            
+            if (seconds === 3599) {
+                clearInterval(interval);
+            }
         }, 1000);
     },
 
