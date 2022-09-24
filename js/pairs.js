@@ -1,103 +1,130 @@
 const game = {
     board: document.querySelector('.game'),
     shuffle: document.querySelector('#shuffle'),
-    cards: [],
-
-    wait: function () {this.board.classList.toggle('game--wait')},
-};
-
-const animals = ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird'];
-let flippedCard = '';
-
-//Mezcla los animales usando el algoritmo Fisher–Yates
-const shuffledAnimals = () => {
-    const pairs = animals.concat(animals);
-    for (let i = pairs.length -1; i > 0; i--) {
-        const j = Math.floor(Math.random() * i)
-        const k = pairs[i]
-        pairs[i] = pairs[j]
-        pairs[j] = k
-    }
-    return pairs
-};
-
-
-//Crea las cartas
-const placeCards = (arr) => {
-    arr.forEach(animal => {
-        const card = document.createElement('div');
-        card.classList.add('game__card', animal);
-        card.innerHTML = `
-            <svg class="game__front">
-                <use xlink:href="../images/animals.svg#${animal}"></use>
-            </svg>
-            <svg class="game__back">
-                <use xlink:href="../images/animals.svg#paw"></use>
-                </svg>
-        `;
-        game.board.appendChild(card);
-    });
+    animals: ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird'],
+    moves: document.querySelector('#moves'),
+    time: document.querySelector('#time'),
     
-    game.cards = document.querySelectorAll('.game__card')
+    createCards() {
+        const pairs = this.animals.concat(this.animals);
+
+        for (let i = pairs.length -1; i > 0; i--) {
+            const j = Math.floor(Math.random() * i);
+            const k = pairs[i];
+            pairs[i] = pairs[j];
+            pairs[j] = k;
+        };
+
+        pairs.forEach(animal => {
+            const card = document.createElement('div');
+            card.classList.add('game__card', animal);
+            card.innerHTML = `
+                <svg class="game__front">
+                    <use xlink:href="../images/animals.svg#${animal}"></use>
+                </svg>
+                <svg class="game__back">
+                    <use xlink:href="../images/animals.svg#paw"></use>
+                </svg>
+            `;
+
+            game.board.appendChild(card);
+        });
+        
+        this.cards = Array.from(document.querySelectorAll('.game__card'));
+
+        this.cards.forEach(card => card.addEventListener('click', flipCard));
+    },
+
+    startTimer() {
+        interval = setInterval(() => {
+            seconds++
+
+            let mm = `${Math.floor(seconds / 60)}`;
+            let ss = `${seconds % 60}`;
+
+            mm = mm.padStart(2, '0');
+            ss = ss.padStart(2, '0');
+
+            this.time.innerHTML = `${mm}:${ss}`
+        }, 1000);
+    },
+
+    wait() {this.board.classList.toggle('game--wait')},
 };
 
-const clickCards = () => {
-    game.cards.forEach(card => {
-        card.addEventListener('click', e =>{
-            e.stopImmediatePropagation();
-            game.wait();
-            card.classList.add('game__card--flip');
-            if (flippedCard) {
-                const animal1 = flippedCard.classList.item(1);
-                const animal2 = card.classList.item(1);
-                if (animal1 !== animal2) {
-                    setTimeout(() => {
-                        flippedCard.classList.remove('game__card--flip');
-                        card.classList.remove('game__card--flip');
-                        flippedCard = '';
-                        game.wait();
-                    }, 800);
-                } else {
-                    flippedCard = '';
-                    game.wait();
-                }
-            } else {
-                flippedCard = card;
+let flippedCard = '',
+    moves = 0,
+    seconds = 0,
+    interval;
+
+const flipCard = e => {
+    const card = e.target;
+    game.wait();
+    card.classList.add('game__card--flip');
+    moves++;
+    game.moves.innerHTML = moves;
+
+    if (!interval) {
+        game.startTimer();
+    };
+
+    if (flippedCard) {
+        const animal1 = flippedCard.classList.item(1);
+        const animal2 = card.classList.item(1);
+
+        if (animal1 !== animal2) {
+            setTimeout(() => {
+                flippedCard.classList.remove('game__card--flip');
+                card.classList.remove('game__card--flip');
+                flippedCard = '';
                 game.wait();
-            }
-            
-            if (checkWin()) {
+            }, 800);
+        } else {
+            const win = game.cards.every(card => card.classList.contains('game__card--flip'));
+
+            flippedCard = '';
+            game.wait();
+
+            if (win) {
+                clearInterval(interval);
+                interval = null;
+
                 game.cards.forEach((card, i) => {
                     setTimeout(() => {
-                        card.classList.add('game__card--animated')
+                        card.classList.add('game__card--animated');
                     }, i * 30);
-                })
-            }
-        });
-    });
-}
-
-const checkWin = () => {
-    const cards = Array.from(game.cards);
-    return cards.every(card => card.classList.contains('game__card--flip'));
+                });
+            };
+        };
+    } else {
+        flippedCard = card;
+        game.wait();
+    };
 };
 
-//Botón para barajar y reiniciar el juego
-game.shuffle.addEventListener('click', () => {
+const shuffleCards = () => {
     game.wait();
     flippedCard = '';
+    moves = 0;
+    seconds = 0;
+    clearInterval(interval);
+    interval = null;
+    game.moves.innerHTML = '0';
+    game.time.innerHTML = '00:00';
+
     game.cards.forEach((card, i) => {
         setTimeout(() => {
             card.classList.remove('game__card--flip', 'game__card--animated');
         }, i * 20);
-    })
+    });
+
     setTimeout(() => {
-        game.board.innerHTML = ''
-        placeCards(shuffledAnimals());
-        clickCards();
+        game.board.innerHTML = '';
+        game.createCards();
         game.wait();
     }, 620);
-});
+}
 
-placeCards(shuffledAnimals());
-clickCards();
+game.createCards();
+
+game.shuffle.addEventListener('click', shuffleCards);

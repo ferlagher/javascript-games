@@ -23,6 +23,10 @@ a:link, a:visited {
 
     &__message {
         @include font('head', 'bold', 'md', 'white');
+
+        &--sm {
+            font-size: map-get($ft-sz, 'sm')
+        }
     }
 
     em {

@@ -43,7 +43,6 @@ main {
 
 section {
     max-width: calc(100vw - map-get($spc, 'sm') * 2);
-    max-height: 100%;
     background-color: map-get($clr, 'black-3');
     border: map-get($brd, 'blk');
     border-radius: 16px;
