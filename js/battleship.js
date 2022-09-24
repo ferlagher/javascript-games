@@ -2,6 +2,7 @@ const game = {
     boards: document.querySelectorAll('.game__board'),
     shipsContainer: document.querySelector('.game__ships'),
     rotate: document.querySelector('#rotate'),
+    auto: document.querySelector('#auto'),
     start: document.querySelector('#start'),
     reset: document.querySelector('#reset'),
     
@@ -96,7 +97,7 @@ class Ship {
         return coords;
     };
 
-    placeShip(n, board) {
+    place(n, board) {
         const coords = isVertical ? this.verticalCoords(n) : this.horizontalCoords(n);
         const validPlace = coords.every(coord => !board[coord].hasAttribute('data-ship') || board[coord].dataset.ship === this.id);
         
@@ -160,7 +161,7 @@ const replaceShip = e => {
 
             cell.removeEventListener('click', replaceShip);
             cell.addEventListener('mouseleave', mosueLeave);
-            cell.addEventListener('click', setPlace);
+            cell.addEventListener('click', placeShip);
         });
 
         game.start.setAttribute('disabled', '');
@@ -169,7 +170,38 @@ const replaceShip = e => {
     };
 };
 
-const setPlace = () => {
+const setPlace = (ship, board, divs) => {
+    const isPlayer = board === 'fleetCells';
+    
+    divs.forEach(div => {
+        const cell = div.parentElement;
+
+        div.removeAttribute('data-temporal');
+        cell.dataset.ship = ship.id;
+        ship[board].push(cell);
+        
+        if (isPlayer) {
+            const shipBtn = game.shipList.find(btn => btn.id === ship.id);
+
+            shipBtn.classList.add('game__ship--selected');
+            cell.addEventListener('click', replaceShip);
+        } else {
+            div.dataset.hidden = '';
+        };
+    });
+    
+    if (isPlayer) {
+        selectedShip = null;
+        game.rotate.setAttribute('disabled', '');
+
+        game.fleetCells.forEach(cell => {
+            cell.removeEventListener('mouseleave', mosueLeave);
+            cell.removeEventListener('click', placeShip);
+        });
+    };
+}
+
+const placeShip = () => {
     const temporalDivs = Array.from(document.querySelectorAll('[data-temporal]'));
     const invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
 
@@ -178,29 +210,15 @@ const setPlace = () => {
 
         temporalDivs.forEach(div => {
             div.classList.add('game__svg--shake');
+
             setTimeout(() => {
                 div.classList.remove('game__svg--shake');
             }, 500);
         });
     } else {
-        temporalDivs.forEach(div => {
-            const cell = div.parentElement;
+        setPlace(selectedShip, 'fleetCells', temporalDivs);
 
-            cell.dataset.ship = selectedShip.id;
-            cell.addEventListener('click', replaceShip);
-            div.removeAttribute('data-temporal');
-            selectedShip.fleetCells.push(cell);
-        });
-
-        game.fleetCells.forEach(cell => {
-            cell.removeEventListener('mouseleave', mosueLeave);
-            cell.removeEventListener('click', setPlace);
-        });
-
-        selectedShip = null;
         isVertical = false;
-        game.rotate.setAttribute('disabled', '');
-        game.message('');
         isFleetPlaced = game.shipList.every(ship => ship.classList.contains('game__ship--selected'));
 
         if (isFleetPlaced) {
@@ -217,15 +235,15 @@ const mouseEnter = e => {
     if (selectedShip) {
         const coord = parseInt(e.target.dataset.coord);
 
-        selectedShip.placeShip(coord, game.fleetCells);
+        selectedShip.place(coord, game.fleetCells);
         e.target.addEventListener('mouseleave', mosueLeave);
-        e.target.addEventListener('click', setPlace);
+        e.target.addEventListener('click', placeShip);
     };
 };
 
-const placeIaFleet = () => {
+const autoPlaceFleet = (board) => {
     ships.forEach(ship => {
-        const emptyCells = game.radarCells.filter(cell => !cell.hasAttribute('data-ship'));
+        const emptyCells = game[board].filter(cell => !cell.hasAttribute('data-ship'));
         const emptyCoords = [];
         let invalidPlace;
 
@@ -234,26 +252,22 @@ const placeIaFleet = () => {
 
         do {
             const coord = randomElement(emptyCoords);
-            ship.placeShip(coord, game.radarCells);
+
+            ship.place(coord, game[board]);
+
             const temporalDivs = Array.from(document.querySelectorAll('[data-temporal]'));
+
             invalidPlace = temporalDivs.some(div => div.classList.contains('game__svg--invalid'));
+
             if (invalidPlace) {
                 temporalDivs.forEach(div => div.remove());
             } else {
-                temporalDivs.forEach(div => {
-                    const cell = div.parentElement;
-
-                    div.removeAttribute('data-temporal');
-                    div.dataset.hidden = '';
-                    cell.dataset.ship = ship.id;
-                    ship.radarCells.push(cell);
-                });
+                setPlace(ship, board, temporalDivs);
             };
         } while (invalidPlace);
     });
 
     isVertical = false;
-    game.radarCells.forEach(cell => cell.addEventListener('click', playerTurn));
 };
 
 const shoot = (target, cells) => {
@@ -428,6 +442,20 @@ const selectShip = (id) => {
     game.rotate.removeAttribute('disabled');
 };
 
+const autoFleet = () => {
+    ships.forEach(ship => ship.fleetCells = []);
+
+    game.fleetCells.forEach(cell => {
+        cell.removeAttribute('data-ship');
+        cell.removeEventListener('click', replaceShip);
+        cell.innerHTML = '';
+    });
+
+    autoPlaceFleet('fleetCells');
+
+    game.start.removeAttribute('disabled', '');
+}
+
 const changeLayout = () => {
     const layout = document.querySelector('section');
     const radar = game.boards[1];
@@ -450,8 +478,8 @@ const start = () => {
     });
 
     game.shipList.forEach(ship => ship.classList.remove('game__ship--selected'));
-    game.shipsContainer.style.pointerEvents = 'none';
-    placeIaFleet();
+    game.radarCells.forEach(cell => cell.addEventListener('click', playerTurn));
+    autoPlaceFleet('radarCells');
     changeLayout();
 };
 
@@ -498,6 +526,8 @@ game.shipList.forEach(ship => {
 game.fleetCells.forEach(cell => cell.addEventListener('mouseenter', mouseEnter));
 
 game.rotate.addEventListener('click', () => isVertical = !isVertical);
+
+game.auto.addEventListener('click', autoFleet);
 
 game.start.addEventListener('click', start);
 
