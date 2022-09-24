@@ -10,12 +10,25 @@
             
             em {
                 height: 2.5em;
+                min-width: 12.5rem;
                 text-align: center;
             }
         }
     }
 
+    .winner {
+        transform-origin: center;
+        animation: scaleUp 1s ease-in-out infinite;
+    }
+
+    .looser {
+        transform-origin: center;
+        animation: shake 0.5s ease-out;
+    }
+
     .game {
+        padding: map-get($spc, 'sm');
+
         &__button {
             height: map-get($siz, 'lg');
             width: map-get($siz, 'lg');

@@ -11,7 +11,7 @@
     @for $i from 0 through 10 {
         $frame: $i * 10 + '%';
         #{$frame} {
-            transform: translate(random(2)+px, -1 * random(2)+px)
+            transform: translate(#{random(2)+'%'}, #{-1 * random(2)+'%'});
         }
     }
 }

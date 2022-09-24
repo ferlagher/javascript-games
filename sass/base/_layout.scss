@@ -50,6 +50,7 @@ section {
     box-shadow: $shadow;
     padding: map-get($spc, 'md');
     margin: map-get($spc, 'sm');
+    transition: opacity 0.25s ease-in-out;
 }
 
 footer {

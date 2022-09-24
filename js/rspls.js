@@ -1,4 +1,3 @@
-//Esto es para no tener que comparar todas las jugadas con if/else o switch
 const plays = {
     rock: {
         scissors: [true, 'Piedra aplasta tijera'],
@@ -30,62 +29,94 @@ const plays = {
         paper: [false, 'Papel desautoriza spock'],
         lizard: [false, 'Lagarto envenena spock'],
     },
-}
+};
 
-//Botones
-const input = [
-    document.querySelector('#rock'),
-    document.querySelector('#scissors'),
-    document.querySelector('#paper'),
-    document.querySelector('#lizard'),
-    document.querySelector('#spock'),
-]
-
-//Actualiza los contadores de la página
-const output = {
-    playerScore: function() {document.querySelector('#pScore').innerHTML = playerScore},
-    iaScore: function() {document.querySelector('#iScore').innerHTML = iaScore},
-    message: function(res) {document.querySelector('#message').innerHTML = res},
-    choices: function() {
-        document.querySelector('#pChoice').setAttribute('xlink:href', `../images/hands.svg#${playerChoice}`);
-        document.querySelector('#iChoice').setAttribute('xlink:href', `../images/hands.svg#${iaChoice}`);
-        if (playerChoice === iaChoice) {
-            document.querySelector('#vs').innerHTML = 'Empate';
-        } else {
-            document.querySelector('#vs').innerHTML = plays[playerChoice][iaChoice][1];
-        }
+const game = {
+    buttons: Array.from(document.querySelector('.game').children),
+    switch: document.querySelector('#version'),
+    moves: 5,
+    svgs: {
+        player: document.querySelector('#playerHand'),
+        ia: document.querySelector('#iaHand'),
     },
-}
 
-let playerChoice;
-let iaChoice;
+    showResult(winner) {
+        const result = !winner ? 'Empate' : winner === 'player' ? 'Tú ganas' : 'IA gana';
+        const mssg = winner ? plays[hand.player][hand.ia][1] : 'Empate' ;
 
-let playerScore = 0;
-let iaScore = 0;
+        document.querySelector('#message').innerHTML = result;
+        document.querySelector('#vs').innerHTML = mssg;
 
-//Funcionalidad de los botones
-input.forEach(button => {
+        for (let plyr in this.svgs) {
+            this.svgs[plyr].setAttribute('xlink:href', `../images/hands.svg#${hand[plyr]}`);
+            this.svgs[plyr].parentElement.classList.remove('winner', 'looser');
+        };
+
+        if (winner) {
+            const looser = winner === 'player' ? 'ia' : 'player';
+
+            score[winner]++
+            document.querySelector(`#${winner}Score`).innerHTML = score[winner];
+
+            setTimeout(() => {
+                this.svgs[winner].parentElement.classList.add('winner');
+                this.svgs[looser].parentElement.classList.add('looser');
+            }, 1);
+        };
+    },
+};
+
+const hand = {
+    player: null,
+    ia: null,
+};
+
+const score = {
+    player: 0,
+    ia: 0,
+};
+
+const checkWinner = () => {
+    if (hand.player === hand.ia) {
+        game.showResult();
+    } else {
+        const isPlayerWinner = plays[hand.player][hand.ia][0];
+        const winner = isPlayerWinner ? 'player' : 'ia';
+
+        game.showResult(winner);
+    };
+};
+
+game.buttons.forEach(button => {
     button.addEventListener('click', () => {
-        playerChoice = button.id
-        iaChoice = Object.keys(plays)[Math.floor(Math.random() * 5)]
-        checkWinner()
-    })
+        hand.player = button.id;
+        hand.ia = Object.keys(plays)[Math.floor(Math.random() * game.moves)];
+        checkWinner();
+    });
 });
 
-//Revisa quén gana
-const checkWinner = () => {
-    if (playerChoice === iaChoice) {
-        output.choices();
-        output.message('Empate');
-    } else if (plays[playerChoice][iaChoice][0]) {
-        output.choices();
-        playerScore++;
-        output.playerScore();
-        output.message('Tú ganas');
-    } else {
-        output.choices();
-        iaScore++;
-        output.iaScore();
-        output.message('IA gana')
-    }
-}
+game.switch.addEventListener('change', () => {
+    const layout = document.querySelector('section');
+    layout.style.opacity = 0;
+
+    setTimeout(() => {
+        if (game.switch.checked) {
+            game.moves = 3;
+            game.buttons[3].style.display = 'none';
+            game.buttons[4].style.display = 'none';
+        } else {
+            game.moves = 5;
+            game.buttons[3].removeAttribute('style');
+            game.buttons[4].removeAttribute('style');
+        };
+
+        for (let plyr in game.svgs) {
+            game.svgs[plyr].setAttribute('xlink:href', '');
+            game.svgs[plyr].parentElement.classList.remove('winner');
+        };
+
+        document.querySelector('#message').innerHTML = '';
+        document.querySelector('#vs').innerHTML = '';
+        layout.removeAttribute('style');
+    }, 250);
+})

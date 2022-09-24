@@ -31,11 +31,11 @@
                         <svg>
                             <use xlink:href="../images/misc.svg#player"></use>
                         </svg>
-                        <span id="pScore">0</span>
+                        <span id="playerScore">0</span>
                     </div>
                     <span id="message" class="output__message"></span>
                     <div class="output__score">
-                        <span id="iScore">0</span>
+                        <span id="iaScore">0</span>
                         <svg>
                             <use xlink:href="../images/misc.svg#ia"></use>
                         </svg>
@@ -43,43 +43,53 @@
                 </div>
                 <div class="output__container">
                         <svg class="svg--lg">
-                            <use id="pChoice" xlink:href=""></use>
+                            <use id="playerHand" xlink:href=""></use>
                         </svg>
                         <div class="output__vs">
                             <span> VS </span>
                             <em id="vs"></em>
                         </div>
                         <svg class="svg--lg">
-                            <use id="iChoice" xlink:href=""></use>
+                            <use id="iaHand" xlink:href=""></use>
                         </svg>
                 </div>
             </div>
             <div class="game">
                 <button id="rock" class="game__button">
-                <svg>
-                    <use xlink:href="../images/hands.svg#rock"></use>
-                </svg>
+                    <svg>
+                        <use xlink:href="../images/hands.svg#rock"></use>
+                    </svg>
                 </button>
                 <button id="scissors" class="game__button">
-                <svg>
-                    <use xlink:href="../images/hands.svg#scissors"></use>
-                </svg>
+                    <svg>
+                        <use xlink:href="../images/hands.svg#scissors"></use>
+                    </svg>
                 </button>
                 <button id="paper" class="game__button">
-                <svg>
-                    <use xlink:href="../images/hands.svg#paper"></use>
-                </svg>
+                    <svg>
+                        <use xlink:href="../images/hands.svg#paper"></use>
+                    </svg>
                 </button>
                 <button id="lizard" class="game__button">
-                <svg>
-                    <use xlink:href="../images/hands.svg#lizard"></use>
-                </svg>
+                    <svg>
+                        <use xlink:href="../images/hands.svg#lizard"></use>
+                    </svg>
                 </button>
                 <button id="spock" class="game__button">
-                <svg>
-                    <use xlink:href="../images/hands.svg#spock"></use>
-                </svg>
+                    <svg>
+                        <use xlink:href="../images/hands.svg#spock"></use>
+                    </svg>
                 </button>
+            </div>
+            <div class="options">
+                <div class="switch">
+                    <label for="version">Big Bang</label>
+                    <label class="switch__track" for="version">
+                        <input id="version" class="switch__check" type="checkbox">
+                        <span class="switch__slider"></span>
+                    </label>
+                    <label for="version">Clásico</label>
+                </div>
             </div>
         </section>
     </main>
