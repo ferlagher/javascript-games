@@ -1,4 +1,3 @@
-//Celdas, botones y switchs
 const input = {
     cells: document.querySelectorAll('.game__cell'),
     reset: document.querySelector('#reset'),
@@ -8,7 +7,6 @@ const input = {
     wait: function() {document.querySelector('.game').classList.toggle('game--wait')},
 }
 
-//Contadores e iconos
 const output = {
     message: function(res) {document.querySelector('#message').innerHTML = res},
     pScore: function() {document.querySelector('#pScore').innerHTML = pScore},
@@ -18,7 +16,6 @@ const output = {
     iAvatar: function(avatar) {document.querySelector('#iAvatar').setAttribute('xlink:href', `../images/misc.svg#${avatar}`)},
 }
 
-//Combinaciones para ganar
 const win = [
     //Filas
     ['1', '2', '3'],
@@ -47,7 +44,6 @@ let delay;
 let pScore = 0;
 let iScore = 0;
 
-//Revisa si terminó la partida
 const checkWin = pos => {
     const line = win.find(arr => arr.every(cell => pos.includes(cell)));
     if (line) {line.forEach(cell => document.getElementById(cell).classList.add('game__cell--animated'))};
@@ -63,7 +59,6 @@ const gameOver = () => {
     input.cells.forEach(cell => cell.classList.add('game__cell--disabled'));
 }
 
-//Marca la casilla elegida y si no terminó la partida, cambia el turno
 const markCell = (cell) => {
     if (typeof(cell) === 'string') {
         cell = document.getElementById(cell)
@@ -93,65 +88,79 @@ const markCell = (cell) => {
     }
 }
 
-//Estrategia de la IA
 const iaMove = () => {
-    const corners = ['1', '3', '7', '9'];
-    const sides = ['2', '4', '6', '8'];
-    const diagonals = [['1', '9'], ['3', '7']];
-    const oponent = xo === 'x' ? 'o' : 'x';
-    const currentTurn = 1 + positions[xo].length + positions[oponent].length;
+    const corners = ['1', '3', '7', '9'],
+        sides = ['2', '4', '6', '8'],
+        center = ['5'],
+        diagonals = [['1', '9'], ['3', '7']],
+        oponent = xo === 'x' ? 'o' : 'x',
+        currentTurn = 1 + positions[xo].length + positions[oponent].length;
 
     const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
 
     const checkForLines = pos => {
-        oneForLine = win.find(arr => {
+        const emptyCells = [];
+        
+        win.forEach(arr => {
             const matchingCells = arr.filter(cell => pos.includes(cell));
-            return matchingCells.length === 2;
+            const emptyCell = arr.find(cell => !checkDisabled(cell));
+            
+            if (matchingCells.length === 2 && emptyCell) {
+                emptyCells.push(emptyCell);
+            };
         });
-        if (oneForLine) {
-            return oneForLine.find(cell => !checkDisabled(cell));
-        }
-        else {
-            return false
-        }
-    };
 
+        return emptyCells.length ? emptyCells : null;
+    };
+    
     const checkEmptyCells = arr => {
         const emptyCells = arr.filter(cell => !checkDisabled(cell));
-        return emptyCells;
-    }
-
+        return emptyCells.length ? emptyCells : null;
+    };
+    
     const checkOponent = arr => {
         return positions[oponent].every(pos => arr.includes(pos))
-    }
+    };
 
-    const markRandomCell = arr => {
-        const n = Math.floor(Math.random() * arr.length);
-        markCell(arr[n]);
-    }
+    const tryBlock = () => {
+        if (currentTurn === 2 && checkOponent(corners)) {
+            return ['5'];
+        } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
+            return checkEmptyCells(sides);
+        } else {
+            return null
+        };
+    };
 
-    if (checkForLines(positions[xo])) {
-        markCell(checkForLines(positions[xo]));
-    } else if (checkForLines(positions[oponent])) {
-        markCell(checkForLines(positions[oponent]));
+    const cells = checkForLines(positions[xo])
+        || checkForLines(positions[oponent])
+        || tryBlock()
+        || checkEmptyCells(corners)
+        || checkEmptyCells(center)
+        || checkEmptyCells(sides);
+
+    const n = Math.floor(Math.random() * cells.length);
+    markCell(cells[n]);
+
+/*     if (checkForLines(positions[xo]).length) {
+        markRandomCell(checkForLines(positions[xo]));
+    } else if (checkForLines(positions[oponent]).length) {
+        markRandomCell(checkForLines(positions[oponent]));
     } else if (currentTurn === 2 && checkOponent(corners)) {
         markCell('5');
-        //Si el jugador fue primero y marcó una esquina, marca el centro
     } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
         markRandomCell(checkEmptyCells(sides));
-        //Si el jugador marcó la esquina opuesta en su segundo turno, marca un lado
     } else if (checkEmptyCells(corners).length) {
         markRandomCell(checkEmptyCells(corners));
     } else if (!checkDisabled('5')) {
         markCell('5');
     } else if(checkEmptyCells(sides).length) {
         markRandomCell(checkEmptyCells(sides));
-    }
+    } */
 
     input.wait();
 }
 
-//Reinicia al juego manteniendo las puntuaciones y las opciones
 const reset = () => {
     input.cells.forEach(cell => {
         cell.classList.remove('game__cell--disabled', 'game__cell--animated');
@@ -174,14 +183,13 @@ const reset = () => {
     }
 }
 
-//Funcionalidad de las celdas, botones y switchs
 input.cells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         cell.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
     });
     cell.addEventListener('click', () => {
         markCell(cell);
-        if (!pvp) {
+        if (!pvp && !checkDraw()) {
             input.wait();
             delay = setTimeout(iaMove, 500);
         }
@@ -189,6 +197,7 @@ input.cells.forEach(cell => {
 });
 
 input.reset.addEventListener('click', reset);
+
 input.vs.addEventListener('change', () => {
     pvp = input.vs.checked;
     if (pvp) {
@@ -209,6 +218,7 @@ input.vs.addEventListener('change', () => {
     output.iScore();
     reset();
 });
+
 input.xo.addEventListener('change', () => {
     iaFirst = input.xo.checked;
     if (iaFirst){
