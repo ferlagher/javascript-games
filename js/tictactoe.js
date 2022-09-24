@@ -93,10 +93,9 @@ const iaMove = () => {
         sides = ['2', '4', '6', '8'],
         center = ['5'],
         diagonals = [['1', '9'], ['3', '7']],
-        oponent = xo === 'x' ? 'o' : 'x',
-        currentTurn = 1 + positions[xo].length + positions[oponent].length;
-
-    const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
+        oponent = xo === 'x' ? 'o' : 'x';
+        
+        const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
 
     const checkForLines = pos => {
         const emptyCells = [];
@@ -121,8 +120,10 @@ const iaMove = () => {
     const checkOponent = arr => {
         return positions[oponent].every(pos => arr.includes(pos))
     };
-
+    
     const tryBlock = () => {
+        const currentTurn = 1 + positions[xo].length + positions[oponent].length;
+        
         if (currentTurn === 2 && checkOponent(corners)) {
             return ['5'];
         } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
@@ -141,22 +142,6 @@ const iaMove = () => {
 
     const n = Math.floor(Math.random() * cells.length);
     markCell(cells[n]);
-
-/*     if (checkForLines(positions[xo]).length) {
-        markRandomCell(checkForLines(positions[xo]));
-    } else if (checkForLines(positions[oponent]).length) {
-        markRandomCell(checkForLines(positions[oponent]));
-    } else if (currentTurn === 2 && checkOponent(corners)) {
-        markCell('5');
-    } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
-        markRandomCell(checkEmptyCells(sides));
-    } else if (checkEmptyCells(corners).length) {
-        markRandomCell(checkEmptyCells(corners));
-    } else if (!checkDisabled('5')) {
-        markCell('5');
-    } else if(checkEmptyCells(sides).length) {
-        markRandomCell(checkEmptyCells(sides));
-    } */
 
     input.wait();
 }
