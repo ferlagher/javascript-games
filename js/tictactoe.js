@@ -4,16 +4,33 @@ const input = {
     xo: document.querySelector('#xo'),
     vs: document.querySelector('#vs'),
 
-    wait: function() {document.querySelector('.game').classList.toggle('game--wait')},
+    wait() {document.querySelector('.game').classList.toggle('game--wait')},
 }
 
 const output = {
-    message: function(res) {document.querySelector('#message').innerHTML = res},
-    pScore: function() {document.querySelector('#pScore').innerHTML = pScore},
-    iScore: function() {document.querySelector('#iScore').innerHTML = iScore},
-    pXO: function(pIcon) {document.querySelector('#pXO').setAttribute('xlink:href', `../images/xo.svg#${pIcon}`)},
-    iXO: function(iIcon) {document.querySelector('#iXO').setAttribute('xlink:href', `../images/xo.svg#${iIcon}`)},
-    iAvatar: function(avatar) {document.querySelector('#iAvatar').setAttribute('xlink:href', `../images/misc.svg#${avatar}`)},
+    message(res) {document.querySelector('#message').innerHTML = res},
+
+    playerScore() {document.querySelector('#playerScore').innerHTML = playerScore},
+
+    aiScore() {document.querySelector('#aiScore').innerHTML = aiScore},
+
+    pXO(pIcon) {document.querySelector('#pXO').setAttribute('xlink:href', `../images/xo.svg#${pIcon}`)},
+
+    iXO(iIcon) {document.querySelector('#iXO').setAttribute('xlink:href', `../images/xo.svg#${iIcon}`)},
+
+    aiAvatar(avatar) {
+        const svg = document.querySelector('#aiAvatar');
+
+        if (avatar === 'ai'){
+            svg.innerHTML = `
+                <use xlink:href="../images/ai.svg#computer"></use>
+                <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
+            `;
+        } else {
+            const n = Math.floor(Math.random() * 6) + 1;
+            svg.innerHTML = `<use xlink:href="../images/avatars.svg#avatar${n}"></use>`
+        };
+    },
 }
 
 const win = [
@@ -36,13 +53,13 @@ const positions = {
 }; 
 
 let pvp = input.vs.checked;
-let iaFirst = input.xo.checked;
+let aiFirst = input.xo.checked;
 let turn = true;
 let xo = 'x';
 let delay;
 
-let pScore = 0;
-let iScore = 0;
+let playerScore = 0;
+let aiScore = 0;
 
 const checkWin = pos => {
     const line = win.find(arr => arr.every(cell => pos.includes(cell)));
@@ -70,13 +87,15 @@ const markCell = (cell) => {
     positions[xo].push(cell.id);
 
     if(checkWin(positions[xo])) {
-        output.message(`${xo} gana`);
-        if ((turn && iaFirst) || (!turn)) {
-            iScore++;
-            output.iScore();
+        const aiTurn = (turn && aiFirst) || (!turn && !aiFirst);
+        const mssg = pvp ? `${xo} gana` : aiTurn ? 'IA gana' : `${player.name} gana`;
+        output.message(mssg);
+        if (aiTurn || (pvp && !turn)) {
+            aiScore++;
+            output.aiScore();
         } else {
-            pScore++;
-            output.pScore();
+            playerScore++;
+            output.playerScore();
         }
         gameOver();
     } else if (checkDraw()) {
@@ -88,14 +107,14 @@ const markCell = (cell) => {
     }
 }
 
-const iaMove = () => {
+const aiMove = () => {
     const corners = ['1', '3', '7', '9'],
         sides = ['2', '4', '6', '8'],
         center = ['5'],
         diagonals = [['1', '9'], ['3', '7']],
         oponent = xo === 'x' ? 'o' : 'x';
-        
-        const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
+
+    const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
 
     const checkForLines = pos => {
         const emptyCells = [];
@@ -123,7 +142,7 @@ const iaMove = () => {
     
     const tryBlock = () => {
         const currentTurn = 1 + positions[xo].length + positions[oponent].length;
-        
+
         if (currentTurn === 2 && checkOponent(corners)) {
             return ['5'];
         } else if (currentTurn === 4 && diagonals.some(arr => checkOponent(arr))) {
@@ -162,9 +181,9 @@ const reset = () => {
 
     clearTimeout(delay)
 
-    if (!pvp && iaFirst) {
+    if (!pvp && aiFirst) {
         input.wait();
-        delay = setTimeout(iaMove, 500);
+        delay = setTimeout(aiMove, 500);
     }
 }
 
@@ -176,7 +195,7 @@ input.cells.forEach(cell => {
         markCell(cell);
         if (!pvp && !checkDraw()) {
             input.wait();
-            delay = setTimeout(iaMove, 500);
+            delay = setTimeout(aiMove, 500);
         }
     });
 });
@@ -187,26 +206,26 @@ input.vs.addEventListener('change', () => {
     pvp = input.vs.checked;
     if (pvp) {
         input.xo.parentElement.setAttribute('disabled', '')
-        output.iAvatar('player')
+        output.aiAvatar('player')
         input.xo.checked = false;
-        iaFirst = input.xo.checked;
+        aiFirst = input.xo.checked;
         output.pXO('x');
         output.iXO('o');
     } else {       
         input.xo.parentElement.removeAttribute('disabled')
-        output.iAvatar('ia')
+        output.aiAvatar('ai')
         
     }
-    pScore = 0;
-    iScore = 0;
-    output.pScore();
-    output.iScore();
+    playerScore = 0;
+    aiScore = 0;
+    output.playerScore();
+    output.aiScore();
     reset();
 });
 
 input.xo.addEventListener('change', () => {
-    iaFirst = input.xo.checked;
-    if (iaFirst){
+    aiFirst = input.xo.checked;
+    if (aiFirst){
         output.pXO('o');
         output.iXO('x');
     } else {

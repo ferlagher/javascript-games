@@ -28,16 +28,16 @@
             <div class="output">
                 <div class="output__container">
                     <div class="output__score">
-                        <svg>
-                            <use xlink:href="../images/misc.svg#player"></use>
+                        <svg id="playerAvatar">
                         </svg>
-                        <span id="pScore">0</span>
+                        <span id="playerScore">0</span>
                     </div>
                     <span id="message" class="output__message"></span>
                     <div class="output__score">
-                        <span id="iScore">0</span>
-                        <svg>
-                            <use id="iAvatar" xlink:href="../images/misc.svg#ia"></use>
+                        <span id="aiScore">0</span>
+                        <svg id="aiAvatar">
+                            <use xlink:href="../images/ai.svg#computer"></use>
+                            <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
                         </svg>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
             </a>
         </div>
     </footer>
-    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
     <script src="../js/tictactoe.js"></script>
 </body>
 </html>

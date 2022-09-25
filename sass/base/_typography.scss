@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@400;700&display=swap');
 
-header, footer {
+body, dialog {
     @include font('body', 'regular', 'sm', 'white');
 }
 
@@ -9,8 +9,12 @@ button {
 }
 
 h2 {
-    @include font('head', 'bold', 'md', 'white');
-    text-shadow: $shadow;
+    @include font('head', 'bold', 'lg', 'white');
+}
+
+p {
+    font-size: map-get($ft-sz, 'md');
+    padding-bottom: 1em;
 }
 
 a:link, a:visited {
@@ -18,22 +22,23 @@ a:link, a:visited {
     text-decoration: none;
 }
 
-.output {
+input {
     @include font('body', 'regular', 'md', 'white');
 
+    &::placeholder {
+        color: map-get($clr, 'white');
+    }
+}
+
+.output {
+    @include font('body', 'regular', 'lg', 'white');
+
     &__message {
-        @include font('head', 'bold', 'md', 'white');
+        @include font('head', 'bold', 'lg', 'white');
 
         &--sm {
             font-size: map-get($ft-sz, 'sm')
         }
     }
-
-    em {
-        @include font('body', 'regular', 'sm', 'white');
-    }
 }
 
-.options {
-    @include font('body', 'regular', 'sm', 'white')
-}

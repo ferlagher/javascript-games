@@ -26,14 +26,20 @@
     <main>
         <section>
             <div class="output">
-                <span class="output__message--sm">
-                    Movimientos:
-                    <span id="moves">0</span>
-                </span>
-                <span class="output__message--sm">
-                    Tiempo:
-                    <span id="time">00:00</span>
-                </span>
+                <div class="output__score">
+                    <svg id="playerAvatar">
+                    </svg>
+                    <div class="output__container">
+                        <span class="output__message--sm">
+                            Movimientos:
+                            <span id="moves">0</span>
+                        </span>
+                        <span class="output__message--sm">
+                            Tiempo:
+                            <span id="time">00:00</span>
+                        </span>
+                    </div>
+                </div>
             </div>
             <div class="game">
             </div>
@@ -58,7 +64,7 @@
             </a>
         </div>
     </footer>
-    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
     <script src="../js/pairs.js"></script>
 </body>
 </html>

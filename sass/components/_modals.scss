@@ -1,0 +1,58 @@
+.config {
+    @extend section;
+    margin: auto;
+
+    
+    form {
+        @include flex(column, space-between, null, null, map-get($spc, 'sm'));
+    }
+    
+    [type="text"] {
+        height: map-get($siz, 'md');
+        background-color: transparent;
+        border: none;
+        border-bottom: map-get($brd, 'wht');
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__radios {
+        @include flex(row, space-between, null, null, map-get($spc, 'sm'));
+    }
+    
+    .radio {
+        display: inline-block;
+        height: map-get($siz, 'lg');
+        width: map-get($siz, 'lg');
+        
+        [type="radio"] {
+            width: 0;
+            height: 0;
+            opacity: 0;
+
+            &:checked + svg {
+                opacity: 1;
+            }
+        }
+
+        svg {
+            opacity: 0.6;
+            filter: drop-shadow($shadow);
+            transition: opacity 0.2s ease-in-out;
+        }
+    }
+
+    &__buttons {
+        align-self: flex-end;
+        
+        button {
+            margin-left: map-get($spc, 'sm');
+        }
+    }
+
+    &::backdrop {
+        backdrop-filter: blur(10px);
+    }
+}

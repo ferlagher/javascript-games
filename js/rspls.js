@@ -37,12 +37,12 @@ const game = {
     moves: 5,
     svgs: {
         player: document.querySelector('#playerHand'),
-        ia: document.querySelector('#iaHand'),
+        ai: document.querySelector('#aiHand'),
     },
 
     showResult(winner) {
-        const result = !winner ? 'Empate' : winner === 'player' ? 'Tú ganas' : 'IA gana';
-        const mssg = winner ? plays[hand.player][hand.ia][1] : 'Empate' ;
+        const result = !winner ? 'Empate' : winner === 'player' ? `${player.name} gana` : 'IA gana';
+        const mssg = winner ? plays[hand.player][hand.ai][1] : 'Empate' ;
 
         document.querySelector('#message').innerHTML = result;
         document.querySelector('#vs').innerHTML = mssg;
@@ -53,7 +53,7 @@ const game = {
         };
 
         if (winner) {
-            const looser = winner === 'player' ? 'ia' : 'player';
+            const looser = winner === 'player' ? 'ai' : 'player';
 
             score[winner]++
             document.querySelector(`#${winner}Score`).innerHTML = score[winner];
@@ -68,20 +68,20 @@ const game = {
 
 const hand = {
     player: null,
-    ia: null,
+    ai: null,
 };
 
 const score = {
     player: 0,
-    ia: 0,
+    ai: 0,
 };
 
 const checkWinner = () => {
-    if (hand.player === hand.ia) {
+    if (hand.player === hand.ai) {
         game.showResult();
     } else {
-        const isPlayerWinner = plays[hand.player][hand.ia][0];
-        const winner = isPlayerWinner ? 'player' : 'ia';
+        const isPlayerWinner = plays[hand.player][hand.ai][0];
+        const winner = isPlayerWinner ? 'player' : 'ai';
 
         game.showResult(winner);
     };
@@ -90,7 +90,7 @@ const checkWinner = () => {
 game.buttons.forEach(button => {
     button.addEventListener('click', () => {
         hand.player = button.id;
-        hand.ia = Object.keys(plays)[Math.floor(Math.random() * game.moves)];
+        hand.ai = Object.keys(plays)[Math.floor(Math.random() * game.moves)];
         checkWinner();
     });
 });

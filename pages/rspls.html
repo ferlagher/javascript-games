@@ -28,16 +28,16 @@
             <div class="output">
                 <div class="output__container">
                     <div class="output__score">
-                        <svg>
-                            <use xlink:href="../images/misc.svg#player"></use>
+                        <svg id="playerAvatar">
                         </svg>
                         <span id="playerScore">0</span>
                     </div>
                     <span id="message" class="output__message"></span>
                     <div class="output__score">
-                        <span id="iaScore">0</span>
+                        <span id="aiScore">0</span>
                         <svg>
-                            <use xlink:href="../images/misc.svg#ia"></use>
+                            <use xlink:href="../images/ai.svg#computer"></use>
+                            <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
                         </svg>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                             <em id="vs"></em>
                         </div>
                         <svg class="svg--lg">
-                            <use id="iaHand" xlink:href=""></use>
+                            <use id="aiHand" xlink:href=""></use>
                         </svg>
                 </div>
             </div>
@@ -109,7 +109,7 @@
             </a>
         </div>
     </footer>
-    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
     <script src="../js/rspls.js"></script>
 </body>
 </html>

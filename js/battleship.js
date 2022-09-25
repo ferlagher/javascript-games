@@ -6,9 +6,9 @@ const game = {
     start: document.querySelector('#start'),
     reset: document.querySelector('#reset'),
     
-    pScore() {document.querySelector('#pScore').innerHTML = pScore},
+    playerScore() {document.querySelector('#playerScore').innerHTML = playerScore},
     
-    iScore() {document.querySelector('#iScore').innerHTML = iScore},
+    aiScore() {document.querySelector('#aiScore').innerHTML = aiScore},
     
     message(mssg) {document.querySelector('#message').innerHTML = mssg},
 
@@ -135,9 +135,9 @@ const ships = [
 
 let selectedShip;
 let isVertical = false;
-let iaMemory = {};
-let pScore = 0;
-let iScore = 0;
+let aiMemory = {};
+let playerScore = 0;
+let aiScore = 0;
 let delay;
 
 const randomElement = arr => {
@@ -303,19 +303,19 @@ const shoot = (target, cells) => {
                     cell.children[1].remove();
                 });
             } else {
-                iaMemory = {};
+                aiMemory = {};
             };
 
             if (ships.every(ship => ship[cells].every(cell => cell.hasAttribute('data-sunk')))) {
                 if (isPlayerTurn) {
-                    pScore++;
+                    playerScore++;
 
-                    game.pScore();
-                    game.message('Tú ganas');
+                    game.playerScore();
+                    game.message(`${player.name} gana`);
                 } else {
-                    iScore++
+                    aiScore++
 
-                    game.iScore();
+                    game.aiScore();
                     game.message('IA gana');
                 };
 
@@ -331,7 +331,7 @@ const shoot = (target, cells) => {
     game.wait();
 };
 
-const iaTurn = () => {
+const aiTurn = () => {
     const validCells = game.fleetCells.filter(cell => !cell.hasAttribute('data-hit'));
     const previousHits = game.fleetCells.filter(cell => cell.hasAttribute('data-ship') && cell.hasAttribute('data-hit') && !cell.hasAttribute('data-sunk'));
     const numberHits = previousHits.length;
@@ -392,9 +392,9 @@ const iaTurn = () => {
         let cellCoord = cell ? cell.dataset.coord : null;
 
         if (cell && cell.hasAttribute('data-ship')) {
-            iaMemory.firstCoord = Math.min(cellCoord, firstCoord);
-            iaMemory.lastCoord = Math.max(cellCoord, lastCoord);
-            iaMemory.delta = delta;
+            aiMemory.firstCoord = Math.min(cellCoord, firstCoord);
+            aiMemory.lastCoord = Math.max(cellCoord, lastCoord);
+            aiMemory.delta = delta;
         };
 
         while (!cell) {
@@ -405,9 +405,9 @@ const iaTurn = () => {
             if (cell) {
                 cellCoord = cell.dataset.coord;
 
-                iaMemory.firstCoord = Math.min(cellCoord, randomHitCoord);
-                iaMemory.lastCoord = Math.max(cellCoord, randomHitCoord);
-                iaMemory.delta = iaMemory.lastCoord - iaMemory.firstCoord;
+                aiMemory.firstCoord = Math.min(cellCoord, randomHitCoord);
+                aiMemory.lastCoord = Math.max(cellCoord, randomHitCoord);
+                aiMemory.delta = aiMemory.lastCoord - aiMemory.firstCoord;
             };
         };
 
@@ -415,7 +415,7 @@ const iaTurn = () => {
     };
 
     if (numberHits > 1) {
-        target = trySunk(iaMemory);
+        target = trySunk(aiMemory);
     } else if (numberHits === 1) {
         const n = parseInt(previousHits[0].dataset.coord);
         target = adjacentCell(n);
@@ -427,7 +427,7 @@ const iaTurn = () => {
 };
 
 const playerTurn = e => {
-    delay = setTimeout(iaTurn, 1000);
+    delay = setTimeout(aiTurn, 1000);
     shoot(e.target, 'radarCells');
 };
 

@@ -1,9 +1,4 @@
 .pairs {
-    .output {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
     .game {
         display: grid;
         grid-template-columns: repeat(4, 1fr);

@@ -21,7 +21,7 @@ class Game {
             svg.style.top = (i % 2) * 50 + Math.random() * 50 + '%';
             svg.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-            div.appendChild(svg);
+            div.append(svg);
         };
     };
 };
@@ -33,8 +33,9 @@ const games = [
     new Game('Batalla naval', 'battleship', 'ships', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
 ];
 
+const main = document.querySelector('main');
+
 if (location.pathname === '/' || location.pathname.includes('index.html')) { 
-    const main = document.querySelector('#main');
     
     games.forEach(game => {
         const section = document.createElement('section');
@@ -45,10 +46,10 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
         
         h2.innerText = game.name;
         h2.classList.add('card__title');
-        a.appendChild(h2);
+        a.append(h2);
         a.href = game.path;
         a.classList.add('card__link');
-        section.appendChild(a);
+        section.append(a);
         section.classList.add('card', game.bkg);
         section.id = game.id;
     
@@ -58,9 +59,9 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
         game.background(decoTop, 10, 'lg');
         game.background(decoBottom, 10, 'lg');
     
-        main.appendChild(section);
-        main.appendChild(decoTop);
-        main.appendChild(decoBottom);
+        main.append(section);
+        main.append(decoTop);
+        main.append(decoBottom);
     });
     
     const cards = document.querySelectorAll('.card');
@@ -94,11 +95,79 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
 
         a.href = game.path;
         a.innerText = game.name;
-        li.appendChild(a);
-        navlist.appendChild(li);
-    })
+        li.append(a);
+        navlist.append(li);
+    });
+
+    document.querySelector('#expand').addEventListener('click', () => {
+        document.querySelector('.header__nav').classList.toggle('header__nav--show');
+    });
 };
 
-document.querySelector('#expand').addEventListener('click', () => {
-    document.querySelector('.header__nav').classList.toggle('header__nav--show');
-});
+let player = JSON.parse(localStorage.getItem('player'));
+
+const changeAvatar = () => {
+    const playerAvatar = document.querySelector('#playerAvatar');
+
+    if (playerAvatar) {
+        playerAvatar.innerHTML = `<use xlink:href="../images/avatars.svg#${player.avatar}"></use>`
+    };
+};
+
+const editPlayer = () => {
+    const modal = document.createElement('dialog');
+    const title = player ? 'Editar perfil' : 'Bienvenido';
+    const text = player ? '' : 'Para continuar, elije un nombre de usuario y un avatar.';
+    let radios = '';
+
+    for (let i = 0; i < 6; i++) {
+        const checked = player?.avatar === `avatar${i+1}` ? 'checked' : ''; 
+        radios += `
+            <label for="avatar${i+1}" class="radio">
+                <input id="avatar${i+1}" value="avatar${i+1}" type="radio" name="playerAvatar" ${checked} required>
+                <svg>
+                    <use xlink:href="../images/avatars.svg#avatar${i+1}"></use>
+                </svg>
+            </label>
+        `;
+    }
+
+    const temp = `
+            <h2>${title}</h2>
+            <p>${text}</p>
+            <form id="playerForm">
+                <input type="text" name="playerName" placeholder="Nombre" value="${player?.name || ''}" required>
+                <div class="config__radio">
+                ${radios}
+                </div>
+                <div class="config__buttons">
+                    ${player ? '<button id="dismiss">Cancelar</button>' : ''}
+                    <button type="submit">Guardar</button>
+                </div>
+            </form>
+    `;
+
+    modal.classList.add('config')
+    modal.innerHTML = temp;
+    main.append(modal);
+    modal.showModal();
+
+    const form = document.querySelector('#playerForm');
+    
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        player = {
+            name: document.querySelector('input[name="playerName"]').value,
+            avatar: document.querySelector('input[name="playerAvatar"]:checked').value,
+        }
+
+        localStorage.setItem('player', JSON.stringify(player));
+        modal.remove();
+        changeAvatar();
+    });
+};
+
+if (!player) {editPlayer()};
+
+changeAvatar();

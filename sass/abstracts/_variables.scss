@@ -23,7 +23,8 @@ $ft-wt: (
 );
 
 $ft-sz: (
-    md: clamp(1.5rem, 3vw, 2rem),
+    lg: clamp(1.5rem, 3vw, 2rem),
+    md: clamp(1.2rem, 2vw, 1.5rem),
     sm: clamp(calc(14rem / 16), 1.5vw, calc(18rem / 16)),
 );
 
