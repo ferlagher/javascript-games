@@ -27,11 +27,11 @@ This website is a collection of minigames that can be played in your browser. Th
 
 ## Games
 
-- [Rock, paper, scissors](https://juegos-laguna.netlify.app/pages/rspls.html)
-- [Tic-Tac-Toe](https://juegos-laguna.netlify.app/pages/tictactoe.html)
-- [Matching pairs](https://juegos-laguna.netlify.app/pages/pairs.html)
-- [Battleship](https://juegos-laguna.netlify.app/pages/battleship.html)
-- Minesweeper *(In development)*
+- [Rock, paper, scissors ✊🏻✋🏻✌🏻](https://juegos-laguna.netlify.app/pages/rspls.html)
+- [Tic-Tac-Toe ❌⭕](https://juegos-laguna.netlify.app/pages/tictactoe.html)
+- [Matching pairs 🃏🃏](https://juegos-laguna.netlify.app/pages/pairs.html)
+- [Battleship 🚢](https://juegos-laguna.netlify.app/pages/battleship.html)
+- Minesweeper 💣🚩 *(In development)*
 
 ## Other features
 

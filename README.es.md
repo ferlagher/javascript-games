@@ -27,11 +27,11 @@ Este sitio web consiste en una colección de jueguitos para navegador. Por ahora
 
 ## Juegos
 
-- [Piedra, papel, tijera](https://juegos-laguna.netlify.app/pages/rspls.html)
-- [Ta-Te-Ti](https://juegos-laguna.netlify.app/pages/tictactoe.html)
-- [Buscar Parejas](https://juegos-laguna.netlify.app/pages/pairs.html)
-- [Batalla Naval](https://juegos-laguna.netlify.app/pages/battleship.html)
-- Buscaminas *(En desarrollo)*
+- [Piedra, papel, tijera ✊🏻✋🏻✌🏻](https://juegos-laguna.netlify.app/pages/rspls.html)
+- [Ta-Te-Ti ❌⭕](https://juegos-laguna.netlify.app/pages/tictactoe.html)
+- [Buscar Parejas 🃏🃏](https://juegos-laguna.netlify.app/pages/pairs.html)
+- [Batalla Naval 🚢](https://juegos-laguna.netlify.app/pages/battleship.html)
+- Buscaminas 💣🚩 *(En desarrollo)*
 
 ## Otras funcionalidades
 
