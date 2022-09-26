@@ -40,6 +40,12 @@ const game = {
         ai: document.querySelector('#aiHand'),
     },
 
+    updateScores() {
+        document.querySelector('#playerScore').innerHTML = score.player;
+        document.querySelector('#aiScore').innerHTML = score.ai;
+        player.saveScore('rspls', score);
+    },
+
     showResult(winner) {
         const result = !winner ? 'Empate' : winner === 'player' ? `${player.name} gana` : 'IA gana';
         const mssg = winner ? plays[hand.player][hand.ai][1] : 'Empate' ;
@@ -56,7 +62,7 @@ const game = {
             const looser = winner === 'player' ? 'ai' : 'player';
 
             score[winner]++
-            document.querySelector(`#${winner}Score`).innerHTML = score[winner];
+            this.updateScores();
 
             setTimeout(() => {
                 this.svgs[winner].parentElement.classList.add('winner');
@@ -66,23 +72,27 @@ const game = {
     },
 };
 
+const score = player?.scores?.rspls || {
+    player: 0,
+    ai: 0
+};
+
+game.updateScores();
+
 const hand = {
     player: null,
     ai: null,
 };
 
-const score = {
-    player: 0,
-    ai: 0,
-};
-
 const checkWinner = () => {
     if (hand.player === hand.ai) {
+        ai.changeFace('smile');
         game.showResult();
     } else {
         const isPlayerWinner = plays[hand.player][hand.ai][0];
         const winner = isPlayerWinner ? 'player' : 'ai';
 
+        isPlayerWinner ? ai.changeFace('sad') : ai.changeFace('happy'); 
         game.showResult(winner);
     };
 };
@@ -98,7 +108,7 @@ game.buttons.forEach(button => {
 game.switch.addEventListener('change', () => {
     const layout = document.querySelector('section');
     layout.style.opacity = 0;
-
+    
     setTimeout(() => {
         if (game.switch.checked) {
             game.moves = 3;
@@ -114,9 +124,10 @@ game.switch.addEventListener('change', () => {
             game.svgs[plyr].setAttribute('xlink:href', '');
             game.svgs[plyr].parentElement.classList.remove('winner');
         };
-
+        
         document.querySelector('#message').innerHTML = '';
         document.querySelector('#vs').innerHTML = '';
+        ai.changeFace('smile')
         layout.removeAttribute('style');
     }, 250);
 })

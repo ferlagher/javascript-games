@@ -6,9 +6,11 @@ const game = {
     start: document.querySelector('#start'),
     reset: document.querySelector('#reset'),
     
-    playerScore() {document.querySelector('#playerScore').innerHTML = playerScore},
-    
-    aiScore() {document.querySelector('#aiScore').innerHTML = aiScore},
+    updateScores() {
+        document.querySelector('#playerScore').innerHTML = score.player;
+        document.querySelector('#aiScore').innerHTML = score.ai;
+        player.saveScore('battleship', score);
+    },
     
     message(mssg) {document.querySelector('#message').innerHTML = mssg},
 
@@ -133,11 +135,16 @@ const ships = [
     new Ship('Destructor', 'destroyer', 2),
 ];
 
+const score = player?.scores?.battleship || {
+    player: 0,
+    ai: 0,
+};
+
+game.updateScores();
+
 let selectedShip;
 let isVertical = false;
 let aiMemory = {};
-let playerScore = 0;
-let aiScore = 0;
 let delay;
 
 const randomElement = arr => {
@@ -292,7 +299,7 @@ const shoot = (target, cells) => {
         if (isPlayerTurn) {
             target.append(svg);
         };
-
+        
         if (isSunk) {
             targetShip[cells].forEach(cell => cell.dataset.sunk = '');
             message = `¡${targetShip.name} hundido!`;
@@ -307,23 +314,25 @@ const shoot = (target, cells) => {
             };
 
             if (ships.every(ship => ship[cells].every(cell => cell.hasAttribute('data-sunk')))) {
+                clearTimeout(delay);
+                
                 if (isPlayerTurn) {
-                    playerScore++;
-
-                    game.playerScore();
+                    score.player++;
                     game.message(`${player.name} gana`);
+                    ai.changeFace('sad');
                 } else {
-                    aiScore++
-
-                    game.aiScore();
+                    score.ai++
                     game.message('IA gana');
+                    ai.changeFace('happy');
                 };
 
-                clearTimeout(delay);
+                game.updateScores();
                 game.boards.forEach(board => board.classList.add('game__board--disabled'));
 
                 return
             };
+
+            isPlayerTurn ? ai.changeFace('surprised', true) : ai.changeFace('happy', true);
         };
     };
     
@@ -464,6 +473,7 @@ const changeLayout = () => {
     layout.style.opacity = '0';
 
     setTimeout(() => {
+        ai.changeFace('smile');
         radar.toggleAttribute('data-hidden');
         game.shipsContainer.toggleAttribute('data-hidden');
         buttons.forEach(button => button.toggleAttribute('data-hidden'));

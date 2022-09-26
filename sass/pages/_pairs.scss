@@ -1,4 +1,15 @@
 .pairs {
+    .output {
+        &__counters {
+            @include flex(column, space-between);
+            flex-grow: 1;
+        }
+
+        &__containers {
+            justify-content: space-between;
+        }
+    }
+
     .game {
         display: grid;
         grid-template-columns: repeat(4, 1fr);

@@ -85,6 +85,10 @@
             @extend .game__svg
         }
     }
+
+    .options {
+        flex-wrap: wrap;
+    }
 }
 
 [data-hidden] {

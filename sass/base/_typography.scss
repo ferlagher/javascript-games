@@ -17,6 +17,10 @@ p {
     padding-bottom: 1em;
 }
 
+em {
+    font-size: 0.8em;
+}
+
 a:link, a:visited {
     color: map-get($clr, 'white');
     text-decoration: none;
@@ -35,7 +39,7 @@ input {
 
     &__message {
         @include font('head', 'bold', 'lg', 'white');
-
+        
         &--sm {
             font-size: map-get($ft-sz, 'sm')
         }

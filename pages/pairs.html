@@ -15,29 +15,44 @@
     <header class="header">
         <div class="header__bar">
             <a href="../index.html">Inicio</a>
-            <button id="expand">Más juegos</button>
+            <div class="header__mobile">
+                <button id="expand">Más juegos</button>
+                <svg class="avatar--player svg--md"></svg>
+            </div>
         </div>
         <nav class="header__nav">
-            <ul class="header__list">
-            </ul>
+            <ul class="header__list"></ul>
         </nav>
+        <svg class="avatar--player svg--md"></svg>
     </header>
 
     <main>
         <section>
             <div class="output">
                 <div class="output__score">
-                    <svg id="playerAvatar">
+                    <svg class="avatar--player">
                     </svg>
-                    <div class="output__container">
-                        <span class="output__message--sm">
-                            Movimientos:
-                            <span id="moves">0</span>
-                        </span>
-                        <span class="output__message--sm">
-                            Tiempo:
-                            <span id="time">00:00</span>
-                        </span>
+                    <div class="output__counters">
+                        <div class="output__container output__message--sm">
+                            <span>
+                                Movimientos:
+                                <span id="moves">0</span>
+                            </span>
+                            <span>
+                                Tiempo:
+                                <span id="time">00:00</span>
+                            </span>
+                        </div>
+                        <div class="output__container output__message--sm">
+                            <em>
+                                Récord:
+                                <span id="bestMoves">0</span>
+                            </em>
+                            <em>
+                                Récord:
+                                <span id="bestTime">00:00</span>
+                            </em>
+                        </div>
                     </div>
                 </div>
             </div>

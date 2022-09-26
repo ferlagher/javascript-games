@@ -9,21 +9,25 @@
     
     [type="text"] {
         height: map-get($siz, 'md');
-        background-color: transparent;
+        background-color: map-get($clr, 'black-3');
         border: none;
-        border-bottom: map-get($brd, 'wht');
-
+        border-radius: 8px;
+        padding: 0.5em;
+        
         &:focus {
             outline: none;
+            border-bottom: map-get($brd, 'wht');
         }
     }
 
-    &__radios {
-        @include flex(row, space-between, null, null, map-get($spc, 'sm'));
+    &__radio {
+        @include flex(row, space-between, null, wrap, map-get($spc, 'sm'));
     }
     
     .radio {
-        display: inline-block;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-content: center;
         height: map-get($siz, 'lg');
         width: map-get($siz, 'lg');
         

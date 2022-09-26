@@ -10,16 +10,18 @@ const input = {
 const output = {
     message(res) {document.querySelector('#message').innerHTML = res},
 
-    playerScore() {document.querySelector('#playerScore').innerHTML = playerScore},
-
-    aiScore() {document.querySelector('#aiScore').innerHTML = aiScore},
+    updateScores() {
+        document.querySelector('#playerScore').innerHTML = pvp ? score.pvp.player1 : score.pva.player;
+        document.querySelector('#aiScore').innerHTML = pvp ? score.pvp.player2 : score.pva.ai;
+        player.saveScore('tictactoe', score);
+    },
 
     pXO(pIcon) {document.querySelector('#pXO').setAttribute('xlink:href', `../images/xo.svg#${pIcon}`)},
 
     iXO(iIcon) {document.querySelector('#iXO').setAttribute('xlink:href', `../images/xo.svg#${iIcon}`)},
 
     aiAvatar(avatar) {
-        const svg = document.querySelector('#aiAvatar');
+        const svg = document.querySelector('.avatar--ai');
 
         if (avatar === 'ai'){
             svg.innerHTML = `
@@ -27,7 +29,12 @@ const output = {
                 <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
             `;
         } else {
-            const n = Math.floor(Math.random() * 6) + 1;
+            let n;
+
+            do {
+                n = Math.floor(Math.random() * 6) + 1;
+            } while ('avatar' + n === player.avatar);
+
             svg.innerHTML = `<use xlink:href="../images/avatars.svg#avatar${n}"></use>`
         };
     },
@@ -52,33 +59,45 @@ const positions = {
     o: [],
 }; 
 
+const score = player?.scores?.tictactoe || {
+    pva: {
+        player: 0,
+        ai: 0,
+    },
+
+    pvp: {
+        player1: 0,
+        player2: 0,
+    }
+}
+
 let pvp = input.vs.checked;
 let aiFirst = input.xo.checked;
-let turn = true;
+let xTurn = true;
 let xo = 'x';
 let delay;
 
-let playerScore = 0;
-let aiScore = 0;
+output.updateScores();
 
 const checkWin = pos => {
     const line = win.find(arr => arr.every(cell => pos.includes(cell)));
     if (line) {line.forEach(cell => document.getElementById(cell).classList.add('game__cell--animated'))};
     return line;
-}
+};
 
 const checkDraw = () => {
     const disabledCells = document.querySelectorAll('.game__cell--disabled');
     return disabledCells.length === 9;
-}
+};
 
 const gameOver = () => {
     input.cells.forEach(cell => cell.classList.add('game__cell--disabled'));
-}
+    output.updateScores();
+};
 
 const markCell = (cell) => {
     if (typeof(cell) === 'string') {
-        cell = document.getElementById(cell)
+        cell = document.getElementById(cell);
     }
     cell.classList.add('game__cell--disabled');
     cell.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
@@ -87,25 +106,26 @@ const markCell = (cell) => {
     positions[xo].push(cell.id);
 
     if(checkWin(positions[xo])) {
-        const aiTurn = (turn && aiFirst) || (!turn && !aiFirst);
+        const aiTurn = (xTurn && aiFirst) || (!xTurn && !aiFirst);
         const mssg = pvp ? `${xo} gana` : aiTurn ? 'IA gana' : `${player.name} gana`;
-        output.message(mssg);
-        if (aiTurn || (pvp && !turn)) {
-            aiScore++;
-            output.aiScore();
+        
+        if(pvp) {
+            xTurn ? score.pvp.player1++ : score.pvp.player2++;
         } else {
-            playerScore++;
-            output.playerScore();
-        }
+            aiTurn ? score.pva.ai++ : score.pva.player++;
+            aiTurn ? ai.changeFace('happy') : ai.changeFace('sad'); 
+        };
+        
+        output.message(mssg);
         gameOver();
     } else if (checkDraw()) {
         output.message('Empate');
         gameOver();
     } else {
-        turn = !turn;
-        xo = turn ? 'x' : 'o';
-    }
-}
+        xTurn = !xTurn;
+        xo = xTurn ? 'x' : 'o';
+    };
+};
 
 const aiMove = () => {
     const corners = ['1', '3', '7', '9'],
@@ -163,7 +183,7 @@ const aiMove = () => {
     markCell(cells[n]);
 
     input.wait();
-}
+};
 
 const reset = () => {
     input.cells.forEach(cell => {
@@ -176,7 +196,7 @@ const reset = () => {
     positions.x = [];
     positions.o = [];
 
-    turn = true;
+    xTurn = true;
     xo = 'x';
 
     clearTimeout(delay)
@@ -185,7 +205,9 @@ const reset = () => {
         input.wait();
         delay = setTimeout(aiMove, 500);
     }
-}
+
+    !pvp && ai.changeFace('smile');
+};
 
 input.cells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
@@ -204,6 +226,7 @@ input.reset.addEventListener('click', reset);
 
 input.vs.addEventListener('change', () => {
     pvp = input.vs.checked;
+
     if (pvp) {
         input.xo.parentElement.setAttribute('disabled', '')
         output.aiAvatar('player')
@@ -216,10 +239,8 @@ input.vs.addEventListener('change', () => {
         output.aiAvatar('ai')
         
     }
-    playerScore = 0;
-    aiScore = 0;
-    output.playerScore();
-    output.aiScore();
+    
+    output.updateScores();
     reset();
 });
 

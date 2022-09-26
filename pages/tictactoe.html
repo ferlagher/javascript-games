@@ -15,12 +15,15 @@
     <header class="header">
         <div class="header__bar">
             <a href="../index.html">Inicio</a>
-            <button id="expand">Más juegos</button>
+            <div class="header__mobile">
+                <button id="expand">Más juegos</button>
+                <svg class="avatar--player svg--md"></svg>
+            </div>
         </div>
         <nav class="header__nav">
-            <ul class="header__list">
-            </ul>
+            <ul class="header__list"></ul>
         </nav>
+        <svg class="avatar--player svg--md"></svg>
     </header>
 
     <main>
@@ -28,14 +31,14 @@
             <div class="output">
                 <div class="output__container">
                     <div class="output__score">
-                        <svg id="playerAvatar">
+                        <svg class="avatar--player">
                         </svg>
                         <span id="playerScore">0</span>
                     </div>
                     <span id="message" class="output__message"></span>
                     <div class="output__score">
                         <span id="aiScore">0</span>
-                        <svg id="aiAvatar">
+                        <svg class="avatar--ai">
                             <use xlink:href="../images/ai.svg#computer"></use>
                             <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
                         </svg>

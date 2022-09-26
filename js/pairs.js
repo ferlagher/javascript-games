@@ -39,13 +39,7 @@ const game = {
         interval = setInterval(() => {
             seconds++;
 
-            let mm = `${Math.floor(seconds / 60)}`;
-            let ss = `${seconds % 60}`;
-
-            mm = mm.padStart(2, '0');
-            ss = ss.padStart(2, '0');
-
-            this.time.innerHTML = `${mm}:${ss}`
+            this.time.innerHTML = formatTime(seconds)
             
             if (seconds === 3599) {
                 clearInterval(interval);
@@ -53,13 +47,34 @@ const game = {
         }, 1000);
     },
 
+    updateCounters() {
+        document.querySelector('#bestMoves').innerHTML = score.moves;
+        document.querySelector('#bestTime').innerHTML = formatTime(score.time);
+        player.saveScore('pairs', score);
+    },
+
     wait() {this.board.classList.toggle('game--wait')},
 };
 
-let flippedCard = '',
-    moves = 0,
-    seconds = 0,
-    interval;
+const score = player?.scores?.pairs || {
+    moves: 0,
+    time: 0,
+};
+
+let flippedCard = '';
+let moves = 0;
+let seconds = 0;
+let interval;
+
+const formatTime = sec => {
+    let mm = `${Math.floor(sec / 60)}`;
+    let ss = `${sec % 60}`;
+
+    mm = mm.padStart(2, '0');
+    ss = ss.padStart(2, '0');
+
+    return `${mm}:${ss}`
+}
 
 const flipCard = e => {
     const card = e.target;
@@ -98,6 +113,10 @@ const flipCard = e => {
                         card.classList.add('game__card--animated');
                     }, i * 30);
                 });
+
+                score.moves = Math.min(moves, score.moves) || moves;
+                score.time = Math.min(seconds, score.time) || seconds;
+                game.updateCounters();
             };
         };
     } else {
@@ -128,6 +147,8 @@ const shuffleCards = () => {
         game.wait();
     }, 620);
 }
+
+game.updateCounters();
 
 game.createCards();
 

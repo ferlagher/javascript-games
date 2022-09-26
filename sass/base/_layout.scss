@@ -19,14 +19,15 @@ body {
     
     &__bar {
         @include flex(null, space-between, center, null, null);
+    }
 
-        button {
-            display: none;
-        }
+    &__mobile {
+        display: none;
     }
 
     &__nav {
         flex-grow: 0.5;
+        align-self: center;
     }
     
     &__list {
@@ -78,19 +79,25 @@ footer {
 
         &__bar {
             padding-top: map-get($spc, 'sm');
+        }
 
-            button {
-                display: block
-            }
+        &__mobile {
+            display: flex;
+            gap: map-get($spc, 'sm');
         }
 
         &__nav {
             overflow: hidden;
+            align-self: stretch;
             max-height: 0;
             transition: max-height 0.2s ease-in-out;
 
             &--show {
-                max-height: 150px;
+                max-height: 14em;
+            }
+
+            & + svg {
+                display: none;
             }
         }
 
@@ -99,6 +106,10 @@ footer {
             padding: map-get($spc, 'md') 0;
             border-bottom: map-get($brd, 'blk');
             margin-bottom: map-get($spc, 'md');
+        }
+
+        svg {
+            max-height: 38px;
         }
     }
 }

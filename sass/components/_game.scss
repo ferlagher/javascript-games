@@ -31,7 +31,7 @@
     padding-top: map-get($spc, 'sm');
     border-top: map-get($brd, 'blk');
     margin-top: map-get($spc, 'sm');
-    @include flex(null, space-evenly, center, wrap, map-get($spc, 'sm'));
+    @include flex(null, space-evenly, center, null, map-get($spc, 'sm'));
 
     &__container {
         @include flex(null, center, center, wrap, map-get($spc, 'sm'));
