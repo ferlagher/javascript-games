@@ -1,8 +1,10 @@
 .config {
     @extend section;
     margin: auto;
+    scale: 0;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
 
-    
     form {
         @include flex(column, space-between, null, null, map-get($spc, 'sm'));
     }
@@ -53,14 +55,16 @@
     }
 
     &__buttons {
-        align-self: flex-end;
+        @include flex(row, space-between, center, wrap, map-get($spc, 'sm'));
         
-        button {
-            margin-left: map-get($spc, 'sm');
+        &--form {
+            flex-grow: 1;
+            @include flex(row, flex-end, center, null, map-get($spc, 'sm'));
         }
     }
 
     &::backdrop {
+        background-color: map-get($clr, 'black-3');
         backdrop-filter: blur(10px);
     }
 }

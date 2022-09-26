@@ -34,8 +34,11 @@ class Player {
                     ${radios}
                     </div>
                     <div class="config__buttons">
-                        ${player.name ? '<button type="reset">Cancelar</button>' : ''}
-                        <button type="submit">Guardar</button>
+                        ${this?.scores ? '<button id="clearScore">Borrar puntuaciones</button>' : ''}
+                        <div class="config__buttons--form">
+                            ${this.name ? '<button type="reset">Cancelar</button>' : ''}
+                            <button type="submit">Guardar</button>
+                        </div>
                     </div>
                 </form>
         `;
@@ -44,23 +47,41 @@ class Player {
         modal.innerHTML = temp;
         main.append(modal);
         modal.showModal();
+        modal.style.scale = 1;
+        modal.style.opacity = 1;
     
         const form = document.querySelector('#playerForm');
+        const clearScore = document.querySelector('#clearScore');
 
         form.addEventListener('submit', e => {
             e.preventDefault();
 
             this.name = document.querySelector('input[name="playerName"]').value;
             this.avatar = document.querySelector('input[name="playerAvatar"]:checked').value;
-
             this.saveData();
-            modal.remove();
+
+            modal.removeAttribute('style');
+            setTimeout(() => {
+                modal.remove();
+            }, 200);
             this.updateAvatar();
         });
 
         form.addEventListener('reset', e => {
             e.preventDefault();
-            modal.remove();
+
+            modal.removeAttribute('style');
+            setTimeout(() => {
+                modal.remove();
+            }, 300);
+        })
+
+        clearScore?.addEventListener('click', e => {
+            e.preventDefault();
+
+            this.scores = {};
+            this.saveData();
+            location.reload();
         })
     };
 

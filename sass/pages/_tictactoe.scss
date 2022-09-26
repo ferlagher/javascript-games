@@ -8,8 +8,10 @@
         gap: 0;
 
         &__cell {
-            height:  map-get($siz, 'lg');
-            width:  map-get($siz, 'lg');
+            height:  100%;
+            width:  100%;
+            max-width: 11vh;
+            max-height: 11vh;
             border: map-get($brd, 'wht');
             padding: map-get($spc, 'sm');
             cursor: pointer;
@@ -40,7 +42,7 @@
             }
 
             &--animated .mark {
-                    animation: scaleUp 1s ease-in-out infinite;
+                    animation: scaleUpDown 1s ease-in-out infinite;
             }
         }
 
