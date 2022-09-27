@@ -6,7 +6,7 @@ const game = {
     time: document.querySelector('#time'),
     
     createCards() {
-        const pairs = this.animals.concat(this.animals);
+        const pairs = [...this.animals, ...this.animals];
 
         for (let i = pairs.length -1; i > 0; i--) {
             const j = Math.floor(Math.random() * i);
