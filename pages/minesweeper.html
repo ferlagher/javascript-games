@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Juega online a ">
-    <meta name="keywords" content="juego">
+    <meta name="description" content="Juega online a buscaminas">
+    <meta name="keywords" content="juego, buscaminas, minas">
 
     <link rel="stylesheet" href="../css/style.css">
 
-    <title>Piedra, papel, tijera, lagarto, spock</title>
+    <title>Buscaminas</title>
 </head>
 <body class="minesweeper bkg--minesweeper">
     <header class="header">
@@ -49,8 +49,24 @@
                 </div>
             </div>
             <div class="game">
+                <div class="game__board"></div>
             </div>
             <div class="options">
+                <button id="reset">Reiniciar</button>
+                <div class="radio-group">
+                    <input class="radio-group__radio" type="radio" name="difficulty" id="easy" value="easy">
+                    <label class="radio-group__button" for="easy">
+                        Fácil
+                    </label>
+                    <input class="radio-group__radio" type="radio" name="difficulty" id="medium" value="medium">
+                    <label class="radio-group__button" for="medium">
+                        Normal
+                    </label>
+                    <input class="radio-group__radio" type="radio" name="difficulty" id="hard" value="hard">
+                    <label class="radio-group__button" for="hard">
+                        Difícil
+                    </label>
+                </div>
             </div>
         </section>
     </main>

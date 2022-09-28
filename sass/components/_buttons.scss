@@ -1,9 +1,5 @@
 button {
-    background-color: transparent;
-    border: map-get($brd, 'wht');
-    border-radius: 10rem;
-    padding: 0.5em 1em;
-    mix-blend-mode: screen;
+    @extend %button;
     transition: 0.2s ease-in-out;
 
     &:hover, &:active {
@@ -44,6 +40,45 @@ button {
         background-color: map-get($clr, 'white');
         border-radius: 50%;
         transition: margin 0.2s ease-in-out;
+    }
+}
+
+.radio-group {
+    @extend %button;
+    padding: 0.5em 0;
+    overflow: hidden;
+
+    &__radio {
+        position: absolute;
+        opacity: 0;
+
+        &:checked + .radio-group__button {
+            background-color: map-get($clr, 'white');
+            color: #000;
+        }
+
+        &:checked + .radio-group__button svg {
+            fill: #000;
+        }
+    }
+
+    &__button {
+        border-right: map-get($brd, 'wht');
+        padding: 0.5em 1em;
+        transition: 0.2s ease-in-out;
+
+        &:last-of-type {
+            border: none;
+        }
+
+        &:hover{
+            background-color: map-get($clr, 'white');
+            color: #000;
+        }
+    
+        &:hover svg {
+            fill: #000;
+        }
     }
 }
 

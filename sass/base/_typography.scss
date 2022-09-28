@@ -46,3 +46,7 @@ input {
     }
 }
 
+.radio-group {
+    @include font('head', 'regular', 'sm', 'white');
+}
+

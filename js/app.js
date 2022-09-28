@@ -140,7 +140,7 @@ const games = [
     new Game('Ta-Te-Ti', 'tictactoe', 'xo', ['x', 'o']),
     new Game('Buscar parejas', 'pairs', 'animals', ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird']),
     new Game('Batalla naval', 'battleship', 'ships', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
-    new Game('Buscaminas', 'minesweeper', '', []),
+    new Game('Buscaminas', 'minesweeper', 'mine', ['mine', 'flag']),
 ];
 
 const player = new Player(JSON.parse(localStorage.getItem('player')));

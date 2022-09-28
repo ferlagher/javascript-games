@@ -1,0 +1,27 @@
+.minesweeper {
+    .output {
+        &__score {
+            @include flex(column, space-between);
+        }
+
+        &__containers {
+            justify-content: space-between;
+        }
+    }
+
+    .game {
+        &__board {
+        @extend %grid-board;
+        border: none;
+        gap: 2px;
+    }
+    
+    &__cell {
+        @extend %grid-cell;
+        background-color: map-get($clr, 'white');
+        border-radius: 2px;
+        border: none;
+        box-shadow: 0 0 0 1px map-get($clr, 'white-3');
+        }
+    }
+}
