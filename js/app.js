@@ -56,8 +56,8 @@ class Player {
         form.addEventListener('submit', e => {
             e.preventDefault();
 
-            this.name = document.querySelector('input[name="playerName"]').value;
-            this.avatar = document.querySelector('input[name="playerAvatar"]:checked').value;
+            this.name = document.querySelector('[name="playerName"]').value;
+            this.avatar = document.querySelector('[name="playerAvatar"]:checked').value;
             this.saveData();
 
             modal.removeAttribute('style');
@@ -97,6 +97,17 @@ class Player {
     };
 };
 
+
+const random = {
+    integer(n) {
+        return Math.floor(Math.random() * n);
+    },
+
+    element(arr) {
+        return arr[this.integer(arr.length)];
+    }
+}
+
 class Game {
     constructor(name, fileName, svg, symbols) {
         this.name = name;
@@ -109,8 +120,7 @@ class Game {
 
     background(div, amount, size) {
         for (let i = 0; i < amount; i++) {
-            const n = Math.floor(Math.random() * this.symbols.length);
-            const symbol = this.symbols[n];
+            const symbol = random.element(this.symbols);
 
             let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.classList.add('decorations__svg', `svg--${size}`)

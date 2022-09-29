@@ -9,7 +9,7 @@ const game = {
         const pairs = this.animals.concat(this.animals);
 
         for (let i = pairs.length -1; i > 0; i--) {
-            const j = Math.floor(Math.random() * i);
+            const j = random.integer(i);
             const k = pairs[i];
             pairs[i] = pairs[j];
             pairs[j] = k;

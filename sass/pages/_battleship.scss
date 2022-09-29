@@ -36,6 +36,10 @@
 
         &__board {
             @extend %grid-board;
+
+            &--disabled {
+                pointer-events: none;
+            }
         }
 
         &__cell {

@@ -1,15 +1,19 @@
 const game = {
+    matrix: Array(10).fill().map(() => Array(10).fill(null)),
+
+    forEachCell(func) {
+        this.matrix.forEach(row => {
+            row.forEach(cell => {
+                func(cell);
+            });
+        });
+    },
+
     createCells() {
         const board = document.querySelector('.game__board');
-
-        for (let i = 0; i < 100; i++) {
-            const cell = document.createElement('div');
-
-            cell.classList.add('game__cell');
-            cell.dataset.coord = i;
-            board.append(cell);
-        };
+    },
+    
+    placeMines() {
+        const numOfMines = document.querySelector('[name="difficulty"]:checked').value;
     },
 };
-
-game.createCells();
