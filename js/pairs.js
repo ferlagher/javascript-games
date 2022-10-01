@@ -114,6 +114,10 @@ const flipCard = e => {
                     }, i * 30);
                 });
 
+                const newRecord = (moves < score.moves) || (seconds < score.time);
+
+                newRecord && toasty('¡Nuevo récord!');
+
                 score.moves = Math.min(moves, score.moves) || moves;
                 score.time = Math.min(seconds, score.time) || seconds;
                 game.updateCounters();

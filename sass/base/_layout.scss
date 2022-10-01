@@ -10,6 +10,7 @@ body {
 .header {
     width: 100%;
     height: fit-content;
+    position: relative;
     background-color: map-get($clr, 'black-3');
     border-bottom: map-get($brd, 'blk');
     border-radius: 0 0 16px 16px;

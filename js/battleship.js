@@ -542,3 +542,6 @@ game.auto.addEventListener('click', autoFleet);
 game.start.addEventListener('click', start);
 
 game.reset.addEventListener('click', reset);
+
+ai.changeFace('happy', true)
+ai.changeFace('sad')
