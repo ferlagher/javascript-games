@@ -1,4 +1,4 @@
-.config {
+.modal {
     @extend section;
     margin: auto;
     scale: 0;
@@ -55,12 +55,7 @@
     }
 
     &__buttons {
-        @include flex(row, space-between, center, wrap, map-get($spc, 'sm'));
-        
-        &--form {
-            flex-grow: 1;
-            @include flex(row, flex-end, center, null, map-get($spc, 'sm'));
-        }
+        @include flex(row, flex-end, center, null, map-get($spc, 'sm'));
     }
 
     &::backdrop {

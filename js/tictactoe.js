@@ -102,6 +102,7 @@ const markCell = (cell) => {
     cell.classList.add('game__cell--disabled');
     cell.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
     cell.children[0].classList.add('mark');
+    sound.plop.play();
 
     positions[xo].push(cell.id);
 
@@ -113,7 +114,9 @@ const markCell = (cell) => {
             xTurn ? score.pvp.player1++ : score.pvp.player2++;
         } else {
             aiTurn ? score.pva.ai++ : score.pva.player++;
-            aiTurn ? ai.changeFace('happy') : ai.changeFace('sad'); 
+            aiTurn ? ai.changeFace('happy') : ai.changeFace('sad');
+            aiTurn ? sound.loose.play() : sound.win.play();
+            
         };
         
         output.message(mssg);
