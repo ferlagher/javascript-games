@@ -32,7 +32,7 @@ const output = {
             let n;
 
             do {
-                n = Math.floor(Math.random() * 6) + 1;
+                n = random.integer(6) + 1;
             } while ('avatar' + n === player.avatar);
 
             svg.innerHTML = `<use xlink:href="../images/avatars.svg#avatar${n}"></use>`
@@ -182,8 +182,7 @@ const aiMove = () => {
         || checkEmptyCells(center)
         || checkEmptyCells(sides);
 
-    const n = Math.floor(Math.random() * cells.length);
-    markCell(cells[n]);
+    markCell(random.element(cells));
 
     input.wait();
 };

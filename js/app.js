@@ -17,6 +17,16 @@ const toasty = mssg => {
 }).showToast();
 };
 
+const random = {
+    integer(n) {
+        return Math.floor(Math.random() * n);
+    },
+
+    element(arr) {
+        return arr[this.integer(arr.length)];
+    }
+}
+
 const createModal = temp => {
     const modal = document.createElement('dialog');
 
@@ -169,8 +179,7 @@ class Game {
 
     background(div, amount, size) {
         for (let i = 0; i < amount; i++) {
-            const n = Math.floor(Math.random() * this.symbols.length);
-            const symbol = this.symbols[n];
+            const symbol = random.element(this.symbols);
 
             let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.classList.add('decorations__svg', `svg--${size}`)
@@ -234,11 +243,11 @@ const sound = {
         src: ['../sounds/shuffleCards.mp3']
     }),
 
-      explosion: new Howl({
+    explosion: new Howl({
         src: ['../sounds/explosion.mp3']
     }),
 
-      splash: new Howl({
+    splash: new Howl({
         src: ['../sounds/splash.mp3']
     }),
 };

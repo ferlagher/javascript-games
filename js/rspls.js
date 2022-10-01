@@ -101,7 +101,7 @@ const checkWinner = () => {
 game.buttons.forEach(button => {
     button.addEventListener('click', () => {
         hand.player = button.id;
-        hand.ai = Object.keys(plays)[Math.floor(Math.random() * game.moves)];
+        hand.ai = Object.keys(plays)[random.integer(game.moves)];
         checkWinner();
     });
 });

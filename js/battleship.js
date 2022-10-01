@@ -147,11 +147,6 @@ let isVertical = false;
 let aiMemory = {};
 let delay;
 
-const randomElement = arr => {
-    const n = Math.floor(Math.random() * arr.length);
-    return arr[n];
-};
-
 const replaceShip = e => {
     if (!selectedShip) {
         const ship = ships.find(ship => ship.id === e.target.dataset.ship)
@@ -258,7 +253,7 @@ const autoPlaceFleet = (board) => {
         isVertical = Math.random() < 0.5;
 
         do {
-            const coord = randomElement(emptyCoords);
+            const coord = random.element(emptyCoords);
 
             ship.place(coord, game[board]);
 
@@ -352,7 +347,7 @@ const aiTurn = () => {
 
     const chooseValidCell = coords => {
         const cells = validCells.filter(cell => coords.includes(parseInt(cell.dataset.coord)));
-        return randomElement(cells);
+        return random.element(cells);
     };
 
     const pushRow = (n, m, arr) => {
@@ -411,7 +406,7 @@ const aiTurn = () => {
         };
 
         while (!cell) {
-            const randomHitCoord = parseInt(randomElement(previousHits).dataset.coord);
+            const randomHitCoord = parseInt(random.element(previousHits).dataset.coord);
 
             cell = adjacentCell(randomHitCoord);
 
@@ -433,7 +428,7 @@ const aiTurn = () => {
         const n = parseInt(previousHits[0].dataset.coord);
         target = adjacentCell(n);
     } else {
-        target = randomElement(validCells);
+        target = random.element(validCells);
     };
 
     shoot(target, 'fleetCells');
