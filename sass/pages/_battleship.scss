@@ -46,7 +46,7 @@
             @extend %grid-cell;
         }
 
-        &__svg {
+        &__svg, &__effect {
             @extend %grid-svg;
 
             &--invalid svg {
@@ -58,10 +58,6 @@
             &--shake svg{
                 animation: shake 0.5s ease-out;
             }
-        }
-
-        &__effect {
-            @extend .game__svg
         }
     }
 

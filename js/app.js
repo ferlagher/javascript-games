@@ -13,7 +13,7 @@ const toasty = mssg => {
     },
     offset: {
         y: 50,
-      },
+    },
 }).showToast();
 };
 
@@ -88,41 +88,6 @@ class Player {
             form.addEventListener('submit', e => {
                 e.preventDefault();
     
-<<<<<<< HEAD
-        const form = document.querySelector('#playerForm');
-        const clearScore = document.querySelector('#clearScore');
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-
-            this.name = document.querySelector('[name="playerName"]').value;
-            this.avatar = document.querySelector('[name="playerAvatar"]:checked').value;
-            this.saveData();
-
-            modal.removeAttribute('style');
-            setTimeout(() => {
-                modal.remove();
-            }, 200);
-            this.updateAvatar();
-        });
-
-        form.addEventListener('reset', e => {
-            e.preventDefault();
-
-            modal.removeAttribute('style');
-            setTimeout(() => {
-                modal.remove();
-            }, 300);
-        })
-
-        clearScore?.addEventListener('click', e => {
-            e.preventDefault();
-
-            this.scores = {};
-            this.saveData();
-            location.reload();
-        })
-=======
                 this.name = document.querySelector('input[name="playerName"]').value;
                 this.avatar = document.querySelector('input[name="playerAvatar"]:checked').value;
                 this.saveData();
@@ -148,7 +113,6 @@ class Player {
         config.showModal();
         config.style.scale = 1;
         config.style.opacity = 1;
->>>>>>> main
     };
 
     saveScore(game, score) {
@@ -202,17 +166,6 @@ class Player {
         playerAvatar?.forEach(svg => svg.innerHTML = `<use xlink:href="../images/avatars.svg#${player.avatar}"></use>`);
     };
 };
-
-
-const random = {
-    integer(n) {
-        return Math.floor(Math.random() * n);
-    },
-
-    element(arr) {
-        return arr[this.integer(arr.length)];
-    }
-}
 
 class Game {
     constructor(name, fileName, svg, symbols) {
