@@ -1,4 +1,4 @@
-# 🎮 Vanilla Javascript Games 🎮
+# 🎮 Javascript Games 🎮
 
 [![es]](./README.es.md)
 
@@ -20,6 +20,8 @@ This website is a collection of minigames that can be played in your browser. Th
 - ![html5]
 - ![sass]
 - ![js]
+    - [toastify.js](https://apvarun.github.io/toastify-js/)
+    - [howler.js](https://howlerjs.com)
 
 ### Another tools used
 

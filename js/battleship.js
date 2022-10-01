@@ -289,12 +289,14 @@ const shoot = (target, cells) => {
     if (!isShip) {
         target.append(svg);
         message = 'Agua';
+        sound.splash.play();
     } else {
         const targetShip = ships.find(ship => ship.id === target.dataset.ship);
         const isSunk = targetShip[cells].every(cell => cell.hasAttribute('data-hit'));
         const isPlayerTurn = cells === 'radarCells';
-
+        
         message = 'Tocado';
+        sound.explosion.play();
 
         if (isPlayerTurn) {
             target.append(svg);
@@ -318,10 +320,12 @@ const shoot = (target, cells) => {
                 
                 if (isPlayerTurn) {
                     score.player++;
+                    sound.win.play();
                     game.message(`${player.name} gana`);
                     ai.changeFace('sad');
                 } else {
                     score.ai++
+                    sound.loose.play();
                     game.message('IA gana');
                     ai.changeFace('happy');
                 };
@@ -436,7 +440,7 @@ const aiTurn = () => {
 };
 
 const playerTurn = e => {
-    delay = setTimeout(aiTurn, 1000);
+    delay = setTimeout(aiTurn, 1500);
     shoot(e.target, 'radarCells');
 };
 
@@ -542,6 +546,3 @@ game.auto.addEventListener('click', autoFleet);
 game.start.addEventListener('click', start);
 
 game.reset.addEventListener('click', reset);
-
-ai.changeFace('happy', true)
-ai.changeFace('sad')

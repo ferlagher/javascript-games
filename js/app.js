@@ -194,7 +194,7 @@ const ai = {
         
         clearTimeout(this.timer);
         useAttr(emotion);
-        this.timer = reset && setTimeout(useAttr, 1000);
+        this.timer = reset && setTimeout(useAttr, 1500);
     },
 };
 
@@ -204,6 +204,44 @@ const games = [
     new Game('Buscar parejas', 'pairs', 'animals', ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird']),
     new Game('Batalla naval', 'battleship', 'ships', ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer']),
 ];
+
+const sound = {
+    win: new Howl({
+        src: ['../sounds/win.wav']
+    }),
+    
+    loose: new Howl({
+        src: ['../sounds/loose.wav']
+    }),
+    
+    good: new Howl({
+        src: ['../sounds/good.wav']
+    }),
+    
+    bad: new Howl({
+        src: ['../sounds/bad.wav']
+    }),
+    
+    plop: new Howl({
+        src: ['../sounds/plop.wav']
+    }),
+    
+    flipCard: new Howl({
+        src: ['../sounds/flipCard.mp3']
+    }),
+    
+    shuffleCards: new Howl({
+        src: ['../sounds/shuffleCards.mp3']
+    }),
+
+      explosion: new Howl({
+        src: ['../sounds/explosion.mp3']
+    }),
+
+      splash: new Howl({
+        src: ['../sounds/splash.mp3']
+    }),
+};
 
 const player = new Player(JSON.parse(localStorage.getItem('player')));
 const main = document.querySelector('main');

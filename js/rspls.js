@@ -93,6 +93,7 @@ const checkWinner = () => {
         const winner = isPlayerWinner ? 'player' : 'ai';
 
         isPlayerWinner ? ai.changeFace('sad') : ai.changeFace('happy'); 
+        isPlayerWinner ? sound.bad.play() : sound.good.play(); 
         game.showResult(winner);
     };
 };

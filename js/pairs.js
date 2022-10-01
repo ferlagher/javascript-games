@@ -80,6 +80,7 @@ const flipCard = e => {
     const card = e.target;
     game.wait();
     card.classList.add('game__card--flip');
+    sound.flipCard.play();
     moves++;
     game.moves.innerHTML = moves;
 
@@ -118,6 +119,7 @@ const flipCard = e => {
 
                 newRecord && toasty('¡Nuevo récord!');
 
+                sound.win.play();
                 score.moves = Math.min(moves, score.moves) || moves;
                 score.time = Math.min(seconds, score.time) || seconds;
                 game.updateCounters();
@@ -139,17 +141,28 @@ const shuffleCards = () => {
     game.moves.innerHTML = '0';
     game.time.innerHTML = '00:00';
 
+    const win = game.cards.every(card => card.classList.contains('game__card--flip'));
+    const delay = win ? 0 : 620;
+
     game.cards.forEach((card, i) => {
+        !win && setTimeout(() => {
+            card.classList.add('game__card--flip');
+        }, i * 20);
         setTimeout(() => {
             card.classList.remove('game__card--flip', 'game__card--animated');
-        }, i * 20);
+        }, i * 20 + delay);
     });
+    
+    sound.shuffleCards.play();
+    !win && setTimeout(() => {
+        sound.shuffleCards.play();
+    }, 620);
 
     setTimeout(() => {
         game.board.innerHTML = '';
         game.createCards();
         game.wait();
-    }, 620);
+    }, 620 + delay);
 }
 
 game.updateCounters();

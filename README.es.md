@@ -20,6 +20,8 @@ Este sitio web consiste en una colección de jueguitos para navegador. Por ahora
 - ![html5]
 - ![sass]
 - ![js]
+    - [toastify.js](https://apvarun.github.io/toastify-js/)
+    - [howler.js](https://howlerjs.com)
 
 ### Another tools used
 
