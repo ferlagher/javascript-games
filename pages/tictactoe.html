@@ -18,7 +18,13 @@
             <a href="../index.html">Inicio</a>
             <div class="header__mobile">
                 <button id="expand">Más juegos</button>
-                <svg class="avatar--player svg--md"></svg>
+                <aside class="dropdown">
+                    <svg class="avatar--player svg--md"></svg>
+                    <ul class="dropdown__list">
+                        <li class="dropdown__item dropdown__item--profile">Editar perfil</li>
+                        <li class="dropdown__item dropdown__item--scores">Borrar puntuaciones</li>
+                    </ul>
+                </aside>
             </div>
         </div>
         <nav class="header__nav">
@@ -27,9 +33,10 @@
         <aside class="dropdown">
             <svg class="avatar--player svg--md"></svg>
             <ul class="dropdown__list">
-                <li id="editProfile" class="dropdown__item">Editar perfil</li>
-                <li id="clearScore" class="dropdown__item">Borrar puntuaciones</li>
+                <li class="dropdown__item dropdown__item--profile">Editar perfil</li>
+                <li class="dropdown__item dropdown__item--scores">Borrar puntuaciones</li>
             </ul>
+        </aside>
     </header>
 
     <main>

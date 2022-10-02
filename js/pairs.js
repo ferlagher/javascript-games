@@ -66,16 +66,6 @@ let moves = 0;
 let seconds = 0;
 let interval;
 
-const formatTime = sec => {
-    let mm = `${Math.floor(sec / 60)}`;
-    let ss = `${sec % 60}`;
-
-    mm = mm.padStart(2, '0');
-    ss = ss.padStart(2, '0');
-
-    return `${mm}:${ss}`
-}
-
 const flipCard = e => {
     const card = e.target;
     game.wait();

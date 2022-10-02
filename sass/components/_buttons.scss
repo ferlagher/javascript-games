@@ -45,7 +45,8 @@ button {
 
 .radio-group {
     @extend %button;
-    padding: 0.5em 0;
+    display: flex;
+    padding: 0;
     overflow: hidden;
 
     &__radio {

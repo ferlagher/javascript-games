@@ -14,14 +14,33 @@
             @extend %grid-board;
             border: none;
             gap: 2px;
+
+            &--disabled {
+                pointer-events: none;
+            }
         }
     
         &__cell {
             @extend %grid-cell;
-            //background-color: map-get($clr, 'white');
+            background-color: map-get($clr, 'white');
             border-radius: 2px;
             border: none;
-            box-shadow: 0 0 0 1px map-get($clr, 'white-3');
+            @include flex(null, center, center);
+            font-size: map-get($ft-sz, 'md');
+            
+            &--show {
+                background-color: transparent;
+                box-shadow: 0 0 0 1px map-get($clr, 'white');
+                pointer-events: none;
+            }
+
+            &--inverted {
+                mix-blend-mode: screen;
+
+                & svg {
+                    fill: #000;
+                }
+            }
         }
 
         &__svg {

@@ -5,7 +5,7 @@ body, dialog {
 }
 
 button {
-    @include font('head', 'regular', 'sm', 'white');
+    @include font('head', 'bold', 'xs', 'white');
 }
 
 h2 {
@@ -19,6 +19,7 @@ p {
 
 em {
     font-size: 0.8em;
+    margin-top: 0.5em;
 }
 
 a:link, a:visited {
@@ -47,6 +48,6 @@ input {
 }
 
 .radio-group {
-    @include font('head', 'regular', 'sm', 'white');
+    @include font('head', 'bold', 'xs', 'white');
 }
 

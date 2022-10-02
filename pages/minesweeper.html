@@ -7,6 +7,7 @@
     <meta name="description" content="Juega online a buscaminas">
     <meta name="keywords" content="juego, buscaminas, minas">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="../css/style.css">
 
     <title>Buscaminas</title>
@@ -17,13 +18,25 @@
             <a href="../index.html">Inicio</a>
             <div class="header__mobile">
                 <button id="expand">Más juegos</button>
-                <svg class="avatar--player svg--md"></svg>
+                <aside class="dropdown">
+                    <svg class="avatar--player svg--md"></svg>
+                    <ul class="dropdown__list">
+                        <li class="dropdown__item dropdown__item--profile">Editar perfil</li>
+                        <li class="dropdown__item dropdown__item--scores">Borrar puntuaciones</li>
+                    </ul>
+                </aside>
             </div>
         </div>
         <nav class="header__nav">
             <ul class="header__list"></ul>
         </nav>
-        <svg class="avatar--player svg--md"></svg>
+        <aside class="dropdown">
+            <svg class="avatar--player svg--md"></svg>
+            <ul class="dropdown__list">
+                <li class="dropdown__item dropdown__item--profile">Editar perfil</li>
+                <li class="dropdown__item dropdown__item--scores">Borrar puntuaciones</li>
+            </ul>
+        </aside>
     </header>
 
     <main>
@@ -37,13 +50,21 @@
                         </span>
                         <span>
                             Minas restantes:
-                            <span id="moves">0</span>
+                            <span id="minesLeft">0</span>
                         </span>
                     </div>
                     <div class="output__container output__message--sm">
                         <em>
-                            Récord:
-                            <span id="bestTime">00:00</span>
+                            Fácil:
+                            <span id="easyTime">00:00</span>
+                        </em>
+                        <em>
+                            Normal:
+                            <span id="mediumTime">00:00</span>
+                        </em>
+                        <em>
+                            Difícil:
+                            <span id="hardTime">00:00</span>
                         </em>
                     </div>
                 </div>

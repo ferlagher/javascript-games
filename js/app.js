@@ -27,6 +27,16 @@ const random = {
     }
 }
 
+const formatTime = sec => {
+    let mm = `${Math.floor(sec / 60)}`;
+    let ss = `${sec % 60}`;
+
+    mm = mm.padStart(2, '0');
+    ss = ss.padStart(2, '0');
+
+    return `${mm}:${ss}`
+}
+
 const createModal = temp => {
     const modal = document.createElement('dialog');
 
@@ -328,7 +338,7 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
     });
 
     svgs.forEach(svg => svg.addEventListener('click', () => {
-        const dropdown = document.querySelector('.dropdown__list');
+        const dropdown = svg.nextElementSibling;
         const closeDropdown = e => {
             e.preventDefault();
             if (!e.target.matches('.dropdown__list')) {
@@ -337,18 +347,19 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
             };
         };
 
-        dropdown.classList.add('dropdown__list--show')
+        dropdown.classList.add('dropdown__list--show');
+        const items = Array.from(dropdown.children);
 
-        document.querySelector('#editProfile').addEventListener('click', e => {
+        items[0].addEventListener('click', e => {
             e.preventDefault();
             player.editData();
         });
 
-        document.querySelector('#clearScore').addEventListener('click', e => {
+        items[1].addEventListener('click', e => {
             e.preventDefault();
             player.clearScore();
         });
 
-        setTimeout(() =>  window.addEventListener('click', closeDropdown), 200)
+        setTimeout(() =>  window.addEventListener('click', closeDropdown), 50)
     }));
 };
