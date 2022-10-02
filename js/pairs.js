@@ -108,8 +108,8 @@ const flipCard = e => {
                 const newRecord = (moves < score.moves) || (seconds < score.time);
 
                 newRecord && toasty('¡Nuevo récord!');
-
                 sound.win.play();
+                confettiCannons();
                 score.moves = Math.min(moves, score.moves) || moves;
                 score.time = Math.min(seconds, score.time) || seconds;
                 game.updateCounters();

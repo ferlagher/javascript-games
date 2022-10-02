@@ -112,11 +112,15 @@ const markCell = (cell) => {
         
         if(pvp) {
             xTurn ? score.pvp.player1++ : score.pvp.player2++;
+        } else if (aiTurn) {
+            score.pva.ai++;
+            ai.changeFace('happy');
+            sound.loose.play();
         } else {
-            aiTurn ? score.pva.ai++ : score.pva.player++;
-            aiTurn ? ai.changeFace('happy') : ai.changeFace('sad');
-            aiTurn ? sound.loose.play() : sound.win.play();
-            
+            score.pva.player++;
+            ai.changeFace('sad');
+            sound.win.play();
+            confettiCannons();
         };
         
         output.message(mssg);

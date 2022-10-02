@@ -22,6 +22,7 @@ This website is a collection of minigames that can be played in your browser. Th
 - ![js]
     - [toastify.js](https://apvarun.github.io/toastify-js/)
     - [howler.js](https://howlerjs.com)
+    - [canvas-confetti](https://www.kirilv.com/canvas-confetti/)
 
 ### Another tools used
 

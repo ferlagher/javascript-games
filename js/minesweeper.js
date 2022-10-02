@@ -185,6 +185,7 @@ const game = {
 
     win() {
         sound.win.play();
+        confettiCannons();
         clearInterval(this.interval);
         this.wait();
 

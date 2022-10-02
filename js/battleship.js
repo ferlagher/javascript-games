@@ -316,6 +316,7 @@ const shoot = (target, cells) => {
                 if (isPlayerTurn) {
                     score.player++;
                     sound.win.play();
+                    confettiCannons();
                     game.message(`${player.name} gana`);
                     ai.changeFace('sad');
                 } else {

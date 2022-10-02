@@ -17,6 +17,23 @@ const toasty = mssg => {
 }).showToast();
 };
 
+const confettiCannons = () => {
+    confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 80,
+        origin: {x: 0, y: 0.8},
+        colors: ['#E7F0F4'],
+    });
+    confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 80,
+        origin: {x: 1, y: 0.8},
+        colors: ['#E7F0F4']
+    });
+};
+
 const random = {
     integer(n) {
         return Math.floor(Math.random() * n);
