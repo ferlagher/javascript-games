@@ -1,14 +1,18 @@
 .index {
-    grid-template-rows: 1fr auto;
+    @include flex(null, center, center);
+    gap: 0;
     position: relative;
 
     main {
+        margin: auto;
         flex-wrap: wrap;
+        padding: 0 map-get($spc, 'md');
     }
 
     .card {
         flex: 1;
-        min-width: calc(map-get($siz, 'lg') * 2);
+        flex-basis: 30%;
+        min-width: calc(map-get($siz, 'lg') * 2.5);
         height: calc(map-get($siz, 'lg') * 2);
         background-size: cover;
         background-position: center;
