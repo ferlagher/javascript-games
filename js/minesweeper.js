@@ -4,7 +4,7 @@ const game = {
     minesLeft: document.querySelector('#minesLeft'),
     matrix: Array(10).fill().map(() => Array(10).fill().map(() => document.createElement('div'))),
     seconds: 0,
-    score: player.scores.minesweeper || {},
+    score: player?.scores?.minesweeper || {},
 
     updateCounters() {
         ['easy', 'medium', 'hard'].forEach(difficulty => {
@@ -208,4 +208,4 @@ document.querySelector('.radio-group').addEventListener('change', () => {
     game.reset();
 });
 
-window.addEventListener('contextmenu', e => e.preventDefault());
+game.board.addEventListener('contextmenu', e => e.preventDefault());
