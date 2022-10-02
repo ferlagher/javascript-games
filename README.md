@@ -33,7 +33,7 @@ This website is a collection of minigames that can be played in your browser. Th
 - [Tic-Tac-Toe ❌⭕](https://juegos-laguna.netlify.app/pages/tictactoe.html)
 - [Matching pairs 🃏🃏](https://juegos-laguna.netlify.app/pages/pairs.html)
 - [Battleship 🚢](https://juegos-laguna.netlify.app/pages/battleship.html)
-- Minesweeper 💣🚩 *(In development)*
+- [Minesweeper 💣🚩](https://juegos-laguna.netlify.app/pages/minesweeper.html)
 
 ## Other features
 

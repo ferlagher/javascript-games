@@ -33,7 +33,7 @@ Este sitio web consiste en una colección de jueguitos para navegador. Por ahora
 - [Ta-Te-Ti ❌⭕](https://juegos-laguna.netlify.app/pages/tictactoe.html)
 - [Buscar Parejas 🃏🃏](https://juegos-laguna.netlify.app/pages/pairs.html)
 - [Batalla Naval 🚢](https://juegos-laguna.netlify.app/pages/battleship.html)
-- Buscaminas 💣🚩 *(En desarrollo)*
+- [Buscaminas 💣🚩](https://juegos-laguna.netlify.app/pages/minesweeper.html)
 
 ## Otras funcionalidades
 
