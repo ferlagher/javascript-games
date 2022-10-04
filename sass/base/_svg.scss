@@ -4,20 +4,40 @@ svg {
     fill: map-get($clr, 'white');
 }
 
-.svg--lg {
+.svg {
+    &--lg {
         height: map-get($siz, 'lg');
         width:  map-get($siz, 'lg');
+    }
+
+    &--md {
+            height: map-get($siz, 'md');
+            width: map-get($siz, 'md');
+    }
+
+    &--bkg {
+        position: fixed;
+        fill: map-get($clr, 'black-3');
+        height: auto;
+        opacity: 0.4;
+        z-index: -1;
+
+        &:first-of-type {
+            top: 0;
+        }
+
+        &:last-of-type {
+            bottom: 0;
+        }
+    }
 }
 
-.svg--md {
-        height: map-get($siz, 'md');
-        width: map-get($siz, 'md');
-}
 
 .icon {
     height: map-get($siz , 'xs');
     width: map-get($siz , 'xs');
 }
+
 
 .output {
     &__score {

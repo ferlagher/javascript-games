@@ -289,19 +289,16 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
     
     games.forEach(game => {
         const section = document.createElement('section');
-        const a = document.createElement('a')
-        const h2 = document.createElement('h2');
         const decoTop = document.createElement('div')
         const decoBottom = document.createElement('div')
-        
-        h2.innerText = game.name;
-        h2.classList.add('card__title');
-        a.append(h2);
-        a.href = game.path;
-        a.classList.add('card__link');
-        section.append(a);
+
         section.classList.add('card', game.bkg);
         section.id = game.id;
+        section.innerHTML = `
+            <a href="${game.path}" class="card__link">
+                <h2 class="card__title">${game.name}</h2>
+            </a>
+        `
     
         decoTop.classList.add('decorations', 'decorations--top', `decorations--${game.id}`)
         decoBottom.classList.add('decorations', 'decorations--bottom', `decorations--${game.id}`)
