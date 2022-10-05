@@ -423,21 +423,25 @@ const aiTurn = () => {
         return cell;
     };
 
-    if (numberHits > 1) {
-        target = trySunk(aiMemory);
-    } else if (numberHits === 1) {
-        const n = parseInt(previousHits[0].dataset.coord);
-        target = adjacentCell(n);
-    } else {
-        target = random.element(validCells);
-    };
+    return new Promise(resolve => {
+        delay = setTimeout(() => {
+            if (numberHits > 1) {
+                target = trySunk(aiMemory);
+            } else if (numberHits === 1) {
+                const n = parseInt(previousHits[0].dataset.coord);
+                target = adjacentCell(n);
+            } else {
+                target = random.element(validCells);
+            };
 
-    shoot(target, 'fleetCells');
+        resolve(target);
+        }, Math.random() * 500 + 1500);
+    });
 };
 
 const playerTurn = e => {
-    delay = setTimeout(aiTurn, 1500);
     shoot(e.target, 'radarCells');
+    aiTurn().then(target => shoot(target, 'fleetCells'));
 };
 
 const selectShip = (id) => {

@@ -1,10 +1,11 @@
 const input = {
+    board: document.querySelector('.game'),
     cells: document.querySelectorAll('.game__cell'),
     reset: document.querySelector('#reset'),
     xo: document.querySelector('#xo'),
     vs: document.querySelector('#vs'),
 
-    wait() {document.querySelector('.game').classList.toggle('game--wait')},
+    wait() {this.board.classList.toggle('game--disabled')},
 }
 
 const output = {
@@ -136,10 +137,10 @@ const markCell = (cell) => {
 
 const aiMove = () => {
     const corners = ['1', '3', '7', '9'],
-        sides = ['2', '4', '6', '8'],
-        center = ['5'],
-        diagonals = [['1', '9'], ['3', '7']],
-        oponent = xo === 'x' ? 'o' : 'x';
+    sides = ['2', '4', '6', '8'],
+    center = ['5'],
+    diagonals = [['1', '9'], ['3', '7']],
+    oponent = xo === 'x' ? 'o' : 'x';
 
     const checkDisabled = cell => document.getElementById(cell).classList.contains('game__cell--disabled');
 
@@ -157,16 +158,16 @@ const aiMove = () => {
 
         return emptyCells.length ? emptyCells : null;
     };
-    
+
     const checkEmptyCells = arr => {
         const emptyCells = arr.filter(cell => !checkDisabled(cell));
         return emptyCells.length ? emptyCells : null;
     };
-    
+
     const checkOponent = arr => {
         return positions[oponent].every(pos => arr.includes(pos))
     };
-    
+
     const tryBlock = () => {
         const currentTurn = 1 + positions[xo].length + positions[oponent].length;
 
@@ -178,17 +179,21 @@ const aiMove = () => {
             return null
         };
     };
+    
+    return new Promise(resolve => {
+        delay = setTimeout(() => {
+            const cells = checkForLines(positions[xo])
+            || checkForLines(positions[oponent])
+            || tryBlock()
+            || checkEmptyCells(corners)
+            || checkEmptyCells(center)
+            || checkEmptyCells(sides);
 
-    const cells = checkForLines(positions[xo])
-        || checkForLines(positions[oponent])
-        || tryBlock()
-        || checkEmptyCells(corners)
-        || checkEmptyCells(center)
-        || checkEmptyCells(sides);
+        markCell(random.element(cells));
 
-    markCell(random.element(cells));
-
-    input.wait();
+        resolve();
+        }, Math.random() * 400 + 600);
+    });
 };
 
 const reset = () => {
@@ -196,6 +201,8 @@ const reset = () => {
         cell.classList.remove('game__cell--disabled', 'game__cell--animated');
         cell.children[0].classList.remove('mark');
     });
+
+    input.board.classList.remove('game--disabled')
     
     output.message('')
 
@@ -209,7 +216,7 @@ const reset = () => {
 
     if (!pvp && aiFirst) {
         input.wait();
-        delay = setTimeout(aiMove, 500);
+        aiMove().then(() => input.wait());
     }
 
     !pvp && ai.changeFace('smile');
@@ -223,7 +230,7 @@ input.cells.forEach(cell => {
         markCell(cell);
         if (!pvp && !checkDraw()) {
             input.wait();
-            delay = setTimeout(aiMove, 500);
+            aiMove().then(() => input.wait());
         }
     });
 });

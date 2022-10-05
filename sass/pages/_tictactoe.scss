@@ -41,19 +41,24 @@
                 pointer-events: none;
             }
 
+            
             &--animated .mark {
-                    animation: scaleUpDown 1s ease-in-out infinite;
+                animation: scaleUpDown 1s ease-in-out infinite;
             }
         }
-
+        
         svg {
             transition: 0.3s ease-in-out;
             transform: scale(0);
         }
-
+        
         .mark {
             transform: scale(1);
             opacity: 1;
+        }
+        
+        &--disabled {
+            pointer-events: none;
         }
     }
 }
