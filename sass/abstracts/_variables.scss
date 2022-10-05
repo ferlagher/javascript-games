@@ -1,17 +1,18 @@
 $clr: (
-    'white': #E7F0F4,
+    'white': #e0f1f9,
     white-5: rgba(231, 240, 244, 0.8),
     white-3: rgba(231, 240, 244, 0.3),
-    black-3: rgba(49, 47, 52, 0.3)
+    black-3: rgba(49, 47, 52, 0.3),
+    'black': rgb(49, 47, 52),
 );
 
 $bkg: (
-    index: linear-gradient(#cfdef3, #d1e0f4, #d4e1f6, #d6e3f7, #d9e5f8, #dbe7f9, #dee8fb, #e0eafc),
+    index: linear-gradient(#a3abcd, #a7b0cf, #abb5d2, #b0bad4, #b4bfd6, #b9c3d8, #bfc8da, #c4cddc),
     rspls: linear-gradient(#9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa),
-    tictactoe: linear-gradient(#93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a577, #1d976c),
+    tictactoe: linear-gradient(#93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a582, #1d977f),
     pairs: linear-gradient(#ffe259, #ffd956, #ffd153, #ffc852, #ffc051, #ffb750, #ffaf50, #ffa751),
     battleship: linear-gradient(#91eae4, #74dee7, #5ad2eb, #47c4ee, #44b5ef, #52a4eb, #6892e3, #7f7fd5),
-    minesweeper: linear-gradient(#ffa787, #ff998b, #ff948f, #ff8f94, #fd8a99, #fa869f, #f783a5, #f280ab),
+    minesweeper: linear-gradient(#ffa787, #ff998b, #ff948f, #ff8f94, #fd8a99, #fa869f, #f783a5, #ec73a1),
 );
 
 $ft-fy: (
@@ -25,6 +26,7 @@ $ft-wt: (
 );
 
 $ft-sz: (
+    xl: clamp(2rem, 5vw, 4rem),
     lg: clamp(1.5rem, 3vw, 2rem),
     md: clamp(1.2rem, 2vw, 1.5rem),
     sm: clamp(0.8rem, 1.5vw, 1rem),
@@ -34,7 +36,7 @@ $ft-sz: (
 $siz: (
     lg: clamp(75px, 24vw, 100px), 
     md: clamp(38px, 5vw, 50px),
-    sm: clamp(16px, 3vw, 32px),
+    sm: clamp(22px, 3vw, 24px),
     xs: clamp(16px, 2vw, 28px),
 );
 

@@ -7,6 +7,21 @@
     }
 }
 
+@keyframes logo {
+    0% {
+        max-width: 1em;
+        transform: translateY(20%);
+    }
+    30% {
+        max-width: 1em;
+        transform: translateY(-50%) rotate(15deg);
+    }
+    100% {
+        max-width: 1em;
+        transform: translateY(0);
+    }
+}
+
 @keyframes shake {
     @for $i from 0 through 10 {
         $frame: $i * 10 + '%';

@@ -1,3 +1,5 @@
+// Libraries
+
 const toasty = mssg => {
     Toastify({
     text: mssg,
@@ -34,6 +36,46 @@ const confettiCannons = () => {
     });
 };
 
+const sound = {
+    win: new Howl({
+        src: ['../sounds/win.wav']
+    }),
+    
+    loose: new Howl({
+        src: ['../sounds/loose.wav']
+    }),
+    
+    good: new Howl({
+        src: ['../sounds/good.wav']
+    }),
+    
+    bad: new Howl({
+        src: ['../sounds/bad.wav']
+    }),
+    
+    plop: new Howl({
+        src: ['../sounds/plop.wav']
+    }),
+    
+    flipCard: new Howl({
+        src: ['../sounds/flipCard.mp3']
+    }),
+    
+    shuffleCards: new Howl({
+        src: ['../sounds/shuffleCards.mp3']
+    }),
+
+    explosion: new Howl({
+        src: ['../sounds/explosion.mp3']
+    }),
+
+    splash: new Howl({
+        src: ['../sounds/splash.mp3']
+    }),
+};
+
+// Global functions
+
 const random = {
     integer(n) {
         return Math.floor(Math.random() * n);
@@ -54,15 +96,31 @@ const formatTime = sec => {
     return `${mm}:${ss}`
 }
 
-const createModal = temp => {
+const createModal = template => {
+    const main = document.querySelector('main');
     const modal = document.createElement('dialog');
 
     modal.classList.add('modal')
-    modal.innerHTML = temp;
+    modal.innerHTML = template;
     main.append(modal);
 
     return modal;
 }
+
+const ai = {
+    timer: null,
+    
+    changeFace(emotion, reset = false) {
+        const aiFace = document.querySelector('#aiFace');
+        const useAttr = (em = 'smile') => aiFace.setAttribute('xlink:href', `../images/ai.svg#${em}`)
+        
+        clearTimeout(this.timer);
+        useAttr(emotion);
+        this.timer = reset && setTimeout(useAttr, 1500);
+    },
+};
+
+// Classes
 
 class Player {
     constructor(data = {}) {
@@ -194,6 +252,9 @@ class Player {
     };
 };
 
+const player = new Player(JSON.parse(localStorage.getItem('player')));
+player.avatar ? player.updateAvatar() : player.editData();
+
 class Game {
     constructor(name, fileName, svg, symbols) {
         this.name = name;
@@ -221,19 +282,6 @@ class Game {
     };
 };
 
-const ai = {
-    timer: null,
-    
-    changeFace(emotion, reset = false) {
-        const aiFace = document.querySelector('#aiFace');
-        const useAttr = (em = 'smile') => aiFace.setAttribute('xlink:href', `../images/ai.svg#${em}`)
-        
-        clearTimeout(this.timer);
-        useAttr(emotion);
-        this.timer = reset && setTimeout(useAttr, 1500);
-    },
-};
-
 const games = [
     new Game('Piedra, papel, tijera', 'rspls', 'hands', ['rock', 'scissors', 'paper', 'lizard', 'spock']),
     new Game('Ta-Te-Ti', 'tictactoe', 'xo', ['x', 'o']),
@@ -242,71 +290,32 @@ const games = [
     new Game('Buscaminas', 'minesweeper', 'mine', ['mine', 'flag']),
 ];
 
-const sound = {
-    win: new Howl({
-        src: ['../sounds/win.wav']
-    }),
-    
-    loose: new Howl({
-        src: ['../sounds/loose.wav']
-    }),
-    
-    good: new Howl({
-        src: ['../sounds/good.wav']
-    }),
-    
-    bad: new Howl({
-        src: ['../sounds/bad.wav']
-    }),
-    
-    plop: new Howl({
-        src: ['../sounds/plop.wav']
-    }),
-    
-    flipCard: new Howl({
-        src: ['../sounds/flipCard.mp3']
-    }),
-    
-    shuffleCards: new Howl({
-        src: ['../sounds/shuffleCards.mp3']
-    }),
-
-    explosion: new Howl({
-        src: ['../sounds/explosion.mp3']
-    }),
-
-    splash: new Howl({
-        src: ['../sounds/splash.mp3']
-    }),
-};
-
-const player = new Player(JSON.parse(localStorage.getItem('player')));
-const main = document.querySelector('main');
-
-player.avatar ? player.updateAvatar() : player.editData();
+// Render navegation
 
 if (location.pathname === '/' || location.pathname.includes('index.html')) { 
+    const main = document.querySelector('main');
+    const nav = document.querySelector('nav');
     
     games.forEach(game => {
-        const section = document.createElement('section');
-        const decoTop = document.createElement('div')
-        const decoBottom = document.createElement('div')
+        const card = document.createElement('div');
+        const decoTop = document.createElement('div');
+        const decoBottom = document.createElement('div');
 
-        section.classList.add('card', game.bkg);
-        section.id = game.id;
-        section.innerHTML = `
+        card.classList.add('card', game.bkg);
+        card.id = game.id;
+        card.innerHTML = `
             <a href="${game.path}" class="card__link">
                 <h2 class="card__title">${game.name}</h2>
             </a>
-        `
+        `;
     
-        decoTop.classList.add('decorations', 'decorations--top', `decorations--${game.id}`)
-        decoBottom.classList.add('decorations', 'decorations--bottom', `decorations--${game.id}`)
+        decoTop.classList.add('decorations', 'decorations--top', `decorations--${game.id}`);
+        decoBottom.classList.add('decorations', 'decorations--bottom', `decorations--${game.id}`);
     
         game.background(decoTop, 10, 'lg');
         game.background(decoBottom, 10, 'lg');
     
-        main.append(section);
+        nav.append(card);
         main.append(decoTop);
         main.append(decoBottom);
     });
@@ -374,6 +383,6 @@ if (location.pathname === '/' || location.pathname.includes('index.html')) {
             player.clearScore();
         });
 
-        setTimeout(() =>  window.addEventListener('click', closeDropdown), 50)
+        setTimeout(() =>  window.addEventListener('click', closeDropdown), 50);
     }));
 };

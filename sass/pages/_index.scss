@@ -4,9 +4,17 @@
     position: relative;
 
     main {
+        padding: map-get($spc, 'md');
+        gap: map-get($spc, 'md');
+    }
+
+    nav {
+        @include flex(row, space-between, center);
+        height: 100%;
+        width: 100%;
+        max-width: 1200px;
         margin: auto;
         flex-wrap: wrap;
-        padding: 0 map-get($spc, 'md');
     }
 
     .card {
@@ -16,9 +24,11 @@
         height: calc(map-get($siz, 'lg') * 2);
         background-size: cover;
         background-position: center;
-        padding: 0;
         overflow: hidden;
         border: none;
+        border-radius: 16px;
+        box-shadow: $shadow;
+        margin: map-get($spc, 'sm');
         outline: map-get($brd, 'wht');
         
         &__link {

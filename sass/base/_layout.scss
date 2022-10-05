@@ -20,6 +20,10 @@ body {
     
     &__bar {
         @include flex(null, space-between, center, null, null);
+
+        a {
+            width: 6.5em;
+        }
     }
 
     &__mobile {
@@ -37,10 +41,9 @@ body {
 }
 
 main {
-    align-self: stretch;
     height: 100%;
     width: 100%;
-    @include flex(null, space-evenly, center, null, null);
+    @include flex(column, space-evenly, center, null, null);
 }
 
 section {

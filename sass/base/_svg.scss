@@ -15,6 +15,11 @@ svg {
             width: map-get($siz, 'md');
     }
 
+    &--xs {
+            height: map-get($siz, 'xs');
+            width: map-get($siz, 'xs');
+    }
+
     &--bkg {
         position: fixed;
         fill: map-get($clr, 'black-3');
@@ -34,8 +39,8 @@ svg {
 
 
 .icon {
-    height: map-get($siz , 'xs');
-    width: map-get($siz , 'xs');
+    height: map-get($siz , 'sm');
+    width: map-get($siz , 'sm');
 }
 
 

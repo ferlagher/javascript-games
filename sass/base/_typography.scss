@@ -8,6 +8,29 @@ button {
     @include font('head', 'bold', 'xs', 'white');
 }
 
+h1 {
+    @include font('head', 'bold', 'xl', 'white');
+    text-shadow: 0 0 0.05em map-get($clr, 'black-3'),
+        0 0 0.1em map-get($clr, 'black-3');
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    
+    span {
+        display: inline-block;
+        max-width: 0;
+        overflow: hidden;
+        
+        @for $i from 1 through 7 {
+            &:nth-of-type(#{$i}) {
+                animation: logo 0.4s #{$i * 0.2 + 1 + 's'} ease-in-out forwards;
+            }
+        }
+    }
+}
+
 h2 {
     @include font('head', 'bold', 'lg', 'white');
 }
@@ -15,6 +38,11 @@ h2 {
 p {
     font-size: map-get($ft-sz, 'md');
     padding-bottom: 1em;
+}
+
+b {
+    @include font('head', 'bold', 'sm', 'withe');
+    font-size: 1.1em;
 }
 
 em {
