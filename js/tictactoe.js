@@ -1,20 +1,36 @@
-const input = {
+const game = {
     board: document.querySelector('.game'),
     cells: document.querySelectorAll('.game__cell'),
     reset: document.querySelector('#reset'),
     xo: document.querySelector('#xo'),
     vs: document.querySelector('#vs'),
+    scores: player?.scores?.tictactoe || {
+        pva: {
+            player: 0,
+            ai: 0,
+        },
+    
+        pvp: {
+            player1: 0,
+            player2: 0,
+        }
+    },
 
     wait() {this.board.classList.toggle('game--disabled')},
-}
 
-const output = {
     message(res) {document.querySelector('#message').innerHTML = res},
 
     updateScores() {
-        document.querySelector('#playerScore').innerHTML = pvp ? score.pvp.player1 : score.pva.player;
-        document.querySelector('#aiScore').innerHTML = pvp ? score.pvp.player2 : score.pva.ai;
-        player.saveScore('tictactoe', score);
+        document.querySelector('#playerScore').innerHTML = pvp ? this.scores.pvp.player1 : this.scores.pva.player;
+        document.querySelector('#aiScore').innerHTML = pvp ? this.scores.pvp.player2 : this.scores.pva.ai;
+        player.saveScore('tictactoe', this.scores);
+    },
+
+    clearScores() {
+        game.scores.pva.player = 0;
+        game.scores.pva.ai = 0;
+        game.scores.pvp.player1 = 0;
+        game.scores.pvp.player2 = 0;
     },
 
     pXO(pIcon) {document.querySelector('#pXO').setAttribute('xlink:href', `../images/xo.svg#${pIcon}`)},
@@ -60,25 +76,13 @@ const positions = {
     o: [],
 }; 
 
-const score = player?.scores?.tictactoe || {
-    pva: {
-        player: 0,
-        ai: 0,
-    },
-
-    pvp: {
-        player1: 0,
-        player2: 0,
-    }
-}
-
-let pvp = input.vs.checked;
-let aiFirst = input.xo.checked;
+let pvp = game.vs.checked;
+let aiFirst = game.xo.checked;
 let xTurn = true;
 let xo = 'x';
 let delay;
 
-output.updateScores();
+game.updateScores();
 
 const checkWin = pos => {
     const line = win.find(arr => arr.every(cell => pos.includes(cell)));
@@ -92,8 +96,8 @@ const checkDraw = () => {
 };
 
 const gameOver = () => {
-    input.cells.forEach(cell => cell.classList.add('game__cell--disabled'));
-    output.updateScores();
+    game.cells.forEach(cell => cell.classList.add('game__cell--disabled'));
+    game.updateScores();
 };
 
 const markCell = (cell) => {
@@ -112,22 +116,22 @@ const markCell = (cell) => {
         const mssg = pvp ? `${xo} gana` : aiTurn ? 'IA gana' : `${player.name} gana`;
         
         if(pvp) {
-            xTurn ? score.pvp.player1++ : score.pvp.player2++;
+            xTurn ? game.scores.pvp.player1++ : game.scores.pvp.player2++;
         } else if (aiTurn) {
-            score.pva.ai++;
+            game.scores.pva.ai++;
             ai.changeFace('happy');
             sound.loose.play();
         } else {
-            score.pva.player++;
+            game.scores.pva.player++;
             ai.changeFace('sad');
             sound.win.play();
             confettiCannons();
         };
         
-        output.message(mssg);
+        game.message(mssg);
         gameOver();
     } else if (checkDraw()) {
-        output.message('Empate');
+        game.message('Empate');
         gameOver();
     } else {
         xTurn = !xTurn;
@@ -197,14 +201,14 @@ const aiMove = () => {
 };
 
 const reset = () => {
-    input.cells.forEach(cell => {
+    game.cells.forEach(cell => {
         cell.classList.remove('game__cell--disabled', 'game__cell--animated');
         cell.children[0].classList.remove('mark');
     });
 
-    input.board.classList.remove('game--disabled')
+    game.board.classList.remove('game--disabled')
     
-    output.message('')
+    game.message('')
 
     positions.x = [];
     positions.o = [];
@@ -215,55 +219,55 @@ const reset = () => {
     clearTimeout(delay)
 
     if (!pvp && aiFirst) {
-        input.wait();
-        aiMove().then(() => input.wait());
+        game.wait();
+        aiMove().then(() => game.wait());
     }
 
     !pvp && ai.changeFace('smile');
 };
 
-input.cells.forEach(cell => {
+game.cells.forEach(cell => {
     cell.addEventListener('mouseenter', () => {
         cell.children[0].innerHTML = `<use xlink:href="../images/xo.svg#${xo}"></use>`;
     });
     cell.addEventListener('click', () => {
         markCell(cell);
         if (!pvp && !checkDraw()) {
-            input.wait();
-            aiMove().then(() => input.wait());
+            game.wait();
+            aiMove().then(() => game.wait());
         }
     });
 });
 
-input.reset.addEventListener('click', reset);
+game.reset.addEventListener('click', reset);
 
-input.vs.addEventListener('change', () => {
-    pvp = input.vs.checked;
+game.vs.addEventListener('change', () => {
+    pvp = game.vs.checked;
 
     if (pvp) {
-        input.xo.parentElement.setAttribute('disabled', '')
-        output.aiAvatar('player')
-        input.xo.checked = false;
-        aiFirst = input.xo.checked;
-        output.pXO('x');
-        output.iXO('o');
+        game.xo.parentElement.setAttribute('disabled', '')
+        game.aiAvatar('player')
+        game.xo.checked = false;
+        aiFirst = game.xo.checked;
+        game.pXO('x');
+        game.iXO('o');
     } else {       
-        input.xo.parentElement.removeAttribute('disabled')
-        output.aiAvatar('ai')
+        game.xo.parentElement.removeAttribute('disabled')
+        game.aiAvatar('ai')
     }
     
-    output.updateScores();
+    game.updateScores();
     reset();
 });
 
-input.xo.addEventListener('change', () => {
-    aiFirst = input.xo.checked;
+game.xo.addEventListener('change', () => {
+    aiFirst = game.xo.checked;
     if (aiFirst){
-        output.pXO('o');
-        output.iXO('x');
+        game.pXO('o');
+        game.iXO('x');
     } else {
-        output.pXO('x');
-        output.iXO('o');
+        game.pXO('x');
+        game.iXO('o');
     }
     reset();
 });

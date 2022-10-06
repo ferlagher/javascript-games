@@ -4,13 +4,23 @@ const game = {
     minesLeft: document.querySelector('#minesLeft'),
     matrix: Array(10).fill().map(() => Array(10).fill().map(() => document.createElement('div'))),
     seconds: 0,
-    score: player?.scores?.minesweeper || {},
+    scores: player?.scores?.minesweeper || {},
 
-    updateCounters() {
-        ['easy', 'medium', 'hard'].forEach(difficulty => {
-            document.querySelector(`#${difficulty}Time`).innerHTML = formatTime(this.score[difficulty] || 0);
-        });
-        player.saveScore('minesweeper', this.score);
+    updateScores() {
+        for (const difficulty in this.scores) {
+            document.querySelector(`#${difficulty}Time`).innerHTML = formatTime(this.scores[difficulty] || 0);
+        }
+        player.saveScore('minesweeper', this.scores);
+    },
+
+    clearScores() {
+        this.scores = {
+            easy: 0,
+            medium: 0,
+            hard: 0,
+        };
+
+        this.time.innerHTML = '00:00';
     },
 
     wait() {
@@ -178,7 +188,7 @@ const game = {
         clearInterval(this.interval);
         this.interval = null;
         this.seconds = 0;
-        this.time.innerHTML = '00:00'
+        this.time.innerHTML = '00:00';
         this.placeMines();
         this.board.classList.remove('game__board--disabled');
     },
@@ -192,13 +202,13 @@ const game = {
         const difficulty = this.numOfMines === 10 ? 'easy' :
         this.numOfMines === 15 ? 'medium' : 'hard';
 
-        this.seconds < this.score[difficulty] && toasty('¡Nuevo récord!');
-        this.score[difficulty] = Math.min(this.seconds, this.score[difficulty]) || this.seconds;
-        this.updateCounters();
+        this.seconds < this.scores[difficulty] && toasty('¡Nuevo récord!');
+        this.scores[difficulty] = Math.min(this.seconds, this.scores[difficulty]) || this.seconds;
+        this.updateScores();
     }
 };
 
-game.updateCounters();
+game.updateScores();
 game.createCells();
 
 document.querySelector('#reset').addEventListener('click', () => {

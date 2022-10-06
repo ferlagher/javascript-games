@@ -230,7 +230,10 @@ class Player {
                 confirm.removeAttribute('style');
                 setTimeout(() => confirm.close(), 300);
                 toasty('Se han borrado todas las puntuaciones.');
-                setTimeout(() => location.reload(), 2000)
+                if (location.pathname.includes('pages/')) {
+                    game.clearScores();
+                    game.updateScores();
+                }
             });
 
             document.querySelector('#cancel').addEventListener('click', e => {
@@ -292,7 +295,7 @@ const games = [
 
 // Render navegation
 
-if (location.pathname === '/' || location.pathname.includes('index.html')) { 
+if (!location.pathname.includes('pages/')) { 
     const main = document.querySelector('main');
     const nav = document.querySelector('nav');
     

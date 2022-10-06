@@ -1,5 +1,6 @@
 const game = {
     board: document.querySelector('.game'),
+    scores: player?.scores?.pairs || {},
     shuffle: document.querySelector('#shuffle'),
     animals: ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird'],
     moves: document.querySelector('#moves'),
@@ -47,18 +48,20 @@ const game = {
         }, 1000);
     },
 
-    updateCounters() {
-        document.querySelector('#bestMoves').innerHTML = score.moves;
-        document.querySelector('#bestTime').innerHTML = formatTime(score.time);
-        player.saveScore('pairs', score);
+    updateScores() {
+        document.querySelector('#bestMoves').innerHTML = this.scores.moves || 0;
+        document.querySelector('#bestTime').innerHTML = formatTime(this.scores.time || 0);
+        player.saveScore('pairs', this.scores);
     },
 
-    wait() {this.board.classList.toggle('game--wait')},
-};
+    clearScores() {
+        this.scores = {};
 
-const score = player?.scores?.pairs || {
-    moves: 0,
-    time: 0,
+        this.moves.innerHTML = '0';
+        this.time.innerHTML = '00:00';
+    },
+
+    wait() {this.board.classList.toggle('game--disabled')},
 };
 
 let flippedCard = '';
@@ -105,14 +108,14 @@ const flipCard = e => {
                     }, i * 30);
                 });
 
-                const newRecord = (moves < score.moves) || (seconds < score.time);
+                const newRecord = (moves < game.scores.moves) || (seconds < game.scores.time);
 
                 newRecord && toasty('¡Nuevo récord!');
                 sound.win.play();
                 confettiCannons();
-                score.moves = Math.min(moves, score.moves) || moves;
-                score.time = Math.min(seconds, score.time) || seconds;
-                game.updateCounters();
+                game.scores.moves = Math.min(moves, game.scores.moves) || moves;
+                game.scores.time = Math.min(seconds, game.scores.time) || seconds;
+                game.updateScores();
             };
         };
     } else {
@@ -155,7 +158,7 @@ const shuffleCards = () => {
     }, 620 + delay);
 }
 
-game.updateCounters();
+game.updateScores();
 
 game.createCards();
 

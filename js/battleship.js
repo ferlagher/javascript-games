@@ -5,11 +5,22 @@ const game = {
     auto: document.querySelector('#auto'),
     start: document.querySelector('#start'),
     reset: document.querySelector('#reset'),
+    scores: player?.scores?.battleship || {
+        player: 0,
+        ai: 0,
+    },
     
     updateScores() {
-        document.querySelector('#playerScore').innerHTML = score.player;
-        document.querySelector('#aiScore').innerHTML = score.ai;
-        player.saveScore('battleship', score);
+        document.querySelector('#playerScore').innerHTML = this.scores.player || 0;
+        document.querySelector('#aiScore').innerHTML = this.scores.ai || 0;
+        player.saveScore('battleship', this.scores);
+    },
+
+    clearScores() {
+        this.scores = {
+            player: 0,
+            ai: 0,
+        };
     },
     
     message(mssg) {document.querySelector('#message').innerHTML = mssg},
@@ -134,11 +145,6 @@ const ships = [
     new Ship('Crucero', 'cruiser', 2),
     new Ship('Destructor', 'destroyer', 2),
 ];
-
-const score = player?.scores?.battleship || {
-    player: 0,
-    ai: 0,
-};
 
 game.updateScores();
 
@@ -314,13 +320,13 @@ const shoot = (target, cells) => {
                 clearTimeout(delay);
                 
                 if (isPlayerTurn) {
-                    score.player++;
+                    game.scores.player++;
                     sound.win.play();
                     confettiCannons();
                     game.message(`${player.name} gana`);
                     ai.changeFace('sad');
                 } else {
-                    score.ai++
+                    game.scores.ai++
                     sound.loose.play();
                     game.message('IA gana');
                     ai.changeFace('happy');
@@ -440,8 +446,8 @@ const aiTurn = () => {
 };
 
 const playerTurn = e => {
-    shoot(e.target, 'radarCells');
     aiTurn().then(target => shoot(target, 'fleetCells'));
+    shoot(e.target, 'radarCells');
 };
 
 const selectShip = (id) => {

@@ -22,7 +22,7 @@
 .game {
     @include flex(null, space-evenly, center, wrap, map-get($spc, 'sm'));
 
-    &--wait {
+    &--disabled {
         pointer-events: none;
     }
 }

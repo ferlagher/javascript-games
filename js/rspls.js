@@ -35,15 +35,24 @@ const game = {
     buttons: Array.from(document.querySelector('.game').children),
     switch: document.querySelector('#version'),
     moves: 5,
+    scores: player?.scores?.rspls || {
+        player: 0,
+        ai: 0
+    },
+
     svgs: {
         player: document.querySelector('#playerHand'),
         ai: document.querySelector('#aiHand'),
     },
 
     updateScores() {
-        document.querySelector('#playerScore').innerHTML = score.player;
-        document.querySelector('#aiScore').innerHTML = score.ai;
-        player.saveScore('rspls', score);
+        document.querySelector('#playerScore').innerHTML = this.scores.player || 0;
+        document.querySelector('#aiScore').innerHTML = this.scores.ai || 0;
+        player.saveScore('rspls', this.scores);
+    },
+
+    clearScores() {
+        this.scores = {};
     },
 
     showResult(winner) {
@@ -61,7 +70,8 @@ const game = {
         if (winner) {
             const looser = winner === 'player' ? 'ai' : 'player';
 
-            score[winner]++
+            this.scores[winner] ||= 0;
+            this.scores[winner]++
             this.updateScores();
 
             setTimeout(() => {
@@ -70,11 +80,6 @@ const game = {
             }, 1);
         };
     },
-};
-
-const score = player?.scores?.rspls || {
-    player: 0,
-    ai: 0
 };
 
 game.updateScores();
