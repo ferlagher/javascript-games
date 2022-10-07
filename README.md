@@ -35,6 +35,7 @@ This website is a collection of minigames that can be played in your browser. Th
 - [Matching pairs 🃏🃏](https://juegos-laguna.netlify.app/pages/pairs.html)
 - [Battleship 🚢](https://juegos-laguna.netlify.app/pages/battleship.html)
 - [Minesweeper 💣🚩](https://juegos-laguna.netlify.app/pages/minesweeper.html)
+- [Black Jack ♥♠](https://juegos-laguna.netlify.app/pages/blackjack.html)
 
 ## Other features
 

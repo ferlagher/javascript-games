@@ -35,6 +35,7 @@ Este sitio web consiste en una colección de jueguitos para navegador. Por ahora
 - [Buscar Parejas 🃏🃏](https://juegos-laguna.netlify.app/pages/pairs.html)
 - [Batalla Naval 🚢](https://juegos-laguna.netlify.app/pages/battleship.html)
 - [Buscaminas 💣🚩](https://juegos-laguna.netlify.app/pages/minesweeper.html)
+- [Black Jack ♥♠](https://juegos-laguna.netlify.app/pages/blackjack.html)
 
 ## Otras funcionalidades
 
