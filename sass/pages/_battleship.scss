@@ -1,5 +1,4 @@
 .battleship {
-
     .output {
         flex-direction: row;
         justify-content: space-between;
@@ -39,6 +38,10 @@
 
             &--disabled {
                 pointer-events: none;
+            }
+
+            &:nth-of-type(3) {
+                cursor: crosshair
             }
         }
 

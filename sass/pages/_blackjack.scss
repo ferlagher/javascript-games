@@ -1,0 +1,66 @@
+.blackjack {
+    .output {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .game {
+        justify-content: space-between;
+        align-items: stretch;
+
+        &__table {
+            position: relative;
+        }
+        
+        &__card {
+            @include flex(column, space-between);
+            border: map-get($brd, 'wht');
+            border-radius: 0.5rem;
+            padding: calc(map-get($spc, 'sm') / 2);
+            position: absolute;
+            top: 0;
+            backdrop-filter: blur(9999px);
+            transition: 0.2s ease-in-out;
+
+            div {
+            @include flex(row, flex-start, center);
+            }
+
+            svg {
+                padding: 0.3em;
+                margin: -0.3em;
+            }
+        }
+
+        &__bet {
+            text-align: center;
+            width: 25%;
+        }
+
+        &__box{
+            width: 100%;
+            height: 8rem;
+            border: 4px solid map-get($clr, 'white-3');
+            border-radius: 1rem;
+        }
+    }
+
+    .options {
+        flex-direction: column;
+    }
+}
+
+.chip {
+    @extend %button;
+    height: 2.8em;
+    width: 2.8em;
+    border-radius: 50%;
+    border: dashed 4px map-get($clr, 'white');
+    outline: map-get($brd, 'wht');
+    padding: 0;
+    text-align: center;
+
+    &:hover {
+        border-color: #000;
+    }
+}

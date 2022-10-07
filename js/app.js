@@ -269,7 +269,7 @@ class Game {
     };
 
     background(div, amount, size) {
-        for (let i = 0; i < amount; i++) {
+        for (let i = -1; i < amount; i++) {
             const symbol = random.element(this.symbols);
 
             let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -277,7 +277,7 @@ class Game {
             svg.innerHTML = `<use xlink:href="${this.svg}#${symbol}"></use>`;
 
             svg.style.left = i * (100 / amount) + Math.random() * (100 / amount) + '%';
-            svg.style.top = (i % 2) * 50 + Math.random() * 50 + '%';
+            svg.style.top = Math.abs((i % 2)) * 50 + Math.random() * 50 - 10 + '%';
             svg.style.transform = `rotate(${Math.random() * 360}deg)`;
 
             div.append(svg);
@@ -291,6 +291,7 @@ const games = [
     new Game('Buscar parejas', 'pairs', 'animals', ['dragon', 'cat', 'kiwi', 'spider', 'horse', 'dog', 'frog', 'bird']),
     new Game('Batalla naval', 'battleship', 'ships', ['cruiser', 'submarine', 'destroyer']),
     new Game('Buscaminas', 'minesweeper', 'mine', ['mine', 'flag']),
+    new Game('Black Jack', 'blackjack', 'suits', ['hearts', 'spades', 'clubs', 'diamonds']),
 ];
 
 // Render navegation
@@ -305,8 +306,9 @@ if (!location.pathname.includes('pages/')) {
         const decoBottom = document.createElement('div');
 
         card.classList.add('card', game.bkg);
+        game.background(card, 15, 'md');
         card.id = game.id;
-        card.innerHTML = `
+        card.innerHTML += `
             <a href="${game.path}" class="card__link">
                 <h2 class="card__title">${game.name}</h2>
             </a>
@@ -314,9 +316,9 @@ if (!location.pathname.includes('pages/')) {
     
         decoTop.classList.add('decorations', 'decorations--top', `decorations--${game.id}`);
         decoBottom.classList.add('decorations', 'decorations--bottom', `decorations--${game.id}`);
-    
-        game.background(decoTop, 10, 'lg');
-        game.background(decoBottom, 10, 'lg');
+        
+        game.background(decoTop, 11, 'lg');
+        game.background(decoBottom, 11, 'lg');
     
         nav.append(card);
         main.append(decoTop);

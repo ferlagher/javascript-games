@@ -15,6 +15,11 @@ svg {
             width: map-get($siz, 'md');
     }
 
+    &--sm {
+            height: map-get($siz, 'sm');
+            width: map-get($siz, 'sm');
+    }
+
     &--xs {
             height: map-get($siz, 'xs');
             width: map-get($siz, 'xs');
@@ -36,13 +41,6 @@ svg {
         }
     }
 }
-
-
-.icon {
-    height: map-get($siz , 'sm');
-    width: map-get($siz , 'sm');
-}
-
 
 .output {
     &__score {

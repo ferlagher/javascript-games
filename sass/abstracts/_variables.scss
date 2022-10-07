@@ -1,5 +1,5 @@
 $clr: (
-    'white': #e0f1f9,
+    'white': #e2f0f6,
     white-5: rgba(231, 240, 244, 0.8),
     white-3: rgba(231, 240, 244, 0.3),
     black-3: rgba(49, 47, 52, 0.3),
@@ -8,11 +8,12 @@ $clr: (
 
 $bkg: (
     index: linear-gradient(#a3abcd, #a7b0cf, #abb5d2, #b0bad4, #b4bfd6, #b9c3d8, #bfc8da, #c4cddc),
-    rspls: linear-gradient(#9d50bb, #964fb9, #904eb7, #894db4, #824cb2, #7b4aaf, #7549ad, #6e48aa),
-    tictactoe: linear-gradient(#93f9b9, #83ebae, #74dca2, #64ce97, #54c08c, #44b281, #32a582, #1d977f),
-    pairs: linear-gradient(#ffe259, #ffd956, #ffd153, #ffc852, #ffc051, #ffb750, #ffaf50, #ffa751),
-    battleship: linear-gradient(#91eae4, #74dee7, #5ad2eb, #47c4ee, #44b5ef, #52a4eb, #6892e3, #7f7fd5),
-    minesweeper: linear-gradient(#ffa787, #ff998b, #ff948f, #ff8f94, #fd8a99, #fa869f, #f783a5, #ec73a1),
+    rspls: linear-gradient(#aa6ebb, #a26cb9, #9b6bb8, #9369b6, #8c68b3, #8466b1, #7d65af, #7563ac),
+    tictactoe: linear-gradient(#66e9a3, #60e29d, #5ada97, #53d391, #4dcc8b, #47c485, #41bd7f, #3ab679),
+    pairs: linear-gradient(#e5ec83, #e0ea7d, #dae878, #d4e672, #cee46d, #c8e367, #c2e162, #bbdf5d),
+    battleship: linear-gradient(#74d4ea, #6cccea, #67c3e9, #65bae7, #66b1e4, #6aa8e1, #6f9edc, #7694d5),
+    minesweeper: linear-gradient(#ffa7a7, #fd9da1, #fb939c, #f98997, #f67e93, #f3738f, #f0688c, #ec5d8a),
+    blackjack: linear-gradient(#f6aa7a, #f7a575, #f7a070, #f89b6b, #f99567, #fa9063, #fa8a5f, #fb845c),
 );
 
 $ft-fy: (

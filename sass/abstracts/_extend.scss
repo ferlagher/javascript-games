@@ -2,8 +2,9 @@
     background-color: transparent;
     border: map-get($brd, 'wht');
     border-radius: 10rem;
-    padding: 0.5em 1em;
+    padding: 0.4em 0.8em;
     mix-blend-mode: screen;
+    cursor: pointer;
 }
 
 %grid-board {

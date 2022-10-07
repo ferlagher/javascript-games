@@ -13,11 +13,16 @@ body {
     position: relative;
     background-color: map-get($clr, 'black-3');
     border-bottom: map-get($brd, 'blk');
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 1rem 1rem;
     box-shadow: $shadow;
     padding: map-get($spc, 'sm') map-get($spc, 'md');
     @include flex(null, space-between, stretch, null, map-get($spc, 'sm'));
-    
+
+    svg {
+        width: 2rem;
+        height: 2rem;
+    }
+
     &__bar {
         @include flex(null, space-between, center, null, null);
 
@@ -72,7 +77,7 @@ footer {
     }
 
     a {
-        display: block;
+        display: contents;
     }
 }
 
@@ -97,7 +102,7 @@ footer {
             transition: max-height 0.2s ease-in-out;
 
             &--show {
-                max-height: 17em;
+                max-height: 19em;
             }
 
             & + aside {

@@ -1,10 +1,11 @@
 .dropdown {
+    display: flex;
     &__list {
         @extend section;
         position: absolute;
         right: 0;
         padding:map-get($spc, 'sm');
-        margin: map-get($spc, 'sm') 0;
+        margin: calc(map-get($spc, 'sm') + 2.5rem) 0.5rem;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s ease-in-out;
