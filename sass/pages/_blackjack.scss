@@ -20,13 +20,14 @@
             border: map-get($brd, 'wht');
             border-radius: 0.5rem;
             transition: 0.2s ease-in-out;
-            margin: 0 -1.5em;
+            margin: 0 -1.2em;
             transform-style: preserve-3d;
-            transition: transform 0.3s;
+            transition: 0.3s ease-in;
+            animation: deal 0.5s ease-in-out;
 
             @for $i from 1 through 10  {
                 &:nth-of-type(#{$i}) {
-                    translate: 0 calc(20% * #{$i - 1});
+                    translate: 0 calc(25% * #{$i - 1});
                 }
             }
 
@@ -37,12 +38,13 @@
 
             &--flip {
                 transform: rotateY(180deg);
+                animation: dealDown 0.5s ease-in-out;
             }
         }
 
         &__front, &__back {
             border-radius: 0.3rem;
-            padding: calc(map-get($spc, 'sm') / 2);
+            padding: calc(map-get($spc, 'sm') / 3);
             backface-visibility: hidden;
             background-color: map-get($clr, 'black-3');
         }

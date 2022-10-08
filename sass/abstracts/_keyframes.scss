@@ -1,8 +1,7 @@
 @keyframes scaleUpDown {
     0%, 100% {
         transform: scale(1);
-    }
-    50% {
+    } 50% {
         transform: scale(1.2);
     }
 }
@@ -11,12 +10,10 @@
     0% {
         max-width: 1em;
         transform: translateY(20%);
-    }
-    30% {
+    } 30% {
         max-width: 1em;
         transform: translateY(-50%) rotate(15deg);
-    }
-    100% {
+    } 100% {
         max-width: 1em;
         transform: translateY(0);
     }
@@ -28,5 +25,21 @@
         #{$frame} {
             transform: translate(#{random(2)+'%'}, #{-1 * random(2)+'%'});
         }
+    }
+}
+
+@keyframes deal {
+    0% {
+        transform: rotateY(180deg) translateY(-100%);
+    } 100% {
+        transform: rotateY(0deg) translateY(0%);
+    }
+}
+
+@keyframes dealDown {
+    0% {
+        transform: rotateY(180deg) translateY(-100%);
+    } 100% {
+        transform: rotateY(180deg) translateY(0%);
     }
 }

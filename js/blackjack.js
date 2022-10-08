@@ -1,13 +1,14 @@
 const game = {
     boards: document.querySelectorAll('.game__board'),
 
-    addCard(card, board) {
+    addCard(card, board, isFlipped = false) {
         let {value, suit} = card;
         value = value.split('', 1)[0];
         suit = suit.toLowerCase();
 
         const cardTemplate = document.createElement('div');
         cardTemplate.classList.add('game__card');
+        isFlipped && cardTemplate.classList.add('game__card--flip');
         cardTemplate.innerHTML = `
             <div class="game__front">
                 <div>
@@ -25,6 +26,7 @@ const game = {
             </svg>
         `;
 
+        sound.flipCard.play();
         board.append(cardTemplate);
     },
 
@@ -36,32 +38,52 @@ const game = {
         chip.innerHTML = `<button class="chip">${value}</button>`;
 
         betBox.append(chip);
+    },
+
+    firstDeal(cards) {
+        this.playerHand = [];
+        this.aiHand = [];
+
+        cards.forEach((card, i) => {
+            const boardIndex = i % 2;
+            const plyr = boardIndex ? 'ai' : 'player';
+            const isFlipped = i === 1;
+
+            this[`${plyr}Hand`].push(card);
+            setTimeout(() => {
+                this.addCard(card, this.boards[boardIndex], isFlipped);
+            }, 1000 * i);
+        });
     }
-}
+};
 
 // Trying async/await and promises
 
-const getDeck = async () => {
-    const res = await fetch('https://deckofcardsapi.com/api/deck/new/shuffle');
-    const {deck_id: id, remaining} = await res.json();
+const fetchNjson = async url => {
+    return await fetch(url).then(res => res.json());
+}
 
-    return {id, remaining};
+const getDeck = async () => {
+    const {deck_id: id, cards} = await fetchNjson('https://deckofcardsapi.com/api/deck/new/draw/?count=4');
+
+    game.deck = id;
+    return cards;
 };
 
-const drawCards = async ({id}, n) => {
-    const res = await fetch(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=${n}`);
-    const {cards} = await res.json();
+const drawCards = async (id, n) => {
+    const {cards} = await fetchNjson(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=${n}`);
 
     return cards;
 };
 
-getDeck().then(deck => drawCards(deck, 10)).then(cards => {
-    game.addCard(cards[0], game.boards[0])
-    game.addCard(cards[2], game.boards[0])
-    game.addCard(cards[1], game.boards[1])
-    game.addCard(cards[3], game.boards[1])
-});
+//const addToPile = async (cards, pile) => {
+//    codes = cards.map(obj => {
+//        const {code} = obj;
+//
+//        return code;
+//    }).join();
+//    
+//    await fetchNjson(`https://deckofcardsapi.com/api/deck/${game.deck}/pile/${pile}/add/?cards=${codes}`);
+//};
 
-game.addChip(100);
-game.addChip(100);
-game.addChip(100);
+getDeck().then(cards => {game.firstDeal(cards)});
