@@ -54,31 +54,38 @@
     <main>
         <section>
             <div class="output">
-                <div class="output__score">
-                    <svg class="avatar--player"></svg>
-                    <span>$<span id="playerScore">0</span></span>
+                <div class="output__container">
+                    <div class="output__score">
+                        <svg class="avatar--player"></svg>
+                        <span id="playerScore">0</span>
+                    </div>
+                    <span id="message" class="output__message"></span>
+                    <div class="output__score">
+                        <span id="aiScore">0</span>
+                        <svg class="avatar--ai">
+                            <use xlink:href="../images/ai.svg#computer"></use>
+                            <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
+                        </svg>
+                    </div>
                 </div>
-                <span id="message" class="output__message"></span>
-                <div class="output__score">
-                    <svg class="avatar--ai">
-                        <use xlink:href="../images/ai.svg#computer"></use>
-                        <use id="aiFace" xlink:href="../images/ai.svg#smile"></use>
-                    </svg>
+                <div class="output__container">
+                    <span class="output__message--sm">
+                        Total: $
+                        <span>1000</span>
+                        </span>
+                    <span class="output__message--sm">
+                        Apuesta: $
+                        <span>0</span>
+                        </span>
                 </div>
             </div>
             <div class="game">
                 <div class="game__container">
-                    <span>21</span>
-                    <div class="game__table"></div>
+                    <div class="game__board"></div>
                 </div>
-                <div class="game__bet">
-                    <span class="game__amount">$0</span>
-                    <div class="game__box">
-                    </div>
-                </div>
+                <div class="game__bet"></div>
                 <div class="game__container">
-                    <span>21</span>
-                    <div class="game__table"></div>
+                    <div class="game__board"></div>
                 </div>
             </div>
             <div class="options">
@@ -90,10 +97,14 @@
                     <button class="chip">100</button>
                 </div>
                 <div class="options__container">
-                    <button id="shuffle">Pedir</button>
-                    <button id="shuffle">Doblar</button>
-                    <button id="shuffle">Dividir</button>
-                    <button id="shuffle">Plantarse</button>
+                    <button id="shuffle" hidden>Apostar</button>
+                    <div class="options__container">
+                        <button id="shuffle">Pedir</button>
+                        <button id="shuffle">Doblar</button>
+                        <button id="shuffle">Dividir</button>
+                        <button id="shuffle">Plantarse</button>
+                    </div>
+                    <button id="shuffle" hidden>Reiniciar</button>
                 </div>
             </div>
         </section>

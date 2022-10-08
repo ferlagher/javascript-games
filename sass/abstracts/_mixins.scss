@@ -15,3 +15,25 @@
     flex-wrap: $wrap;
     gap: $gap;
 }
+
+@mixin fakeTransparency($bg, $darken: true) {
+    background-image: map-get($bkg, $bg);
+    background-clip: border-box;
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
+    background-position: 0;
+    
+    @if $darken {
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: '';
+            position: absolute;
+            background-color: map-get($clr, 'black-3');
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    }
+}

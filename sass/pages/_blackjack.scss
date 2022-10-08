@@ -1,47 +1,99 @@
 .blackjack {
-    .output {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
     .game {
         justify-content: space-between;
         align-items: stretch;
 
-        &__table {
-            position: relative;
+        &__container{
+            flex: auto;
+            flex-basis: 30%;
+            @include flex(column, flex-start, center);
         }
-        
+
+        &__board {
+            min-height: 4rem;
+        }
+
         &__card {
-            @include flex(column, space-between);
+            @include fakeTransparency('blackjack', false);
+            position: relative;
+            display: inline-flex;
             border: map-get($brd, 'wht');
             border-radius: 0.5rem;
-            padding: calc(map-get($spc, 'sm') / 2);
-            position: absolute;
-            top: 0;
-            backdrop-filter: blur(9999px);
             transition: 0.2s ease-in-out;
+            margin: 0 -1.5em;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+
+            @for $i from 1 through 10  {
+                &:nth-of-type(#{$i}) {
+                    translate: 0 calc(20% * #{$i - 1});
+                }
+            }
+
+            &--double {
+                transform-origin: 50% 60%;
+                transform: rotate(90deg);
+            }
+
+            &--flip {
+                transform: rotateY(180deg);
+            }
+        }
+
+        &__front, &__back {
+            border-radius: 0.3rem;
+            padding: calc(map-get($spc, 'sm') / 2);
+            backface-visibility: hidden;
+            background-color: map-get($clr, 'black-3');
+        }
+
+        &__front {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: space-between;
 
             div {
-            @include flex(row, flex-start, center);
-            }
+                @include flex(row, flex-start, center);
+                }
+    
+                svg {
+                    padding: 0.3em;
+                    margin: -0.3em;
+                }
+        }
 
-            svg {
-                padding: 0.3em;
-                margin: -0.3em;
-            }
+        &__back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotateY(180deg);
+            transition: 0.2s;
         }
 
         &__bet {
-            text-align: center;
             width: 25%;
-        }
-
-        &__box{
-            width: 100%;
             height: 8rem;
             border: 4px solid map-get($clr, 'white-3');
             border-radius: 1rem;
+            position: relative;
+            
+        }
+
+        &__chip {
+            @include fakeTransparency('blackjack');
+            outline: map-get($brd, 'wht');
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            border-radius: 50%;
+            translate: -50% 0%;
+            transition: 0.2s ease-in-out;
+
+            @for $i from 1 through 10  {
+                &:nth-of-type(#{$i}) {
+                    margin-bottom: calc(0.5em * #{$i - 1});
+                }
+            }
         }
     }
 
@@ -62,5 +114,37 @@
 
     &:hover {
         border-color: #000;
+    }
+}
+
+@media (orientation: portrait) {
+    .blackjack {
+        .game {
+            flex-direction: column-reverse;
+            align-items: center;
+
+            &__bet {
+                width: 50%;
+                height: 4rem;
+            }
+
+            &__chip {
+                top: 50%;
+                left: 10%;
+                bottom: unset;
+                translate: 0% -50%;
+
+                @for $i from 1 through 10  {
+                    &:nth-of-type(#{$i}) {
+                        margin-left: calc(0.5em * #{$i - 1});
+                    }
+                }
+            }
+
+            &__card {
+                margin: 0 -1em;
+                translate: 0 0 !important;
+            }
+        }
     }
 }
