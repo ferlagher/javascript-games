@@ -72,6 +72,14 @@ const sound = {
     splash: new Howl({
         src: ['../sounds/splash.mp3']
     }),
+
+    chip: new Howl({
+        src: ['../sounds/chip.wav']
+    }),
+
+    chips: new Howl({
+        src: ['../sounds/chips.wav']
+    }),
 };
 
 // Global functions

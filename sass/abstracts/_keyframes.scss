@@ -43,3 +43,21 @@
         transform: rotateY(180deg) translateY(0%);
     }
 }
+
+@keyframes dealSideways {
+    0% {
+        transform: rotate(90deg) rotateY(180deg) translateX(100%);
+    } 100% {
+        transform: rotate(90deg) rotateY(0deg) translateX(0%);
+    }
+}
+
+@keyframes fromBelow {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    } 100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
