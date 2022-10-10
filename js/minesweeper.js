@@ -137,7 +137,7 @@ const game = {
             cell.addEventListener('contextmenu', e => {
                 e.preventDefault();
                 const div = e.target;
-                let minesLeft = parseInt(this.minesLeft.innerHTML)
+                let minesLeft = parseInt(this.minesLeft.innerHTML);
                 
                 if (div.classList.contains('game__cell--inverted')) {
                     div.innerHTML = '';
@@ -154,7 +154,7 @@ const game = {
                 };
                 
                 this.minesLeft.innerHTML = minesLeft;
-                div.classList.toggle('game__cell--inverted') 
+                div.classList.toggle('game__cell--inverted');
                 
                 const remainingMines = this.mineCells.filter(cell => !cell.classList.contains('game__cell--inverted'));
 
@@ -164,8 +164,19 @@ const game = {
             });
             
             cell.addEventListener('click', e => {
+                const div = e.target;
+
+                if (div.classList.contains('game__cell--inverted')) {
+                    let minesLeft = parseInt(this.minesLeft.innerHTML);
+                    
+                    div.classList.remove('game__cell--inverted');
+                    div.innerHTML = '';
+                    minesLeft++;
+                    this.minesLeft.innerHTML = minesLeft;
+                };
+                
                 !this.interval && this.startTimer();
-                this.revealCells(e.target, n, m);
+                this.revealCells(div, n, m);
             });
         });
         
