@@ -4,10 +4,11 @@
         min-width: 50vw;
         min-height: 30vh;
 
-        &__container{
+        &__container {
             flex: auto;
             flex-basis: 35%;
-            @include flex(column, flex-start, center);
+            min-height: 4rem;
+            @include flex(column, center, center);
         }
 
         &__card {
@@ -24,7 +25,8 @@
             
             @for $i from 1 through 10  {
                 &:nth-of-type(#{$i}) {
-                    translate: 0 calc(25% * #{$i - 1});
+                    translate: 0 calc(1.2em * #{$i - 1});
+                    margin-bottom: calc(1.2em * #{$i - 1});
                 }
             }
             
@@ -42,7 +44,7 @@
 
         &__front, &__back {
             border-radius: 0.3rem;
-            padding: calc(map-get($spc, 'sm') / 2);
+            padding: calc(map-get($spc, 'sm') / 1.5);
             backface-visibility: hidden;
             background-color: map-get($clr, 'black-3');
         }
@@ -51,14 +53,15 @@
             display: inline-flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 0.2em;
 
             div {
                 @include flex(row, flex-start, center);
                 }
     
                 svg {
-                    padding: 0.4em;
-                    margin: -0.3em;
+                    padding: 0.3em;
+                    margin: -0.2em;
                 }
         }
 
@@ -90,8 +93,8 @@
             transition: 0.2s ease-in-out;
             animation: fromBelow 0.2s ease-in-out;
 
-            @for $i from 1 through 10  {
-                &:nth-of-type(#{$i}) {
+            @for $i from 0 through 10  {
+                &:nth-of-type(10n + #{$i}) {
                     margin-bottom: calc(0.5em * #{$i - 1});
                 }
             }
@@ -152,14 +155,14 @@
                 translate: 0% -50%;
 
                 @for $i from 1 through 10  {
-                    &:nth-of-type(#{$i}) {
+                    &:nth-of-type(10n + #{$i}) {
                         margin-left: calc(0.5em * #{$i - 1});
                     }
                 }
             }
 
             &__card {
-                margin: 0 -1em;
+                margin: 0 -1em !important;
                 translate: 0 0 !important;
             }
         }

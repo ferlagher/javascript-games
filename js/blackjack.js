@@ -1,17 +1,22 @@
 const game = {
     boards: document.querySelectorAll('.game__board'),
+    betBox: document.querySelector('.game__bet'),
     chips: document.querySelectorAll('.chip'),
     start: document.querySelector('#start'),
+    reset: document.querySelector('#reset'),
     actions: document.querySelector('#actions'),
-    hit: document.querySelector('#hit'),
-    double: document.querySelector('#double'),
-    stand: document.querySelector('#stand'),
+    actionsBtn: Array.from(this.actions.children),
     bet: 0,
-    balance: 1000,
+    balance: player?.scores?.blackjack || 1000,
+    
+    message(mssg) {
+        document.querySelector('#message').innerHTML = mssg;
+    },
 
-    updateBalance() {
+    updateScores() {
         const balance = document.querySelector('#balance');
         const bet = document.querySelector('#bet');
+        const double = this.actionsBtn[1];
 
         balance.innerHTML = this.balance;
         bet.innerHTML = this.bet;
@@ -20,18 +25,61 @@ const game = {
             const chipValue = Number(chip.textContent);
             
             chipValue > this.balance && chip.setAttribute('disabled', '');
-            chipValue < this.balance && chip.removeAttribute('disabled');
+            chipValue <= this.balance && chip.removeAttribute('disabled');
         });
 
         this.bet > 0 && this.start.removeAttribute('disabled');
         this.bet <= 0 && this.start.setAttribute('disabled', '');
-        this.balance >= this.bet && this.double.removeAttribute('disabled');
-        this.balance < this.bet && this.double.setAttribute('disabled', '');
+        this.balance >= this.bet && double.removeAttribute('disabled');
+        this.balance < this.bet && double.setAttribute('disabled', '');
+        player.saveScore('blackjack', this.balance);
     },
 
     transaction(value) {
         this.balance -= Number(value);
         this.bet += Number(value);
+    },
+
+    removeChip(e) {
+        const chip = e.target.parentElement;
+        const value = '-' + chip.textContent;
+        
+        this.transaction(value);
+        this.updateScores();
+        this.animation(chip, '+')
+        sound.chip.play();
+    },
+    
+    addChip(e) {
+        const chip = document.createElement('div');
+        const value = e.target.textContent;
+        
+        chip.classList.add('game__chip');
+        chip.innerHTML = `<button class="chip">${value}</button>`;
+        this.betBox.append(chip);
+        this.transaction(value);
+        this.updateScores();
+        sound.chip.play();
+    
+        chip.children[0].addEventListener('click', e => this.removeChip(e));
+    },
+
+    setBet() {
+        const chips = document.querySelectorAll('.chip');
+    
+        chips.forEach(chip => chip.classList.add('chip--pointer-none'));
+        this.start.setAttribute('hidden', '');
+        this.actions.removeAttribute('data-hidden');
+        this.actions.toggleAttribute('data-disabled');
+
+        shuffleDeck().then(cards => {
+            this.firstDeal(cards);
+            setTimeout(() => {
+                this.playerScore === 21
+                    ? this.stand()
+                    : this.actions.toggleAttribute('data-disabled');
+            }, 3500);
+        });
     },
     
     addCard(card, plyr, mod = null) {
@@ -67,6 +115,36 @@ const game = {
         this.boards[boardIndex].append(cardTemplate);
     },
 
+    count(plyr, card = null) {
+        const score = `${plyr}Score`;
+        const ouput = document.querySelector(`#${score}`);
+        const hand = [...this[`${plyr}Hand`]];
+        card && hand.push(card);
+        const aces = hand.filter(value => value === 'ACE');
+        
+        this[score] = hand.reduce((a, b) => {
+            const value = b != 'ACE' ? Number(b) || 10 : 0;
+
+            return a + value;
+        }, 0);
+        
+        if (aces.length) {
+            this[score] += aces.length - 1;
+            this[score] += this[score] + 11 > 21 ? 1 : 11;
+        };
+
+        ouput.innerHTML = this[score];
+    },
+
+    isBJ(plyr) {
+        const handLength = plyr === 'ai' ? 1 : 2;
+        const bj = this[`${plyr}Score`] === 21 && this[`${plyr}Hand`].length === handLength;
+    
+        bj && this.message('¡Black Jack!');
+    
+        return bj;
+    },
+
     firstDeal(cards) {
         this.playerHand = [];
         this.aiHand = [];
@@ -82,34 +160,177 @@ const game = {
         });
     },
 
-    count(plyr, card = null) {
-        const score = `${plyr}Score`;
-        const ouput = document.querySelector(`#${score}`);
-        const hand = [...this[`${plyr}Hand`]];
-        card && hand.push(card);
-        const aces = hand.filter(value => value === 'ACE');
-        
-        game[score] = hand.reduce((a, b) => {
-            const value = b != 'ACE' ? Number(b) || 10 : 0;
+    hit() {
+        this.actionsBtn[1].setAttribute('disabled', '')
+        this.actions.toggleAttribute('data-disabled');
+    
+        drawCards(this.deck, 1).then(cards => {
+            const card = cards[0];
+    
+            this.addCard(card, 'player');
+    
+            setTimeout(() => {
+                this.playerScore > 21 
+                    ? this.over('IA')
+                    : this.actions.toggleAttribute('data-disabled');
+            }, 500);
+        });
+    },
 
-            return a + value;
-        }, 0);
+    double() {
+        const currentBet = Array.from(this.betBox.children);
         
-        if (aces.length) {
-            game[score] += aces.length - 1;
-            game[score] += game[score] + 11 > 21 ? 1 : 11;
-        };
+        this.actions.toggleAttribute('data-disabled');
+        this.transaction(this.bet);
+        this.updateScores();
+    
+        currentBet.forEach((chip, i) => {
+            setTimeout(() => this.betBox.append(chip.cloneNode(true)), 100 * i);
+        });
+    
+        currentBet.length > 1 ? sound.chips.play() : sound.chip.play();
+    
+        drawCards(this.deck, 1).then(cards => {
+            const card = cards[0];
+    
+            this.addCard(card, 'player', 'double');
+        });
+    
+        setTimeout(() => {
+            this.playerScore > 21 
+                ? this.over('IA')
+                : this.stand();
+        }, 1000);
+    },
 
-        ouput.innerHTML = game[score];
-    }
+    stand() {
+        const flippedCard = document.querySelector('.game__card--flip');
+
+        this.actions.setAttribute('data-disabled', '');
+        this.count('ai', this.flippedCard);
+    
+        flippedCard.style.animation = 'none';
+        flippedCard.classList.remove('game__card--flip');
+    
+        if (this.isBJ('player')) {
+            this.over(this.isBJ('ai') ? 'Empate' : player.name);
+            
+            return;
+        }
+    
+        if (this.isBJ('ai')) {
+            this.over('IA');
+    
+            return;
+        }
+    
+        const aiDraw = () => {
+            drawCards(this.deck, 1).then(cards => {
+                const card = cards[0];
+    
+                setTimeout(() => {
+                    this.addCard(card, 'ai');
+                    this.count('ai', this.flippedCard);
+                    this.aiScore > 21 
+                        ? this.over(player.name)
+                        : this.aiScore < 17 
+                        ? aiDraw() 
+                        : this.over();
+                }, 1000);
+            }
+        )};
+    
+        this.aiScore < 17 ? aiDraw() : this.over();
+    },
+
+    over(winner) {
+        winner ||= this.playerScore === this.aiScore
+        ? 'Empate'
+        : this.playerScore > this.aiScore
+        ? player.name
+        : 'IA';
+        
+        const chips = Array.from(this.betBox.children);
+        const sign = winner === 'IA' ? '-' : '+';
+        const mssg = winner === 'Empate'
+            ? winner
+            : `${winner} gana`;
+            
+        this.balance += winner === 'Empate'
+            ? this.bet
+            : this.isBJ('player')
+            ? this.bet * 2.5
+            : winner === player.name
+            ? this.bet * 2
+            : 0;
+
+        
+        setTimeout(() => {
+            chips.forEach((chip, i) => {
+                setTimeout(() => {
+                    this.animation(chip, sign);
+                }, 100 * (chips.length - i));
+            });
+
+            chips.length === 1 ? sound.chip.play() : sound.chips.play();
+
+            if (winner === 'IA') {
+                ai.changeFace('happy');
+                this.balance === 0 ? sound.loose.play() : sound.bad.play();
+            };
+            
+            if (winner === player.name) {
+                ai.changeFace('sad');
+                sound.good.play();
+                confettiCannons();
+            };
+
+            this.bet = 0;
+            this.updateScores();
+            this.message(mssg);
+            this.balance === 0 && toasty('¡No te queda dinero!');
+            this.actions.setAttribute('data-hidden', '');
+            this.reset.removeAttribute('hidden');
+        }, 1000);
+    },
+
+    resetGame() {
+        const cards = document.querySelectorAll('.game__card');
+    
+        document.querySelector('#playerScore').innerHTML = 0;
+        document.querySelector('#aiScore').innerHTML = 0;
+        this.chips.forEach(chip => chip.classList.remove('chip--pointer-none'));
+        this.message('');
+        this.actions.removeAttribute('data-disabled');
+        this.reset.setAttribute('hidden', '');
+        this.start.removeAttribute('hidden');
+        this.balance ||= 1000;
+        this.updateScores();
+        ai.changeFace('smile');
+    
+        cards.forEach((card, i) => {
+            setTimeout(() => {
+                this.animation(card, '-');
+            }, 50 * (cards.length - i));
+        });
+    
+        sound.shuffleCards.play();
+    },
+
+    animation(element, sign) {
+        element.style.transform = `translateY(${sign}100%)`;
+        element.style.opacity = '0';
+        setTimeout(() => element.remove(), 200);
+    },
 };
 
 const fetchNjson = async url => {
     return await fetch(url).then(res => res.json());
 }
 
-const getDeck = async () => {
-    const {deck_id: id, cards} = await fetchNjson('https://deckofcardsapi.com/api/deck/new/draw/?count=4');
+const shuffleDeck = async () => { 
+    game.deck && await fetchNjson(`https://deckofcardsapi.com/api/deck/${game.deck}/shuffle/`);
+    const {deck_id: id, cards} = await fetchNjson(`https://deckofcardsapi.com/api/deck/${game.deck || 'new'}/draw/?count=4`);
 
     game.deck = id;
     return cards;
@@ -121,117 +342,20 @@ const drawCards = async (id, n) => {
     return cards;
 };
 
-const removeChip = e => {
-    const chip = e.target.parentElement;
-    const value = '-' + chip.textContent;
-
-    game.transaction(value);
-    game.updateBalance();
-    chip.style.transform = 'translateY(100%)';
-    chip.style.opacity = '0';
-    setTimeout(() => chip.remove(), 200);
-    sound.chip.play();
-};
-
-const addChip = e => {
-    const betBox = document.querySelector('.game__bet');
-    const chip = document.createElement('div');
-    const value = e.target.textContent;
-    
-    chip.classList.add('game__chip');
-    chip.innerHTML = `<button class="chip">${value}</button>`;
-    betBox.append(chip);
-    game.transaction(value);
-    game.updateBalance();
-    sound.chip.play();
-
-    chip.children[0].addEventListener('click', removeChip);
-};
-
-const checkWinner = () => {
-    const playerBJ = game.playerScore === 21 && game.playerHand.length === 2;
-    const aiBJ = game.aiScore === 21 && game.aiHand.length === 2;
-}
-
-const stand = () => {
-    const flippedCard = document.querySelector('.game__card--flip');
-    game.count('ai', game.flippedCard);
-
-    flippedCard.style.animation = 'none';
-    flippedCard.classList.remove('game__card--flip');
-
-    const aiDraw = () => {
-        drawCards(game.deck, 1).then(cards => {
-            const card = cards[0];
-
-            setTimeout(() => {
-                game.addCard(card, 'ai');
-                game.count('ai', game.flippedCard);
-                game.aiScore < 17 && aiDraw();
-            }, 1000);
-        }
-    )};
-
-    game.aiScore < 17 && aiDraw();
-    checkWinner();
-};
+const [hit, double, stand] = game.actionsBtn;
 
 game.chips.forEach(chip => {
-    chip.addEventListener('click', addChip);
+    chip.addEventListener('click', e => game.addChip(e));
 });
 
-game.start.addEventListener('click', () => {
-    const chips = document.querySelectorAll('.chip');
+document.querySelector('#start').addEventListener('click', () => game.setBet());
 
-    chips.forEach(chip => chip.classList.add('chip--pointer-none'));
-    game.actions.toggleAttribute('data-disabled');
-    game.start.setAttribute('hidden', '');
-    game.actions.removeAttribute('data-hidden');
-    getDeck().then(cards => {
-        game.firstDeal(cards);
-        setTimeout(() => {
-            game.actions.toggleAttribute('data-disabled');
-        }, 3500);
-    });
-});
+hit.addEventListener('click', () => game.hit());
 
-game.hit.addEventListener('click', () => {
-    game.actions.toggleAttribute('data-disabled');
+double.addEventListener('click', () => game.double());
 
-    drawCards(game.deck, 1).then(cards => {
-        const card = cards[0];
+stand.addEventListener('click', () => game.stand());
 
-        game.addCard(card, 'player');
+game.reset.addEventListener('click', () => game.resetGame());
 
-        setTimeout(() => {
-            game.actions.toggleAttribute('data-disabled');
-        }, 500);
-    });
-});
-
-game.double.addEventListener('click', () => {
-    const betBox = document.querySelector('.game__bet');
-    const currentBet = Array.from(betBox.children);
-    
-    game.actions.toggleAttribute('data-disabled');
-    game.transaction(game.bet);
-    game.updateBalance();
-
-    currentBet.forEach((chip, i) => {
-        setTimeout(() => betBox.append(chip.cloneNode(true)), 100 * i);
-    });
-
-    currentBet.length > 1 ? sound.chips.play() : sound.chip.play();
-
-    drawCards(game.deck, 1).then(cards => {
-        const card = cards[0];
-
-        game.addCard(card, 'player', 'double');
-    });
-
-    setTimeout(() => {
-        stand();
-    }, 1000);
-});
-
-game.stand.addEventListener('click', stand);
+game.updateScores();
