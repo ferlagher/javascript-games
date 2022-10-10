@@ -6,7 +6,7 @@
 
     &__container {
         width: 100%;
-        @include flex(null, space-between, center, null, null);
+        @include flex(null, space-between, center, null, map-get($spc, 'sm'));
     }
 
     &__score {
@@ -15,6 +15,7 @@
     
     &__message {
         min-height: 1.5em;
+        min-width: 3em;
         text-align: center;
     }
 }

@@ -7,7 +7,7 @@
         &__container {
             flex: auto;
             flex-basis: 35%;
-            min-height: 4rem;
+            min-height: 5rem;
             @include flex(column, center, center);
         }
 
@@ -53,7 +53,7 @@
             display: inline-flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 0.2em;
+            gap: calc(map-get($spc, 'sm') / 1.5);
 
             div {
                 @include flex(row, flex-start, center);
@@ -138,6 +138,10 @@
 
 @media (orientation: portrait) {
     .blackjack {
+        main section {
+            width: 90%;
+        };
+        
         .game {
             flex-direction: column-reverse;
             align-items: center;
