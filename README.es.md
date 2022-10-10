@@ -23,6 +23,7 @@ Este sitio web consiste en una colección de jueguitos para navegador. Por ahora
     - [toastify.js](https://apvarun.github.io/toastify-js/)
     - [howler.js](https://howlerjs.com)
     - [canvas-confetti](https://www.kirilv.com/canvas-confetti/)
+    - [Deck of Cards](https://deckofcardsapi.com)
 
 ### Another tools used
 
