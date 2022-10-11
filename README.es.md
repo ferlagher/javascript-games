@@ -12,6 +12,7 @@
 ## Introducción
 
 Este sitio web consiste en una colección de jueguitos para navegador. Por ahora hay un par de juegos para elegir, pero voy a ir agregando más. También se puede crear un "usuario" local para guardar las puntuaciones.
+En cada juego traté de aplicar nuevos conceptos a medida que aprendía, por eso es que algunos juegos, a pesar de ser similares, tienen código diferente en vez de simplemente reutilizar el código anterior.
 
 [**Ir al sitio web**][live] [![ny]][ny-link]
 

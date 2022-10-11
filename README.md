@@ -12,6 +12,7 @@
 ## Introduction
 
 This website is a collection of minigames that can be played in your browser. There are a few games to choose from, and new games are added regularly. You can also create a fake local account to save your scores.
+In every game I tried to apply some new knowledge everytime I learned something new, thats why some games, despite looking very similar, have a different coding approach, instead of just reusing previous code.
 
 [**Live site here**][live] [![ny]][ny-link]
 
